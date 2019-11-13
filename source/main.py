@@ -14,18 +14,18 @@ from source import beeData
 _meadow = meadow.Meadow()  # Meadow Class is basically the "Board"
 _background = background.Background((0, 0))  # This is just the background
 
-_hives = []
-_hiveNumber = 6
+_hives = pygame.sprite.RenderUpdates()
+_hiveNumber = 8
 used_coordinates = []
 _hive_spawn_range = (60, 940)
 acceptable_hive_distance = 75
 
-_bees = []
+_bees = pygame.sprite.RenderUpdates()
 _beesPerHive = 10
 _bee_spawn_offset = (-30, 30)
 
 
-_flowers = []
+_flowers = pygame.sprite.RenderUpdates()
 _initialFlowerBeds = 10
 _flowers_per_bed = 10
 _flower_spawn_range = (0, 1000)
@@ -52,13 +52,13 @@ def spawn_hives(number_of_hives, bees_per_hive):
 
         new_hive = beeHiveData.BeeHive((x_hive_coordinate, y_hive_coordinate))
 
-        _hives.append(new_hive)
+        _hives.add(new_hive)
 
         for j in range(bees_per_hive):
             new_bee = beeData.Bee((x_hive_coordinate+random.randint(_bee_spawn_offset[0], _bee_spawn_offset[1]),
                                    y_hive_coordinate+random.randint(_bee_spawn_offset[0], _bee_spawn_offset[1])),
                                   new_hive)
-            _bees.append(new_bee)
+            _bees.add(new_bee)
 ########################################################################################################################
 
 
@@ -72,7 +72,7 @@ def spawn_flowers(number_of_flowers):
             y_random = random.randint(_flower_bed_spawning_offset[0], _flower_bed_spawning_offset[1])
             new_flower = flowerData.Flower((flower_bed_seed[0] + x_random, flower_bed_seed[1] + y_random)
                                            , flower_type)
-            _flowers.append(new_flower)
+            _flowers.add(new_flower)
 
 ########################################################################################################################
 
@@ -100,8 +100,8 @@ def main():
     while True:
         screen.blit(_background.image, _background.rect)
 
-        for beeHive in _hives:
-            screen.blit(beeHive.image, beeHive.rect)
+        _hives.draw(screen)
+
         for flower in _flowers:
             screen.blit(flower.image, flower.rect)
         for bee in _bees:
@@ -109,6 +109,8 @@ def main():
             screen.blit(bee.image, bee.rect)
 
         pygame.display.flip()
+        pygame.time.delay(24)
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
