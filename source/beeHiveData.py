@@ -3,7 +3,7 @@ import pygame
 
 class BeeHive(pygame.sprite.Sprite):
 
-    position = ()
+    position = list()
     numberOfBees = 0
 
     def __init__(self, location):
@@ -11,4 +11,8 @@ class BeeHive(pygame.sprite.Sprite):
         self.image = pygame.image.load("assets/beeHive.png")
         self.rect = self.image.get_rect()
         self.rect.left, self.rect.top = location
+        self.position = (self.rect.left, self.rect.top)
+
+
+
 
