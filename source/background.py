@@ -1,5 +1,6 @@
 import pygame
 
+
 class Background(pygame.sprite.Sprite):
     def __init__(self, location):
         pygame.sprite.Sprite.__init__(self)                                                     #call Sprite initializer
