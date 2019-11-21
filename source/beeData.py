@@ -13,60 +13,124 @@ class Bee(pygame.sprite.Sprite):
     up_sprite = pygame.image.load("assets/beeSprite_up.png")
     down_sprite = pygame.image.load("assets/beeSprite_down.png")
 
-    hungry = False
-    queen_hive = None
-
-    speed = 5
-
+    wiggle = 1
+    speed = 4
     roam_percentages = (0.64, 0.36)
-    target_destination = ()
-    random_spin_affinity = 0
 
-# The field below is a finite state machine which decides the bees behavior at the moment
-# the progression is roam > (find flower) > gather > (full of pollen) > head home > (arrived at hive) > offload > roam
-#                                                  > (still hungry) > roam
-    bee_states = Fysom({'initial': 'roam',
-                        'events': [
-                            {'name': 'found flower', 'src': 'roam', 'dst': 'gather'},
-                            {'name': 'full of pollen', 'src': 'gather', 'dst': 'head home'},
-                            {'name': 'still hungry', 'src': 'gather', 'dst': 'roam'},
-                            {'name': 'arrived at hive', 'src': 'head home', 'dst': 'offload'},
-                            {'name': 'done offloading', 'src': 'offload', 'dst': 'roam'},
-                        ]})
-########################################################################################################################
+################################################################## ######################################################
 
-    def __init__(self, location, queen):
+    def __init__(self, location, queen, type):
+
         self.queen_hive = queen
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load("assets/beeSprite_down.png")
+        self.target_destination = None
+
+        # await orders (flowers available > go to flower) | (no flowers available > await orders)
+        # go to flower  (arrived at flower > harvest pollen)
+        # harvest pollen (flower is out of pollen > look nearby) | (full of pollen > head to hive)
+        # look nearby   (flower found > harvest pollen) | (no flower found > head to hive)
+        # head to hive  (arrived at hive > offload)
+        # offload   (flowers available > go to flower) | (no flowers available > await orders)
+        if type == "worker":
+            self.bee_states = Fysom({
+                'initial': 'await orders',
+                'events': [
+                    {'name': 'flowers available', 'src': 'await orders', 'dst': 'go to flower'},
+                    {'name': 'no flowers available', 'src': 'await orders', 'dst': 'await orders'},
+                    {'name': 'arrived at flower', 'src': 'go to flower', 'dst': 'harvest pollen'},
+                    {'name': 'flower is out of pollen', 'src': 'harvest pollen', 'dst': 'look nearby'},
+                    {'name': 'full of pollen', 'src': 'harvest pollen', 'dst': 'head to hive'},
+                    {'name': 'flower found', 'src': 'look nearby', 'dst': 'harvest pollen'},
+                    {'name': 'no flower found', 'src': 'look nearby', 'dst': 'head to hive'},
+                    {'name': 'arrived at hive', 'src': 'head to hive', 'dst': 'offload'},
+                    {'name': 'flowers available', 'src': 'offload', 'dst': 'go to flower'},
+                    {'name': 'no flowers available', 'src': 'offload', 'dst': 'await orders'},
+                ]
+            })
+        # look for flowers (found flower > head to hive) | (no flower found > head to hive)
+        # dance (dance complete > look for flowers)
+        # head to hive (arrived at hive > dance)
+        else:
+            self.bee_states = Fysom({
+                'initial': 'look for flowers',
+                'events': [
+                    {'name': 'found flower', 'src': 'look for flowers', 'dst': 'head to hive'},
+                    {'name': 'no flower found', 'src': 'look for flowers', 'dst': 'head to hive'},
+                    {'name': 'arrive at hive', 'src': 'head to hive', 'dst': 'dance'},
+                    {'name': 'dance complete', 'src': 'dance', 'dst': 'look for flowers'}
+                ]
+            })
+        self.current_nectar = 0
         self.rect = self.image.get_rect()
         self.rect.left, self.rect.top = location
         self.random_spin_affinity = random.randint(0, 1)
 ########################################################################################################################
 
     def move(self):
-        if self.bee_states.current == 'roam':
-                self.orbit_hive(0.036)
+        if self.bee_states.current == "await orders":
+            self.head_towards((self.queen_hive.rect.left + 33, self.queen_hive.rect.top + 52))
+
 ########################################################################################################################
 
-    def head_towards(self):
-        self_x = self.rect.left
-        self_y = self.rect.top
+    def head_towards(self, target_destination):
 
-        goal_x = self.target_destination[0]
-        goal_y = self.target_destination[1]
+        x_distance = target_destination[0] - (self.rect.left + 5)
+        y_distance = target_destination[1] - (self.rect.top + 4)
 
-        total_x_distance = goal_x - self_x
-        total_y_distance = goal_y - self_y
+        dx = 0
+        dy = 0
 
-        if total_x_distance == 0 or total_y_distance == 0:
-            print(str(self.target_destination))
-        else:
-            x_delta = self.speed / total_x_distance
-            y_delta = self.speed / total_y_distance
+        movement_points_to_spend = self.speed
 
-            self.rect.left = self_x + x_delta
-            self.rect.top = self_y + y_delta
+        while True:
+            if movement_points_to_spend == 0:
+                break
+            coin_flip = random.randint(0, 1)
+            if coin_flip == 0:
+                dx = dx + 1
+            else:
+                dy = dy + 1
+
+            movement_points_to_spend = movement_points_to_spend - 1
+
+        if x_distance < 0:
+            dx = -dx
+        if y_distance < 0:
+            dy = -dy
+
+        if -4 < x_distance < 4:
+            dx = 0
+        if -4 < y_distance < 4:
+            dy = 0
+
+        random_x_offset = random.randint(-self.wiggle, self.wiggle)
+        random_y_offset = random.randint(-self.wiggle, self.wiggle)
+        self.rect.top = self.rect.top + dy + random_x_offset
+        self.rect.left = self.rect.left + dx + random_y_offset
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     def orbit_hive(self, angle):
 

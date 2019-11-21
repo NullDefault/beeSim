@@ -2,7 +2,6 @@ import pygame
 import sys
 import random
 import math
-from source import meadow
 from source import gameBoard
 from source import beeHiveData
 from source import flowerData
@@ -10,31 +9,32 @@ from source import beeData
 ########################################################################################################################
 # Data Fields
 
-
-_meadow = meadow.Meadow()  # Meadow Class is basically the "Board"
+screen_size = (1600, 900)
 _background = gameBoard.Background((0, 0))  # This is just the background
 
 _hives = pygame.sprite.RenderUpdates()
-_hiveNumber = 8
+_hiveNumber = 1
 used_coordinates = []
 _hive_spawn_range_x = (200, 1400)
 _hive_spawn_range_y = (200, 600)
 acceptable_hive_distance = 75
 
 _bees = pygame.sprite.RenderUpdates()
-_beesPerHive = 5
-_bee_spawn_offset = (-30, 30)
+_beesPerHive = 10
+_bee_spawn_offset = (-300, 300)
 
 
 _flowers = pygame.sprite.RenderUpdates()
-_initialFlowerBeds = 80
-_flowers_per_bed = 10
+_flowerSmells = pygame.sprite.RenderUpdates()
+_initialFlowerBeds = 0
+_flowers_per_bed = 5
 _flower_spawn_range_x = (100, 1500)
 _flower_spawn_range_y = (50, 850)
 _flower_bed_spawning_offset = (-30, 30)
 _flower_type_number = 1
 
-frame_delay = 0
+
+frame_delay = 4
 tick_cycle = 100
 tick_gain = 1
 
@@ -61,9 +61,9 @@ def spawn_hives(number_of_hives, bees_per_hive):
         _hives.add(new_hive)
 
         for j in range(bees_per_hive):
-            new_bee = beeData.Bee((x_hive_coordinate+random.randint(_bee_spawn_offset[0], _bee_spawn_offset[1]),
-                                   y_hive_coordinate+random.randint(_bee_spawn_offset[0], _bee_spawn_offset[1])),
-                                  new_hive)
+            new_bee = beeData.Bee((x_hive_coordinate+33+random.randint(_bee_spawn_offset[0], _bee_spawn_offset[1]),
+                                   y_hive_coordinate+52+random.randint(_bee_spawn_offset[0], _bee_spawn_offset[1])),
+                                  new_hive, 'worker')
             _bees.add(new_bee)
 ########################################################################################################################
 
@@ -78,6 +78,8 @@ def spawn_flowers(number_of_flowers):
             y_random = random.randint(_flower_bed_spawning_offset[0], _flower_bed_spawning_offset[1])
             new_flower = flowerData.Flower((flower_bed_seed[0] + x_random, flower_bed_seed[1] + y_random)
                                            , flower_type)
+            flower_smell = flowerData.FlowerSmell(new_flower)
+            _flowerSmells.add(flower_smell)
             _flowers.add(new_flower)
 
 ########################################################################################################################
@@ -87,13 +89,13 @@ def main():
 ########################################################################################################################
 # Init Screen
 
-    screen = pygame.display.set_mode(_meadow._size)
+    screen = pygame.display.set_mode(screen_size)
 
 ########################################################################################################################
 # Init Music
-    pygame.mixer.init()
-    pygame.mixer.music.load("assets/beeMusic.mp3")
-    pygame.mixer.music.play(loops=-1, start=0.0)
+#    pygame.mixer.init()
+#    pygame.mixer.music.load("assets/beeMusic.mp3")
+#    pygame.mixer.music.play(loops=-1, start=0.0)
 
 ########################################################################################################################
 # Spawn Hives
@@ -116,6 +118,8 @@ def main():
             flower.grow(current_tick)
 
         _flowers.draw(screen)
+
+        _flowerSmells.draw(screen)
 
         for bee in _bees:
             bee.move()
