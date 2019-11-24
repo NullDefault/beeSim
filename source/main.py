@@ -20,8 +20,8 @@ _hive_spawn_range_y = (200, 600)
 acceptable_hive_distance = 75
 
 _bees = pygame.sprite.RenderUpdates()
-_beesPerHive = 10
-_bee_spawn_offset = (-300, 300)
+_beesPerHive = 100
+_bee_spawn_offset = (-50, 50)
 
 
 _flowers = pygame.sprite.RenderUpdates()
@@ -34,7 +34,7 @@ _flower_bed_spawning_offset = (-30, 30)
 _flower_type_number = 1
 
 
-frame_delay = 4
+frame_delay = 14
 tick_cycle = 100
 tick_gain = 1
 
@@ -63,7 +63,7 @@ def spawn_hives(number_of_hives, bees_per_hive):
         for j in range(bees_per_hive):
             new_bee = beeData.Bee((x_hive_coordinate+33+random.randint(_bee_spawn_offset[0], _bee_spawn_offset[1]),
                                    y_hive_coordinate+52+random.randint(_bee_spawn_offset[0], _bee_spawn_offset[1])),
-                                  new_hive, 'worker')
+                                  new_hive, 'scout')
             _bees.add(new_bee)
 ########################################################################################################################
 

@@ -13,19 +13,21 @@ class Bee(pygame.sprite.Sprite):
     up_sprite = pygame.image.load("assets/beeSprite_up.png")
     down_sprite = pygame.image.load("assets/beeSprite_down.png")
 
+    search_radius = 300
     wiggle = 1
     speed = 4
     roam_percentages = (0.64, 0.36)
 
-################################################################## ######################################################
+########################################################################################################################
 
     def __init__(self, location, queen, type):
 
         self.queen_hive = queen
+        self.queen_hive_x = queen.rect.left + 33
+        self.queen_hive_y = queen.rect.top + 52
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load("assets/beeSprite_down.png")
         self.target_destination = None
-
         # await orders (flowers available > go to flower) | (no flowers available > await orders)
         # go to flower  (arrived at flower > harvest pollen)
         # harvest pollen (flower is out of pollen > look nearby) | (full of pollen > head to hive)
@@ -48,15 +50,17 @@ class Bee(pygame.sprite.Sprite):
                     {'name': 'no flowers available', 'src': 'offload', 'dst': 'await orders'},
                 ]
             })
-        # look for flowers (found flower > head to hive) | (no flower found > head to hive)
+        # look for flowers (begin search > looking for flowers)
+        # looking for flowers (found flower > head to hive) | (no flower found > head to hive)
         # dance (dance complete > look for flowers)
         # head to hive (arrived at hive > dance)
         else:
             self.bee_states = Fysom({
                 'initial': 'look for flowers',
                 'events': [
-                    {'name': 'found flower', 'src': 'look for flowers', 'dst': 'head to hive'},
-                    {'name': 'no flower found', 'src': 'look for flowers', 'dst': 'head to hive'},
+                    {'name': 'begin search', 'src': 'look for flowers', 'dst': 'looking for flowers'},
+                    {'name': 'found flower', 'src': 'looking for flowers', 'dst': 'head to hive'},
+                    {'name': 'no flower found', 'src': 'looking for flowers', 'dst': 'head to hive'},
                     {'name': 'arrive at hive', 'src': 'head to hive', 'dst': 'dance'},
                     {'name': 'dance complete', 'src': 'dance', 'dst': 'look for flowers'}
                 ]
@@ -68,15 +72,67 @@ class Bee(pygame.sprite.Sprite):
 ########################################################################################################################
 
     def move(self):
-        if self.bee_states.current == "await orders":
-            self.head_towards((self.queen_hive.rect.left + 33, self.queen_hive.rect.top + 52))
+        self.target_destination = self.update_target(self.bee_states.current)
+        self.head_towards()
+        self.update_sprite()
 
 ########################################################################################################################
 
-    def head_towards(self, target_destination):
+    def update_target(self, origin_state):
+        return {
+            'await orders': self.go_to_hive(),
+            'go to flower': (),  # TODO: Pick a random flower from the known_flowers array and return its location
+            'harvest pollen': (),  # TODO: Sit on top of the flower and collect its pollen
+            'look nearby': (),  # TODO: Search the nearby location for more flowers
+            'head to hive': self.go_to_hive(),
+            'offload': self.go_to_hive(),
+            'look for flowers': self.search_for_flowers(),  # TODO: Search for flowers
+            'looking for flowers': self.target_destination,
+            'dance': (),  # TODO: Do a cute lil dance
+        }[origin_state]
 
-        x_distance = target_destination[0] - (self.rect.left + 5)
-        y_distance = target_destination[1] - (self.rect.top + 4)
+    def go_to_hive(self):
+        return self.queen_hive_x, self.queen_hive_y
+
+    def search_for_flowers(self):
+
+        if self.bee_states.current == 'look for flowers':
+
+            self.bee_states.trigger("begin search")
+
+            r = self.search_radius * math.sqrt(random.random())
+            theta = random.random() * 2 * math.pi
+
+            if random.randint(0, 1) == 0:
+                random_x_coordinate = self.queen_hive_x + (r * math.cos(theta))
+            else:
+                random_x_coordinate = self.queen_hive_x - (r * math.cos(theta))
+            if random.randint(0, 1) == 1:
+                random_y_coordinate = self.queen_hive_y + (r * math.sin(theta))
+            else:
+                random_y_coordinate = self.queen_hive_y - (r * math.sin(theta))
+
+            return random_x_coordinate, random_y_coordinate
+
+        elif self.bee_states.current == 'looking for flowers':
+
+            x_distance = abs(self.target_destination[0] - (self.rect.left + 5))
+            y_distance = abs(self.target_destination[1] - (self.rect.top + 4))
+
+            if x_distance < 10 or y_distance < 10:
+                self.bee_states.trigger('no flower found')
+                self.bee_states.trigger('arrive at hive')
+                self.bee_states.trigger('dance complete')
+
+        # go to random point within the search range
+        # search the adjacent area
+        # if flower found > report to hive
+        # if no flower found > go back to hive
+
+    def head_towards(self):
+
+        x_distance = self.target_destination[0] - (self.rect.left + 5)
+        y_distance = self.target_destination[1] - (self.rect.top + 4)
 
         dx = 0
         dy = 0
@@ -109,36 +165,13 @@ class Bee(pygame.sprite.Sprite):
         self.rect.top = self.rect.top + dy + random_x_offset
         self.rect.left = self.rect.left + dx + random_y_offset
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     def orbit_hive(self, angle):
 
         random_x_offset = random.randint(-2, 2)
         random_y_offset = random.randint(-2, 2)
 
-        ox = self.queen_hive.position[0] + 33
-        oy = self.queen_hive.position[1] + 52
+        ox = self.queen_hive_x
+        oy = self.queen_hive_y
 
         px, py = self.rect.left, self.rect.top
 
@@ -155,10 +188,10 @@ class Bee(pygame.sprite.Sprite):
         self.rect.top = qy + random_y_offset
 ########################################################################################################################
 
-    def update_sprite(self, origin_x, origin_y, end_x, end_y):
+    def update_sprite(self):
 
-        x_distance = end_x - origin_x
-        y_distance = end_y - origin_y
+        x_distance = self.target_destination[0] - self.rect.left
+        y_distance = self.target_destination[1] - self.rect.top
 
         if abs(x_distance) > abs(y_distance):
             if x_distance < 0:
