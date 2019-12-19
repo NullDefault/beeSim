@@ -8,10 +8,10 @@ class Bee(pygame.sprite.Sprite):
 ########################################################################################################################
 # Class Fields
 
-    left_sprite = pygame.image.load("assets/beeSprite_left.png")
-    right_sprite = pygame.image.load("assets/beeSprite_right.png")
-    up_sprite = pygame.image.load("assets/beeSprite_up.png")
-    down_sprite = pygame.image.load("assets/beeSprite_down.png")
+    left_sprite = pygame.image.load("assets/bee_sprites/beeSprite_left.png")
+    right_sprite = pygame.image.load("assets/bee_sprites/beeSprite_right.png")
+    up_sprite = pygame.image.load("assets/bee_sprites/beeSprite_up.png")
+    down_sprite = pygame.image.load("assets/bee_sprites/beeSprite_down.png")
 
     search_radius = 300
     wiggle = 1
@@ -20,13 +20,13 @@ class Bee(pygame.sprite.Sprite):
 
 ########################################################################################################################
 
-    def __init__(self, location, queen, type):
+    def __init__(self, location, queen, bee_type):
 
         self.queen_hive = queen
         self.queen_hive_x = queen.rect.left + 33
         self.queen_hive_y = queen.rect.top + 52
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load("assets/beeSprite_down.png")
+        self.image = pygame.image.load("assets/bee_sprites/beeSprite_down.png")
         self.target_destination = None
         # await orders (flowers available > go to flower) | (no flowers available > await orders)
         # go to flower  (arrived at flower > harvest pollen)
@@ -34,7 +34,15 @@ class Bee(pygame.sprite.Sprite):
         # look nearby   (flower found > harvest pollen) | (no flower found > head to hive)
         # head to hive  (arrived at hive > offload)
         # offload   (flowers available > go to flower) | (no flowers available > await orders)
-        if type == "worker":
+        self.loadCaste(bee_type)
+        self.remembered_flower = ()
+        self.current_nectar = 0
+        self.rect = self.image.get_rect()
+        self.rect.left, self.rect.top = location
+        self.random_spin_affinity = random.randint(0, 1)
+
+    def loadCaste(self, caste):
+        if caste == "worker":
             self.bee_states = Fysom({
                 'initial': 'await orders',
                 'events': [
@@ -54,7 +62,7 @@ class Bee(pygame.sprite.Sprite):
         # looking for flowers (found flower > head to hive) | (no flower found > head to hive)
         # dance (dance complete > look for flowers)
         # head to hive (arrived at hive > dance)
-        else:
+        elif caste == "scout":
             self.bee_states = Fysom({
                 'initial': 'look for flowers',
                 'events': [
@@ -65,18 +73,12 @@ class Bee(pygame.sprite.Sprite):
                     {'name': 'dance complete', 'src': 'dance', 'dst': 'look for flowers'}
                 ]
             })
-        self.current_nectar = 0
-        self.rect = self.image.get_rect()
-        self.rect.left, self.rect.top = location
-        self.random_spin_affinity = random.randint(0, 1)
 ########################################################################################################################
 
     def move(self):
         self.target_destination = self.update_target(self.bee_states.current)
         self.head_towards()
         self.update_sprite()
-
-########################################################################################################################
 
     def update_target(self, origin_state):
         return {
@@ -123,11 +125,6 @@ class Bee(pygame.sprite.Sprite):
                 self.bee_states.trigger('no flower found')
                 self.bee_states.trigger('arrive at hive')
                 self.bee_states.trigger('dance complete')
-
-        # go to random point within the search range
-        # search the adjacent area
-        # if flower found > report to hive
-        # if no flower found > go back to hive
 
     def head_towards(self):
 
@@ -186,6 +183,7 @@ class Bee(pygame.sprite.Sprite):
 
         self.rect.left = qx + random_x_offset
         self.rect.top = qy + random_y_offset
+
 ########################################################################################################################
 
     def update_sprite(self):

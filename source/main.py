@@ -4,7 +4,6 @@ import random
 import math
 from source import gameBoard
 from source import beeHiveData
-from source import flowerData
 from source import beeData
 ########################################################################################################################
 # Data Fields
@@ -20,20 +19,11 @@ _hive_spawn_range_y = (200, 600)
 acceptable_hive_distance = 75
 
 _bees = pygame.sprite.RenderUpdates()
-_beesPerHive = 100
+_beesPerHive = 10
 _bee_spawn_offset = (-50, 50)
 
 
-_flowers = pygame.sprite.RenderUpdates()
-_flowerSmells = pygame.sprite.RenderUpdates()
-_initialFlowerBeds = 0
-_flowers_per_bed = 5
-_flower_spawn_range_x = (100, 1500)
-_flower_spawn_range_y = (50, 850)
-_flower_bed_spawning_offset = (-30, 30)
-_flower_type_number = 1
-
-
+play_music = False
 frame_delay = 14
 tick_cycle = 100
 tick_gain = 1
@@ -60,27 +50,22 @@ def spawn_hives(number_of_hives, bees_per_hive):
 
         _hives.add(new_hive)
 
-        for j in range(bees_per_hive):
-            new_bee = beeData.Bee((x_hive_coordinate+33+random.randint(_bee_spawn_offset[0], _bee_spawn_offset[1]),
-                                   y_hive_coordinate+52+random.randint(_bee_spawn_offset[0], _bee_spawn_offset[1])),
-                                  new_hive, 'scout')
-            _bees.add(new_bee)
+        spawn_initial_bees(new_hive, bees_per_hive)
+
+
+def spawn_initial_bees(hive, bees_per_hive):
+    for j in range(bees_per_hive):
+        new_bee = beeData.Bee((hive.rect.left + 33 + random.randint(_bee_spawn_offset[0], _bee_spawn_offset[1]),
+                               hive.rect.top + 52 + random.randint(_bee_spawn_offset[0], _bee_spawn_offset[1])),
+                              hive, 'scout')
+        _bees.add(new_bee)
+
 ########################################################################################################################
 
 
 def spawn_flowers(number_of_flowers):
-    for i in range(number_of_flowers):
-        flower_type = random.randint(1, _flower_type_number)
-        flower_bed_seed = (random.randint(_flower_spawn_range_x[0], _flower_spawn_range_x[1]),
-                           random.randint(_flower_spawn_range_y[0], _flower_spawn_range_y[1]))
-        for j in range(_flowers_per_bed):
-            x_random = random.randint(_flower_bed_spawning_offset[0], _flower_bed_spawning_offset[1])
-            y_random = random.randint(_flower_bed_spawning_offset[0], _flower_bed_spawning_offset[1])
-            new_flower = flowerData.Flower((flower_bed_seed[0] + x_random, flower_bed_seed[1] + y_random)
-                                           , flower_type)
-            flower_smell = flowerData.FlowerSmell(new_flower)
-            _flowerSmells.add(flower_smell)
-            _flowers.add(new_flower)
+    #TODO
+    pass
 
 ########################################################################################################################
 
@@ -93,16 +78,17 @@ def main():
 
 ########################################################################################################################
 # Init Music
-#    pygame.mixer.init()
-#    pygame.mixer.music.load("assets/beeMusic.mp3")
-#    pygame.mixer.music.play(loops=-1, start=0.0)
+    if play_music:
+        pygame.mixer.init()
+        pygame.mixer.music.load("assets/beeMusic.mp3")
+        pygame.mixer.music.play(loops=-1, start=0.0)
 
 ########################################################################################################################
 # Spawn Hives
     spawn_hives(_hiveNumber, _beesPerHive)
 ########################################################################################################################
 # Spawn Flowers
-    spawn_flowers(_initialFlowerBeds)
+    # TODO
 ########################################################################################################################
 # Main Game Loop
     current_tick = 0
@@ -113,13 +99,6 @@ def main():
 
         if current_tick == tick_cycle:
             current_tick = 0
-
-        for flower in _flowers:
-            flower.grow(current_tick)
-
-        _flowers.draw(screen)
-
-        _flowerSmells.draw(screen)
 
         for bee in _bees:
             bee.move()
