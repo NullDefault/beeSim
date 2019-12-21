@@ -14,14 +14,14 @@ class EntityMaster:
     acceptable_hive_distance = 75
     bee_spawn_offset = (-50, 50)
 
-    flowerLowRange = 5
-    flowerHighRange = 8
+    flowerLowRange = 6
+    flowerHighRange = 10
 
     def __init__(self, initial_hives, default_bee_number, initial_flower_beds, screen_size):
 
-        self.beeEntities = pygame.sprite.RenderUpdates()
-        self.hiveEntities = pygame.sprite.RenderUpdates()
-        self.flowerEntities = pygame.sprite.RenderUpdates()
+        self.beeEntities = pygame.sprite.LayeredUpdates()
+        self.hiveEntities = pygame.sprite.LayeredUpdates()
+        self.flowerEntities = pygame.sprite.LayeredUpdates()
 
         self.hive_spawn_range_x = (screen_size[0] * .1, screen_size[0] * .9)
         self.hive_spawn_range_y = (screen_size[1] * .2, screen_size[1] * .8)

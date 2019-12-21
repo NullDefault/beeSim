@@ -2,7 +2,7 @@ import pygame
 import random
 
 
-class Flower(pygame.sprite.Sprite):
+class Flower(pygame.sprite.DirtySprite):
 
     def __init__(self, location):
         pygame.sprite.Sprite.__init__(self)

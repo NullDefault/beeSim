@@ -8,17 +8,24 @@ from source import EntityMaster
 screen_size = (1600, 900)
 _background = gameBoard.Background((0, 0))  # This is just the background
 
-initialHives = 1     # These will eventually be tunable parameters you can access from the UI
-defaultBeeRatio = 10
+initialHives = 10     # These will eventually be tunable parameters you can access from the UI
+defaultBeeRatio = 100
 initialFlowerBeds = 10
 
 entityMaster = EntityMaster.EntityMaster(initialHives, defaultBeeRatio,
                                          initialFlowerBeds, screen_size)
 
 play_music = False
-frame_delay = 0
 
 gameIcon = pygame.image.load("assets/gameIcon.png")
+
+gameClock = pygame.time.Clock()
+game_frame_rate = 60
+
+fps_location = (10, 10)
+
+pygame.font.init()
+gameFont = pygame.font.Font("assets/3Dventure.ttf", 20)
 
 def main():
 ########################################################################################################################
@@ -26,7 +33,7 @@ def main():
     screen = pygame.display.set_mode(screen_size)
     pygame.display.set_icon(gameIcon)
     pygame.display.set_caption("beeSim")
-########################################################################################################################
+
 # Init Music
     if play_music:
         pygame.mixer.init()
@@ -35,19 +42,28 @@ def main():
 ########################################################################################################################
 # Main Game Loop
     while True:
+        gameClock.tick(game_frame_rate)
+
         screen.blit(_background.image, _background.rect)
+        screen.blit(update_fps_display(), fps_location)
 
         entities_to_be_rendered = entityMaster.get_renderable_entities()
         entities_to_be_rendered.draw(screen)
 
         pygame.display.flip()
-        pygame.time.delay(frame_delay)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
 ########################################################################################################################
+
+
+def update_fps_display():
+    fps = gameClock.get_fps()
+    fps_display = gameFont.render("FPS: "+str(fps), False, [0, 0, 0], None)
+    return fps_display
+
 
 
 if __name__ == "__main__":

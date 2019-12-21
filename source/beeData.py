@@ -4,7 +4,7 @@ import random
 from fysom import *
 
 
-class Bee(pygame.sprite.Sprite):
+class Bee(pygame.sprite.DirtySprite):
 ########################################################################################################################
 # Class Fields
 
@@ -164,7 +164,7 @@ class Bee(pygame.sprite.Sprite):
 
     def orbit_hive(self):
 
-        angle = 0.1  # Magic Number - tune for speed of orbit
+        angle = 0.36  # Magic Number - tune for speed of orbit
 
         random_x_offset = random.randint(-2, 2)
         random_y_offset = random.randint(-2, 2)
