@@ -8,14 +8,15 @@ from source import EntityMaster
 screen_size = (1600, 900)
 _background = gameBoard.Background((0, 0))  # This is just the background
 
-initialHives = 3     # These will eventually be tunable parameters you can access from the UI
+initialHives = 1     # These will eventually be tunable parameters you can access from the UI
 defaultBeeRatio = 10
-defaultFlowerNumber = 0
+initialFlowerBeds = 10
 
-entityMaster = EntityMaster.EntityMaster(initialHives, defaultBeeRatio, defaultFlowerNumber, screen_size)
+entityMaster = EntityMaster.EntityMaster(initialHives, defaultBeeRatio,
+                                         initialFlowerBeds, screen_size)
 
 play_music = False
-frame_delay = 14
+frame_delay = 24
 
 
 def main():
