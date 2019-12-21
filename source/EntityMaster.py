@@ -35,7 +35,9 @@ class EntityMaster:
     def get_renderable_entities(self):
 
         self.update_game_state()
+
         valid_entities = pygame.sprite.RenderUpdates()
+
         if self.test:
             print("bees: " + str(self.beeEntities.__len__()))
             print("hives: " + str(self.hiveEntities.__len__()))
@@ -77,11 +79,22 @@ class EntityMaster:
 
     def spawn_initial_bees(self, hive, bees_per_hive):
 
-        for j in range(bees_per_hive):
+        workers = int(bees_per_hive * .7)
+        scouts = int(bees_per_hive * .3)
+
+        for j in range(workers):
             new_bee = \
                 beeData.Bee((hive.rect.left + 33 + random.randint(self.bee_spawn_offset[0], self.bee_spawn_offset[1]),
                              hive.rect.top + 52 + random.randint(self.bee_spawn_offset[0], self.bee_spawn_offset[1])),
-                            hive, 'scout')  # TODO: Have Separate Ints for Default Scout and Worker Ratios
+                            hive, 'worker')
+
+            self.beeEntities.add(new_bee)
+
+        for j in range(scouts):
+            new_bee = \
+                beeData.Bee((hive.rect.left + 33 + random.randint(self.bee_spawn_offset[0], self.bee_spawn_offset[1]),
+                             hive.rect.top + 52 + random.randint(self.bee_spawn_offset[0], self.bee_spawn_offset[1])),
+                            hive, 'scout')
 
             self.beeEntities.add(new_bee)
 

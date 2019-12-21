@@ -27,7 +27,7 @@ class Bee(pygame.sprite.Sprite):
         self.queen_hive_y = queen.rect.top + 52
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load("assets/bee_sprites/beeSprite_down.png")
-        self.target_destination = None
+        self.target_destination = (self.queen_hive_x, self.queen_hive_y)
         # await orders (flowers available > go to flower) | (no flowers available > await orders)
         # go to flower  (arrived at flower > harvest pollen)
         # harvest pollen (flower is out of pollen > look nearby) | (full of pollen > head to hive)
@@ -82,7 +82,7 @@ class Bee(pygame.sprite.Sprite):
 
     def update_target(self, origin_state):
         return {
-            'await orders': self.go_to_hive(),
+            'await orders': self.orbit_hive(),
             'go to flower': (),  # TODO: Pick a random flower from the known_flowers array and return its location
             'harvest pollen': (),  # TODO: Sit on top of the flower and collect its pollen
             'look nearby': (),  # TODO: Search the nearby location for more flowers
@@ -162,7 +162,9 @@ class Bee(pygame.sprite.Sprite):
         self.rect.top = self.rect.top + dy + random_x_offset
         self.rect.left = self.rect.left + dx + random_y_offset
 
-    def orbit_hive(self, angle):
+    def orbit_hive(self):
+
+        angle = 0.1  # Magic Number - tune for speed of orbit
 
         random_x_offset = random.randint(-2, 2)
         random_y_offset = random.randint(-2, 2)
@@ -179,10 +181,8 @@ class Bee(pygame.sprite.Sprite):
             qx = ox + math.cos(-angle) * (px - ox) - math.sin(-angle) * (py - oy)
             qy = oy + math.sin(-angle) * (px - ox) + math.cos(-angle) * (py - oy)
 
-        self.update_sprite(px, py, qx, qy)
-
-        self.rect.left = qx + random_x_offset
-        self.rect.top = qy + random_y_offset
+        shipBack = (qx + random_x_offset, qy + random_y_offset)
+        return shipBack
 
 ########################################################################################################################
 

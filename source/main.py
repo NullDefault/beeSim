@@ -16,13 +16,16 @@ entityMaster = EntityMaster.EntityMaster(initialHives, defaultBeeRatio,
                                          initialFlowerBeds, screen_size)
 
 play_music = False
-frame_delay = 24
+frame_delay = 0
 
+gameIcon = pygame.image.load("assets/gameIcon.png")
 
 def main():
 ########################################################################################################################
 # Init Screen
     screen = pygame.display.set_mode(screen_size)
+    pygame.display.set_icon(gameIcon)
+    pygame.display.set_caption("beeSim")
 ########################################################################################################################
 # Init Music
     if play_music:
