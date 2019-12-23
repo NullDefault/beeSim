@@ -10,6 +10,9 @@ class EntityMaster:
 
     test = False
 
+    scout_ratio = .2
+    worker_ratio = .8
+
     used_coordinates = []
     acceptable_hive_distance = 75
     bee_spawn_offset = (-50, 50)
@@ -19,9 +22,9 @@ class EntityMaster:
 
     def __init__(self, initial_hives, default_bee_number, initial_flower_beds, screen_size):
 
-        self.beeEntities = pygame.sprite.LayeredUpdates()
-        self.hiveEntities = pygame.sprite.LayeredUpdates()
-        self.flowerEntities = pygame.sprite.LayeredUpdates()
+        self.beeEntities = pygame.sprite.RenderUpdates()
+        self.hiveEntities = pygame.sprite.RenderUpdates()
+        self.flowerEntities = pygame.sprite.RenderUpdates()
 
         self.hive_spawn_range_x = (screen_size[0] * .1, screen_size[0] * .9)
         self.hive_spawn_range_y = (screen_size[1] * .2, screen_size[1] * .8)
@@ -38,11 +41,6 @@ class EntityMaster:
 
         valid_entities = pygame.sprite.RenderUpdates()
 
-        if self.test:
-            print("bees: " + str(self.beeEntities.__len__()))
-            print("hives: " + str(self.hiveEntities.__len__()))
-            print("flowers: "+str(self.flowerEntities.__len__()))
-
         valid_entities.add(self.flowerEntities)
         valid_entities.add(self.hiveEntities)
         valid_entities.add(self.beeEntities)
@@ -52,6 +50,12 @@ class EntityMaster:
     def update_game_state(self):
         for bee in self.beeEntities:
             bee.move()
+
+        bee_and_flower_collisions = pygame.sprite.groupcollide(self.beeEntities, self.flowerEntities, False, False)
+
+        for bee_in_question in bee_and_flower_collisions:
+                if bee_in_question.validate_collision():
+                    bee_in_question.collide_with_flower(bee_and_flower_collisions.get(bee_in_question)[0])
 
 ########################################################################################################################
 # Functions That Spawn the Initial Game State
@@ -79,8 +83,8 @@ class EntityMaster:
 
     def spawn_initial_bees(self, hive, bees_per_hive):
 
-        workers = int(bees_per_hive * .7)
-        scouts = int(bees_per_hive * .3)
+        workers = int(bees_per_hive * self.worker_ratio)
+        scouts = int(bees_per_hive * self.scout_ratio)
 
         for j in range(workers):
             new_bee = \
