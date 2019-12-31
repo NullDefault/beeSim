@@ -13,7 +13,7 @@ class Bee(pygame.sprite.DirtySprite):
     up_sprite = pygame.image.load("assets/bee_sprites/beeSprite_up.png")
     down_sprite = pygame.image.load("assets/bee_sprites/beeSprite_down.png")
 
-    search_radius = 300
+    search_radius = 400
     wiggle = 1
     speed = 4
     roam_percentages = (0.64, 0.36)
@@ -30,7 +30,7 @@ class Bee(pygame.sprite.DirtySprite):
         self.scouting_complete = True
         self.target_destination = (self.queen_hive_x, self.queen_hive_y)
         self.load_caste(bee_type)
-        self.remembered_flower = None
+        self.max_nectar_capacity = 100
         self.current_nectar = 0
         self.rect = self.image.get_rect()
         self.rect.left, self.rect.top = location
@@ -58,29 +58,27 @@ class Bee(pygame.sprite.DirtySprite):
                 ]
             })
 
-########################################################################################################################
-
     def move(self):
+        temp = self.bee_states.current
         self.target_destination = self.update_target(self.bee_states.current)
+        if self.target_destination is None:
+            print(temp)
+            print(self.bee_states.current)
+            sys.exit()
         self.head_towards()
         self.update_sprite()
 
-    def update_target(self, origin_state):
-        return {
-            'await orders': self.check_available_orders(),
-            'harvest': self.target_destination,
-            'scout': self.search_for_flowers(),
-            'offload': self.go_to_hive(),
-            'report': self.go_to_hive(),
-        }[origin_state]
-
-    def go_to_hive(self):
-        if self.bee_states.current == 'report' and \
-                self.queen_hive_x - 10 < self.rect.left < self.queen_hive_x + 10 and \
-                self.queen_hive_y - 10 < self.rect.top < self.queen_hive_y + 10:
-            self.arrive_at_hive()
-
-        return self.queen_hive_x, self.queen_hive_y
+    def update_target(self, current_state):
+        if current_state == 'await orders':
+            return self.check_available_orders()
+        elif current_state == 'harvest':
+            return self.harvest_flower()
+        elif current_state == 'scout':
+            return self.search_for_flowers()
+        elif current_state == 'offload':
+            return self.deliver_nectar_load()
+        elif current_state == 'report':
+            return self.report_back_to_hive()
 
     def search_for_flowers(self):
 
@@ -144,12 +142,52 @@ class Bee(pygame.sprite.DirtySprite):
         self.rect.top = self.rect.top + dy + random_x_offset
         self.rect.left = self.rect.left + dx + random_y_offset
 
+    def harvest_flower(self):
+        if self.current_nectar < self.max_nectar_capacity:
+            if self.target_destination[0] - 10 <= self.rect.left <= self.target_destination[0] + 10 and \
+                    self.target_destination[1] - 10 <= self.rect.top <= self.target_destination[1] + 10:
+                self.current_nectar = self.current_nectar + 10
+                return self.target_destination
+            else:
+                return self.target_destination
+        else:
+            self.bee_states.trigger('harvest complete')
+            return self.queen_hive_x, self.queen_hive_y
+
     def check_available_orders(self):
-        if self.queen_hive.has_orders() and self.bee_states.current == 'await orders':
+        if self.queen_hive.has_orders():
             self.bee_states.trigger('go to flower')
             return self.queen_hive.get_order()
         else:
             return self.orbit_hive()
+
+    def check_available_orders(self):
+        if self.queen_hive.has_orders():
+            return self.queen_hive.get_order()
+        else:
+            return self.orbit_hive()
+
+    def deliver_nectar_load(self):
+        if pygame.sprite.collide_rect(self, self.queen_hive):
+
+            self.queen_hive.gain_nectar(self.current_nectar)
+            self.current_nectar = 0
+
+            self.bee_states.trigger('offload complete')
+            return self.queen_hive_x, self.queen_hive_y
+        else:
+            return self.target_destination
+
+    def report_back_to_hive(self):
+        if pygame.sprite.collide_rect(self, self.queen_hive):
+            self.scouting_complete = True
+            self.queen_hive.remember_flower(self.remembered_flower)
+            self.remembered_flower = None
+
+            self.bee_states.trigger('dance complete')
+            return self.queen_hive_x, self.queen_hive_y
+        else:
+            return self.queen_hive_x, self.queen_hive_y
 
     def orbit_hive(self):
 
@@ -173,8 +211,6 @@ class Bee(pygame.sprite.DirtySprite):
         shipBack = (qx + random_x_offset, qy + random_y_offset)
         return shipBack
 
-########################################################################################################################
-
     def update_sprite(self):
 
         x_distance = self.target_destination[0] - self.rect.left
@@ -190,12 +226,6 @@ class Bee(pygame.sprite.DirtySprite):
                 self.image = self.up_sprite
             else:
                 self.image = self.down_sprite
-
-    def arrive_at_hive(self):
-        self.scouting_complete = True
-        self.bee_states.trigger('dance complete')
-        self.queen_hive.remember_flower(self.remembered_flower)
-        self.remembered_flower = None
 
     def validate_collision(self):
         if self.bee_states.current == 'scout' or self.bee_states.current == 'go to flower':

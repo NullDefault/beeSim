@@ -1,19 +1,19 @@
 import pygame
 import sys
 from source import gameBoard
-from source import EntityMaster
+from source.EntityMaster import EntityMaster
 ########################################################################################################################
 # Data Fields
 
 screen_size = (1600, 900)
-_background = gameBoard.Background((0, 0))  # This is just the background
+background = gameBoard.Background((0, 0))  # This is just the background
 
 initialHives = 1    # These will eventually be tunable parameters you can access from the UI
-defaultBeeRatio = 10
+defaultBeeRatio = 20
 initialFlowerBeds = 20
 
-entityMaster = EntityMaster.EntityMaster(initialHives, defaultBeeRatio,
-                                         initialFlowerBeds, screen_size)
+entityMaster = EntityMaster(initialHives, defaultBeeRatio,
+                            initialFlowerBeds, screen_size)
 
 play_music = False
 
@@ -47,13 +47,18 @@ def main():
 
         entities_to_be_rendered = entityMaster.get_renderable_entities()
 
-        screen.blit(_background.image, _background.rect)
+        screen.blit(background.image, background.rect)
         entities_to_be_rendered.draw(screen)
         screen.blit(update_fps_display(), fps_location)
 
         pygame.display.flip()
 
         for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONUP:
+                pos = pygame.mouse.get_pos()
+                target_bee = entityMaster.handle_bee_press(pos)
+                if target_bee is not None:
+                    print(target_bee.bee_states.current)
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()

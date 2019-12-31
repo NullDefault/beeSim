@@ -126,4 +126,10 @@ class EntityMaster:
                 new_flower = flowerData.Flower((random_x_coordinate, random_y_coordinate))
                 self.flowerEntities.add(new_flower)
 
-
+    def handle_bee_press(self, mouse_pos):
+        for bee in self.beeEntities:
+            if bee.rect.left - 10 <= mouse_pos[0] <= bee.rect.left + 10 and \
+               bee.rect.top - 10 <= mouse_pos[1] <= bee.rect.top + 10:
+                return bee
+        else:
+            return None
