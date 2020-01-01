@@ -2,73 +2,73 @@ import pygame
 import sys
 from source import gameBoard
 from source.EntityMaster import EntityMaster
+from source.menus import menu_render
+
 ########################################################################################################################
 # Data Fields
-
 screen_size = (1600, 900)
+menu_location = (1200, 0)
 background = gameBoard.Background((0, 0))  # This is just the background
 
-initialHives = 1    # These will eventually be tunable parameters you can access from the UI
-defaultBeeRatio = 20
-initialFlowerBeds = 20
+initial_hives = 3    # These will eventually be tunable parameters you can access from the UI
+default_bee_ratio = 10
+initial_flower_beds = 20
 
-entityMaster = EntityMaster(initialHives, defaultBeeRatio,
-                            initialFlowerBeds, screen_size)
+entity_master = EntityMaster(initial_hives, default_bee_ratio,
+                             initial_flower_beds, screen_size)
 
 play_music = False
 
-gameIcon = pygame.image.load("assets/gameIcon.png")
+game_icon = pygame.image.load("assets/gameIcon.png")
 
-gameClock = pygame.time.Clock()
+game_clock = pygame.time.Clock()
 game_frame_rate = 24
-
-fps_location = (10, 10)
-
-pygame.font.init()
-gameFont = pygame.font.Font("assets/3Dventure.ttf", 20)
 
 
 def main():
 ########################################################################################################################
 # Init Screen
     screen = pygame.display.set_mode(screen_size)
-    pygame.display.set_icon(gameIcon)
+    pygame.display.set_icon(game_icon)
     pygame.display.set_caption("beeSim")
 # Init Music
     if play_music:
         pygame.mixer.init()
         pygame.mixer.music.load("assets/beeMusic.mp3")
         pygame.mixer.music.play(loops=-1, start=0.0)
+# Init Game Vars
+    menu_active = False
+    inspection_target = None
 ########################################################################################################################
 # Main Game Loop
     while True:
 
-        gameClock.tick(game_frame_rate)
+        game_clock.tick(game_frame_rate)
 
-        entities_to_be_rendered = entityMaster.get_renderable_entities()
+        entities_to_be_rendered = entity_master.get_renderable_entities()
 
         screen.blit(background.image, background.rect)
         entities_to_be_rendered.draw(screen)
-        screen.blit(update_fps_display(), fps_location)
+
+        if menu_active:
+            screen.blit(menu_render(entity_master, game_clock, inspection_target), menu_location)
 
         pygame.display.flip()
 
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONUP:
                 pos = pygame.mouse.get_pos()
-                target_bee = entityMaster.handle_bee_press(pos)
-                if target_bee is not None:
-                    print(target_bee.bee_states.current)
+                inspection_target = entity_master.get_entity_at(pos)
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_m and not menu_active:
+                    menu_active = True
+                elif event.key == pygame.K_m and menu_active:
+                    menu_active = False
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
 ########################################################################################################################
-
-
-def update_fps_display():
-    fps = gameClock.get_fps()
-    fps_display = gameFont.render("FPS: "+str(fps)[0:4], False, [0, 0, 0], None)
-    return fps_display
 
 
 if __name__ == "__main__":

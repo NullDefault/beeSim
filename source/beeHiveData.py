@@ -10,7 +10,22 @@ class BeeHive(pygame.sprite.DirtySprite):
         self.nectar_storage = 0
         self.rect = self.image.get_rect()
         self.known_flowers = []
+        self.workers = []
+        self.scouts = []
         self.rect.left, self.rect.top = location
+
+    def add_worker_bee(self, bee):
+        self.workers.append(bee)
+
+    def add_scout_bee(self, bee):
+        self.scouts.append(bee)
+
+    def get_bees(self):
+        # 0: workers, 1: scouts
+        return len(self.workers), len(self.scouts)
+
+    def get_nectar(self):
+        return self.nectar_storage
 
     def gain_nectar(self, nectar_amount):
         self.nectar_storage = self.nectar_storage + nectar_amount

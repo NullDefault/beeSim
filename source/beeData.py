@@ -161,12 +161,6 @@ class Bee(pygame.sprite.DirtySprite):
         else:
             return self.orbit_hive()
 
-    def check_available_orders(self):
-        if self.queen_hive.has_orders():
-            return self.queen_hive.get_order()
-        else:
-            return self.orbit_hive()
-
     def deliver_nectar_load(self):
         if pygame.sprite.collide_rect(self, self.queen_hive):
 

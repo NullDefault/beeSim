@@ -91,7 +91,7 @@ class EntityMaster:
                 beeData.Bee((hive.rect.left + 33 + random.randint(self.bee_spawn_offset[0], self.bee_spawn_offset[1]),
                              hive.rect.top + 52 + random.randint(self.bee_spawn_offset[0], self.bee_spawn_offset[1])),
                             hive, 'worker')
-
+            hive.add_worker_bee(new_bee)
             self.beeEntities.add(new_bee)
 
         for j in range(scouts):
@@ -99,7 +99,7 @@ class EntityMaster:
                 beeData.Bee((hive.rect.left + 33 + random.randint(self.bee_spawn_offset[0], self.bee_spawn_offset[1]),
                              hive.rect.top + 52 + random.randint(self.bee_spawn_offset[0], self.bee_spawn_offset[1])),
                             hive, 'scout')
-
+            hive.add_scout_bee(new_bee)
             self.beeEntities.add(new_bee)
 
     def spawn_initial_flowers(self, number_of_flower_beds):
@@ -126,10 +126,14 @@ class EntityMaster:
                 new_flower = flowerData.Flower((random_x_coordinate, random_y_coordinate))
                 self.flowerEntities.add(new_flower)
 
-    def handle_bee_press(self, mouse_pos):
-        for bee in self.beeEntities:
-            if bee.rect.left - 10 <= mouse_pos[0] <= bee.rect.left + 10 and \
-               bee.rect.top - 10 <= mouse_pos[1] <= bee.rect.top + 10:
-                return bee
+    def get_bee_population(self):
+        return len(self.beeEntities)
+
+    def get_entity_at(self, position):
+        for hive in self.hiveEntities:
+            if hive.rect.left <= position[0] <= hive.rect.left + 66 and \
+               hive.rect.top <= position[1] <= hive.rect.top + 66:
+                return hive
         else:
             return None
+
