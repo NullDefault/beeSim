@@ -1,21 +1,25 @@
 import pygame
-from source import gameBoard
+from source.gameBoard import Background
 from source.EntityMaster import EntityMaster
 from source.menus import menu_render
-from source.event_master import handle_event
+from source.event_master import EventMaster
 
 ########################################################################################################################
 # Data Fields
-screen_size = (1600, 900)
+screen_resolution = (1600, 900)
 menu_location = (1200, 0)
-background = gameBoard.Background((0, 0))  # This is just the background
+
+play_area = (1600, 900)
+
+background = pygame.image.load("assets/grass_background.png")
 
 initial_hives = 3    # These will eventually be tunable parameters you can access from the UI
 default_bee_ratio = 10
 initial_flower_beds = 20
 
 entity_master = EntityMaster(initial_hives, default_bee_ratio,
-                             initial_flower_beds, screen_size)
+                             initial_flower_beds, play_area)
+event_master = EventMaster()
 
 play_music = False
 
@@ -28,7 +32,10 @@ game_frame_rate = 24
 def main():
 ########################################################################################################################
 # Init Screen
-    screen = pygame.display.set_mode(screen_size)
+    screen = pygame.display.set_mode(screen_resolution)
+    abstract_game_screen = pygame.Surface(play_area)
+    camera_location = [0, 0]  # Controls which part of the screen is being rendered
+    camera_size = (1600, 900)
     pygame.display.set_icon(game_icon)
     pygame.display.set_caption("beeSim")
 # Init Music
@@ -47,8 +54,13 @@ def main():
 
         entities_to_be_rendered = entity_master.get_renderable_entities()
 
-        screen.blit(background.image, background.rect)
-        entities_to_be_rendered.draw(screen)
+        abstract_game_screen.blit(background, (0, 0))
+        entities_to_be_rendered.draw(abstract_game_screen)  # TODO: only draw the visible ones
+
+        camera_cropped_render = pygame.Surface(camera_size)
+        camera_cropped_render.blit(abstract_game_screen, (0, 0), (camera_location[0], camera_location[1], camera_size[0], camera_size[1]))
+
+        pygame.transform.scale(camera_cropped_render, screen_resolution, screen)
 
         if menu_active:
             screen.blit(menu_render(entity_master, game_clock, inspection_target), menu_location)
@@ -56,7 +68,8 @@ def main():
         pygame.display.flip()
 
         for event in pygame.event.get():
-            inspection_target, menu_active = handle_event(event, menu_active, entity_master, inspection_target)
+            inspection_target, menu_active, camera_location = \
+                event_master.handle_event(event, menu_active, entity_master, inspection_target, camera_location)
 ########################################################################################################################
 
 
