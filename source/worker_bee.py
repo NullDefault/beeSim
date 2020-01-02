@@ -9,30 +9,57 @@ from fysom import *
 class WorkerBee(Bee):
 
     def __init__(self, location, queen):
+
         self.max_nectar_capacity = 100
         self.current_nectar = 0
+
+        self.offloading = False
+        self.begin_offload_time = 0
+        self.offloading_duration = random.randint(4250, 7800)
+
         self.random_spin_affinity = randint(0, 1)
         self.bee_states = Fysom({
             # await orders > harvest > offload >...
             'initial': 'await orders',
             'events': [
                 {'name': 'go to flower', 'src': 'await orders', 'dst': 'harvest'},
-                {'name': 'harvest complete', 'src': 'harvest', 'dst': 'offload'},
+                {'name': 'harvest complete', 'src': 'harvest', 'dst': 'head back'},
+                {'name': 'begin offload', 'src': 'head back', 'dst': 'offload'},
                 {'name': 'offload complete', 'src': 'offload', 'dst': 'await orders'}
             ]
         })
         Bee.__init__(self, location, queen)
 
-    def deliver_nectar_load(self):
-        if pygame.sprite.collide_rect(self, self.queen_hive):
+    def move(self):
+        self.target_destination = self.update_target(self.bee_states.current)
+        self.head_towards()
+        if not self.offloading:
+            self.update_sprite()
 
+    def deliver_nectar_load(self):
+        if self.queen_hive.center[0] - 10 <= self.rect.left <= self.queen_hive.center[0] + 10 and \
+           self.queen_hive.center[1] - 6 <= self.rect.top <= self.queen_hive.center[1] + 6:
             self.queen_hive.gain_nectar(self.current_nectar)
             self.current_nectar = 0
 
-            self.bee_states.trigger('offload complete')
-            return self.queen_hive_x, self.queen_hive_y
+            self.bee_states.trigger('begin offload')
+            return self.queen_hive.center
         else:
-            return self.target_destination
+            return self.queen_hive.center
+
+    def offload(self):
+        if not self.offloading:
+            self.offloading = True
+            self.image = pygame.image.load("assets/bee_sprites/beeSprite_hidden.png")
+            self.begin_offload_time = self.queen_hive.last_tick
+        else:
+            current_time = self.queen_hive.last_tick
+            if current_time >= self.begin_offload_time + self.offloading_duration:
+                self.offloading = False
+                self.begin_offload_time = 0
+                self.bee_states.trigger('offload complete')
+
+        return self.queen_hive.center
 
     def orbit_hive(self):
 

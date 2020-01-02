@@ -48,6 +48,8 @@ class EntityMaster:
         return valid_entities
 
     def update_game_state(self):
+        for hive in self.hiveEntities:
+            hive.last_tick = pygame.time.get_ticks()
         for bee in self.beeEntities:
             bee.move()
 
@@ -57,8 +59,8 @@ class EntityMaster:
             if bee_in_question.validate_collision():
                 bee_in_question.collide_with_flower(bee_and_flower_collisions.get(bee_in_question)[0])
 
-    ########################################################################################################################
-    # Functions That Spawn the Initial Game State
+########################################################################################################################
+# Functions That Spawn the Initial Game State
 
     def spawn_hives(self, number_of_hives, bees_per_hive):
 
@@ -88,16 +90,16 @@ class EntityMaster:
 
         for j in range(workers):
             new_bee = \
-                WorkerBee((hive.rect.left + 33 + random.randint(self.bee_spawn_offset[0], self.bee_spawn_offset[1]),
-                           hive.rect.top + 52 + random.randint(self.bee_spawn_offset[0], self.bee_spawn_offset[1])),
+                WorkerBee((hive.center[0] + random.randint(self.bee_spawn_offset[0], self.bee_spawn_offset[1]),
+                           hive.center[1] + random.randint(self.bee_spawn_offset[0], self.bee_spawn_offset[1])),
                           hive)
             hive.add_worker_bee(new_bee)
             self.beeEntities.add(new_bee)
 
         for j in range(scouts):
             new_bee = \
-                ScoutBee((hive.rect.left + 33 + random.randint(self.bee_spawn_offset[0], self.bee_spawn_offset[1]),
-                          hive.rect.top + 52 + random.randint(self.bee_spawn_offset[0], self.bee_spawn_offset[1])),
+                ScoutBee((hive.center[0] + random.randint(self.bee_spawn_offset[0], self.bee_spawn_offset[1]),
+                          hive.center[1] + random.randint(self.bee_spawn_offset[0], self.bee_spawn_offset[1])),
                          hive)
             hive.add_scout_bee(new_bee)
             self.beeEntities.add(new_bee)

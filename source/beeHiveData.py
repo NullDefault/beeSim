@@ -8,11 +8,13 @@ class BeeHive(pygame.sprite.DirtySprite):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load("assets/beeHive_sprites/beeHive_red.png")
         self.nectar_storage = 0
+        self.last_tick = 0
         self.rect = self.image.get_rect()
         self.known_flowers = []
         self.workers = []
         self.scouts = []
         self.rect.left, self.rect.top = location
+        self.center = (self.rect.left + 38, self.rect.top + 56)
 
     def add_worker_bee(self, bee):
         self.workers.append(bee)

@@ -21,6 +21,11 @@ class ScoutBee(Bee):
         })
         Bee.__init__(self, location, queen)
 
+    def move(self):
+        self.target_destination = self.update_target(self.bee_states.current)
+        self.head_towards()
+        self.update_sprite()
+
     def search_for_flowers(self):
 
         if self.scouting_complete:

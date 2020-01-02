@@ -1,10 +1,8 @@
 import pygame
-import math
 import random
-from fysom import *
 
 
-class Bee(pygame.sprite.DirtySprite):
+class Bee(pygame.sprite.Sprite):
 ########################################################################################################################
     # Class Fields
 
@@ -31,11 +29,6 @@ class Bee(pygame.sprite.DirtySprite):
         self.rect = self.image.get_rect()
         self.rect.left, self.rect.top = location
 
-    def move(self):
-        self.target_destination = self.update_target(self.bee_states.current)
-        self.head_towards()
-        self.update_sprite()
-
     def update_target(self, current_state):
         if current_state == 'await orders':
             return self.check_available_orders()
@@ -43,8 +36,10 @@ class Bee(pygame.sprite.DirtySprite):
             return self.harvest_flower()
         elif current_state == 'scout':
             return self.search_for_flowers()
-        elif current_state == 'offload':
+        elif current_state == 'head back':
             return self.deliver_nectar_load()
+        elif current_state == 'offload':
+            return self.offload()
         elif current_state == 'report':
             return self.report_back_to_hive()
 
