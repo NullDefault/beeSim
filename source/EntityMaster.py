@@ -131,7 +131,7 @@ class EntityMaster:
     def get_bee_population(self):
         return len(self.beeEntities)
 
-    def get_entity_at(self, position):
+    def get_hive_at(self, position):
         for hive in self.hiveEntities:
             if hive.rect.left <= position[0] <= hive.rect.left + 66 and \
                     hive.rect.top <= position[1] <= hive.rect.top + 66:

@@ -11,6 +11,11 @@ class Bee(pygame.sprite.Sprite):
     up_sprite = pygame.image.load("assets/bee_sprites/beeSprite_up.png")
     down_sprite = pygame.image.load("assets/bee_sprites/beeSprite_down.png")
 
+    left_selected_sprite = pygame.image.load("assets/bee_sprites/beeSprite_left_selected.png")
+    right_selected_sprite = pygame.image.load("assets/bee_sprites/beeSprite_right_selected.png")
+    up_selected_sprite = pygame.image.load("assets/bee_sprites/beeSprite_up_selected.png")
+    down_selected_sprite = pygame.image.load("assets/bee_sprites/beeSprite_down_selected.png")
+
     search_radius = 400
     wiggle = 1
     speed = 4
@@ -28,6 +33,8 @@ class Bee(pygame.sprite.Sprite):
         self.target_destination = (self.queen_hive_x, self.queen_hive_y)
         self.rect = self.image.get_rect()
         self.rect.left, self.rect.top = location
+
+        self.highlighted = False
 
     def update_target(self, current_state):
         if current_state == 'await orders':
@@ -86,14 +93,26 @@ class Bee(pygame.sprite.Sprite):
 
         if abs(x_distance) > abs(y_distance):
             if x_distance < 0:
-                self.image = self.left_sprite
+                if self.highlighted:
+                    self.image = self.left_selected_sprite
+                else:
+                    self.image = self.left_sprite
             else:
-                self.image = self.right_sprite
+                if self.highlighted:
+                    self.image = self.right_selected_sprite
+                else:
+                    self.image = self.right_sprite
         else:
             if y_distance < 0:
-                self.image = self.up_sprite
+                if self.highlighted:
+                    self.image = self.up_selected_sprite
+                else:
+                    self.image = self.up_sprite
             else:
-                self.image = self.down_sprite
+                if self.highlighted:
+                    self.image = self.down_selected_sprite
+                else:
+                    self.image = self.down_sprite
 
     def validate_collision(self):
         if self.bee_states.current == 'scout' or self.bee_states.current == 'go to flower':

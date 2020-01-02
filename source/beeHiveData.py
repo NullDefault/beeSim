@@ -7,6 +7,7 @@ class BeeHive(pygame.sprite.DirtySprite):
     def __init__(self, location):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load("assets/beeHive_sprites/beeHive_red.png")
+        self.highlighted = False
         self.nectar_storage = 0
         self.last_tick = 0
         self.rect = self.image.get_rect()
@@ -46,6 +47,20 @@ class BeeHive(pygame.sprite.DirtySprite):
         flower = self.known_flowers[random_index]
         return flower.rect.left, flower.rect.top
 
-
+    def highlight_bees(self):
+        if not self.highlighted:
+            for bee in self.workers:
+                bee.highlighted = True
+                self.highlighted = True
+            for bee in self.scouts:
+                bee.highlighted = True
+                self.highlighted = True
+        else:
+            for bee in self.workers:
+                bee.highlighted = False
+                self.highlighted = False
+            for bee in self.scouts:
+                bee.highlighted = False
+                self.highlighted = False
 
 

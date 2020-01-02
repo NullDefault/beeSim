@@ -1,8 +1,8 @@
 import pygame
-import sys
 from source import gameBoard
 from source.EntityMaster import EntityMaster
 from source.menus import menu_render
+from source.event_master import handle_event
 
 ########################################################################################################################
 # Data Fields
@@ -56,18 +56,7 @@ def main():
         pygame.display.flip()
 
         for event in pygame.event.get():
-            if event.type == pygame.MOUSEBUTTONUP:
-                pos = pygame.mouse.get_pos()
-                inspection_target = entity_master.get_entity_at(pos)
-
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_m and not menu_active:
-                    menu_active = True
-                elif event.key == pygame.K_m and menu_active:
-                    menu_active = False
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
+            inspection_target, menu_active = handle_event(event, menu_active, entity_master, inspection_target)
 ########################################################################################################################
 
 
