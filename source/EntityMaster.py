@@ -1,5 +1,6 @@
 from source import beeHiveData
-from source import beeData
+from source.scout_bee import ScoutBee
+from source.worker_bee import WorkerBee
 from source import flowerData
 import pygame
 import math
@@ -7,7 +8,6 @@ import random
 
 
 class EntityMaster:
-
     test = False
 
     scout_ratio = .2
@@ -54,11 +54,11 @@ class EntityMaster:
         bee_and_flower_collisions = pygame.sprite.groupcollide(self.beeEntities, self.flowerEntities, False, False)
 
         for bee_in_question in bee_and_flower_collisions:
-                if bee_in_question.validate_collision():
-                    bee_in_question.collide_with_flower(bee_and_flower_collisions.get(bee_in_question)[0])
+            if bee_in_question.validate_collision():
+                bee_in_question.collide_with_flower(bee_and_flower_collisions.get(bee_in_question)[0])
 
-########################################################################################################################
-# Functions That Spawn the Initial Game State
+    ########################################################################################################################
+    # Functions That Spawn the Initial Game State
 
     def spawn_hives(self, number_of_hives, bees_per_hive):
 
@@ -88,17 +88,17 @@ class EntityMaster:
 
         for j in range(workers):
             new_bee = \
-                beeData.Bee((hive.rect.left + 33 + random.randint(self.bee_spawn_offset[0], self.bee_spawn_offset[1]),
-                             hive.rect.top + 52 + random.randint(self.bee_spawn_offset[0], self.bee_spawn_offset[1])),
-                            hive, 'worker')
+                WorkerBee((hive.rect.left + 33 + random.randint(self.bee_spawn_offset[0], self.bee_spawn_offset[1]),
+                           hive.rect.top + 52 + random.randint(self.bee_spawn_offset[0], self.bee_spawn_offset[1])),
+                          hive)
             hive.add_worker_bee(new_bee)
             self.beeEntities.add(new_bee)
 
         for j in range(scouts):
             new_bee = \
-                beeData.Bee((hive.rect.left + 33 + random.randint(self.bee_spawn_offset[0], self.bee_spawn_offset[1]),
-                             hive.rect.top + 52 + random.randint(self.bee_spawn_offset[0], self.bee_spawn_offset[1])),
-                            hive, 'scout')
+                ScoutBee((hive.rect.left + 33 + random.randint(self.bee_spawn_offset[0], self.bee_spawn_offset[1]),
+                          hive.rect.top + 52 + random.randint(self.bee_spawn_offset[0], self.bee_spawn_offset[1])),
+                         hive)
             hive.add_scout_bee(new_bee)
             self.beeEntities.add(new_bee)
 
@@ -132,8 +132,7 @@ class EntityMaster:
     def get_entity_at(self, position):
         for hive in self.hiveEntities:
             if hive.rect.left <= position[0] <= hive.rect.left + 66 and \
-               hive.rect.top <= position[1] <= hive.rect.top + 66:
+                    hive.rect.top <= position[1] <= hive.rect.top + 66:
                 return hive
         else:
             return None
-
