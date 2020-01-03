@@ -13,9 +13,14 @@ class WorkerBee(Bee):
         self.max_nectar_capacity = 100
         self.current_nectar = 0
 
+        self.target_flower = None
+        self.harvesting_pollen = False
+        self.begin_harvest_time = 0
+        self.harvesting_duration = random.randint(4250, 7800)
+
         self.offloading = False
         self.begin_offload_time = 0
-        self.offloading_duration = random.randint(4250, 7800)
+        self.offloading_duration = random.randint(2000, 5000)
 
         self.random_spin_affinity = randint(0, 1)
         self.bee_states = Fysom({
@@ -33,7 +38,7 @@ class WorkerBee(Bee):
     def move(self):
         self.target_destination = self.update_target(self.bee_states.current)
         self.head_towards()
-        if not self.offloading:
+        if not (self.offloading or self.harvesting_pollen):
             self.update_sprite()
 
     def deliver_nectar_load(self):
@@ -80,24 +85,38 @@ class WorkerBee(Bee):
             qx = ox + math.cos(-angle) * (px - ox) - math.sin(-angle) * (py - oy)
             qy = oy + math.sin(-angle) * (px - ox) + math.cos(-angle) * (py - oy)
 
-        shipBack = (qx + random_x_offset, qy + random_y_offset)
-        return shipBack
+        ship_back = (qx + random_x_offset, qy + random_y_offset)
+        return ship_back
 
     def harvest_flower(self):
         if self.current_nectar < self.max_nectar_capacity:
-            if self.target_destination[0] - 10 <= self.rect.left <= self.target_destination[0] + 10 and \
-                    self.target_destination[1] - 10 <= self.rect.top <= self.target_destination[1] + 10:
-                self.current_nectar = self.current_nectar + 10
-                return self.target_destination
+            if pygame.sprite.collide_rect(self, self.target_flower):
+                self.harvest_nectar_from(self.target_flower)
+                self.wiggle = 0
+                return self.target_flower.rect.left + 9, self.target_flower.rect.top + 6
             else:
-                return self.target_destination
+                return self.target_flower.rect.left + 9, self.target_flower.rect.top + 6
         else:
+            self.wiggle = 1
             self.bee_states.trigger('harvest complete')
             return self.queen_hive_x, self.queen_hive_y
+
+    def harvest_nectar_from(self, flower):
+        if not self.harvesting_pollen:
+            self.harvesting_pollen = True
+            self.image = pygame.image.load("assets/bee_sprites/beeSprite_harvest.png")
+            self.begin_harvest_time = self.queen_hive.last_tick
+        else:
+            current_time = self.queen_hive.last_tick
+
+            if current_time >= self.begin_harvest_time + self.harvesting_duration:
+                self.harvesting_pollen = False
+                self.current_nectar = self.current_nectar + flower.pollen
 
     def check_available_orders(self):
         if self.queen_hive.has_orders():
             self.bee_states.trigger('go to flower')
-            return self.queen_hive.get_order()
+            self.target_flower = self.queen_hive.get_order()
+            return self.target_flower.rect.left, self.target_flower.rect.top
         else:
             return self.orbit_hive()

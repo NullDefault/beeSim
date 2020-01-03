@@ -10,3 +10,4 @@ class Flower(pygame.sprite.DirtySprite):
         self.image = pygame.image.load("assets/flower_sprites/flower_sprites"+str(random_type)+".png")
         self.rect = self.image.get_rect()
         self.rect.left, self.rect.top = location
+        self.pollen = 100

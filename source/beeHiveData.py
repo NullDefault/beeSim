@@ -45,7 +45,7 @@ class BeeHive(pygame.sprite.DirtySprite):
     def get_order(self):
         random_index = random.randint(0, len(self.known_flowers)-1)
         flower = self.known_flowers[random_index]
-        return flower.rect.left, flower.rect.top
+        return flower
 
     def highlight_bees(self):
         if not self.highlighted:

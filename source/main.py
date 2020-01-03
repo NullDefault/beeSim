@@ -1,5 +1,4 @@
 import pygame
-from source.gameBoard import Background
 from source.EntityMaster import EntityMaster
 from source.menus import menu_render
 from source.event_master import EventMaster
@@ -14,7 +13,7 @@ play_area = (1600, 900)
 background = pygame.image.load("assets/grass_background.png")
 
 initial_hives = 3    # These will eventually be tunable parameters you can access from the UI
-default_bee_ratio = 10
+default_bee_ratio = 6
 initial_flower_beds = 20
 
 entity_master = EntityMaster(initial_hives, default_bee_ratio,

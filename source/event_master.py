@@ -51,8 +51,6 @@ class EventMaster:
         camera_location = \
             self.move_camera(camera_location, self.moving_down, self.moving_up, self.moving_right, self.moving_left)
 
-        print(self.moving_left)
-
         return inspection_target, menu_active, camera_location
 
     def move_camera(self, camera_location, moving_down, moving_up, moving_right, moving_left):
