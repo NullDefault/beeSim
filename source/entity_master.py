@@ -1,7 +1,7 @@
-from source import beeHiveData
-from source.scout_bee import ScoutBee
-from source.worker_bee import WorkerBee
-from source import flowerData
+from source import bee_hive_data
+from source.bees.scout_bee import ScoutBee
+from source.bees.worker_bee import WorkerBee
+from source import flower_data
 import pygame
 import math
 import random
@@ -77,7 +77,7 @@ class EntityMaster:
 
                 self.used_coordinates.append((x_hive_coordinate, y_hive_coordinate))
 
-            new_hive = beeHiveData.BeeHive((x_hive_coordinate, y_hive_coordinate))
+            new_hive = bee_hive_data.BeeHive((x_hive_coordinate, y_hive_coordinate))
 
             self.hiveEntities.add(new_hive)
 
@@ -125,7 +125,7 @@ class EntityMaster:
                 else:
                     random_y_coordinate = bed_location[1] - (r * math.sin(theta))
 
-                new_flower = flowerData.Flower((random_x_coordinate, random_y_coordinate))
+                new_flower = flower_data.Flower((random_x_coordinate, random_y_coordinate))
                 self.flowerEntities.add(new_flower)
 
     def get_bee_population(self):

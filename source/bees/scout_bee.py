@@ -1,7 +1,7 @@
 import pygame
 
-from source.beeData import Bee
-from fysom import *
+from source.bees.bee_data import Bee
+from source.bees.castes import scout_fysom
 import math
 import random
 
@@ -10,21 +10,20 @@ class ScoutBee(Bee):
 
     def __init__(self, location, queen):
         self.scouting_complete = True
-        self.bee_states = Fysom({
-            # scout > report > dance >...
-            'initial': 'scout',
-            'events': [
-                {'name': 'begin search', 'src': 'dance', 'dst': 'scout'},
-                {'name': 'found flower', 'src': 'scout', 'dst': 'report'},
-                {'name': 'dance complete', 'src': 'report', 'dst': 'scout'}
-            ]
-        })
+        self.remembered_flower = None
+        self.bee_states = scout_fysom()
         Bee.__init__(self, location, queen)
 
     def move(self):
         self.target_destination = self.update_target(self.bee_states.current)
         self.head_towards()
         self.update_sprite()
+
+    def remember_flower(self, flower):
+        self.remembered_flower = flower
+
+    def forget_flower(self):
+        self.remembered_flower = None
 
     def search_for_flowers(self):
 
@@ -56,9 +55,11 @@ class ScoutBee(Bee):
         if pygame.sprite.collide_rect(self, self.queen_hive):
             self.scouting_complete = True
             self.queen_hive.remember_flower(self.remembered_flower)
-            self.remembered_flower = None
+            self.forget_flower()
 
             self.bee_states.trigger('dance complete')
             return self.queen_hive_x, self.queen_hive_y
         else:
             return self.queen_hive_x, self.queen_hive_y
+
+

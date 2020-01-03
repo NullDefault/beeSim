@@ -1,9 +1,9 @@
 import pygame
 import math
 import random
-from source.beeData import Bee
+from source.bees.bee_data import Bee
+from source.bees.castes import worker_fysom
 from random import randint
-from fysom import *
 
 
 class WorkerBee(Bee):
@@ -23,16 +23,7 @@ class WorkerBee(Bee):
         self.offloading_duration = random.randint(2000, 5000)
 
         self.random_spin_affinity = randint(0, 1)
-        self.bee_states = Fysom({
-            # await orders > harvest > offload >...
-            'initial': 'await orders',
-            'events': [
-                {'name': 'go to flower', 'src': 'await orders', 'dst': 'harvest'},
-                {'name': 'harvest complete', 'src': 'harvest', 'dst': 'head back'},
-                {'name': 'begin offload', 'src': 'head back', 'dst': 'offload'},
-                {'name': 'offload complete', 'src': 'offload', 'dst': 'await orders'}
-            ]
-        })
+        self.bee_states = worker_fysom()
         Bee.__init__(self, location, queen)
 
     def move(self):
@@ -115,8 +106,8 @@ class WorkerBee(Bee):
 
     def check_available_orders(self):
         if self.queen_hive.has_orders():
-            self.bee_states.trigger('go to flower')
             self.target_flower = self.queen_hive.get_order()
+            self.bee_states.trigger('go to flower')
             return self.target_flower.rect.left, self.target_flower.rect.top
         else:
             return self.orbit_hive()

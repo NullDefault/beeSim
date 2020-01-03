@@ -122,7 +122,8 @@ class Bee(pygame.sprite.Sprite):
 
     def collide_with_flower(self, flower):
         if self.bee_states.current == 'scout':
+            self.remember_flower(flower)
             self.bee_states.trigger('found flower')
-            self.remembered_flower = flower
+
         if self.bee_states.current == 'go to flower':
             self.bee_states.trigger('arrived at flower')
