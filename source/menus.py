@@ -5,7 +5,7 @@ inspection_menu = pygame.image.load("assets/inspection_menu.png")
 highlight_button = pygame.image.load("assets/menu_button.png")
 
 pygame.font.init()
-gameFont = pygame.font.Font("assets/Retro Gaming.ttf", 18)
+gameFont = pygame.font.Font("assets/m5x7.ttf", 30)
 
 fps_location = (20, 800)
 bee_number_location = (20, 820)
@@ -26,14 +26,14 @@ def menu_render(entity_master, game_clock, inspection_target):
         inspection_menu_surface.blit(bees_total_text, (10, 10))
 
         worker_text = gameFont.render("Workers: "+str(bees_total[0]), False, [0, 0, 0], None)
-        inspection_menu_surface.blit(worker_text, (10, 25))
+        inspection_menu_surface.blit(worker_text, (10, 30))
 
         scout_text = gameFont.render("Scouts: "+str(bees_total[1]), False, [0, 0, 0], None)
-        inspection_menu_surface.blit(scout_text, (10, 40))
+        inspection_menu_surface.blit(scout_text, (10, 50))
 
         hive_nectar = inspection_target.get_nectar()
         nectar_text = gameFont.render("Nectar Storage: "+str(hive_nectar), False, [0, 0, 0], None)
-        inspection_menu_surface.blit(nectar_text, (10, 55))
+        inspection_menu_surface.blit(nectar_text, (10, 70))
 
         highlight_button_text = gameFont.render("Highlight Bees", False, [0, 0, 0], None)
         inspection_menu_surface.blit(highlight_button, bee_highlight_location)

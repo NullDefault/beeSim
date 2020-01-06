@@ -1,14 +1,15 @@
 from source import bee_hive_data
 from source.bees.scout_bee import ScoutBee
 from source.bees.worker_bee import WorkerBee
-from source import flower_data
+from source.flower_data import Flower
 import pygame
 import math
 import random
 
+from source.random_generators import generate_flower_spawn_points
+
 
 class EntityMaster:
-    test = False
 
     scout_ratio = .2
     worker_ratio = .8
@@ -17,25 +18,20 @@ class EntityMaster:
     acceptable_hive_distance = 75
     bee_spawn_offset = (-50, 50)
 
-    flowerLowRange = 6
-    flowerHighRange = 10
-
-    def __init__(self, initial_hives, default_bee_number, initial_flower_beds, screen_size):
+    def __init__(self, initial_hives: int, default_bees_per_hive: int,
+                 number_of_flower_zones: int, initial_growth_stages: int, play_area_dimensions: int()) -> object:
 
         self.beeEntities = pygame.sprite.RenderUpdates()
         self.hiveEntities = pygame.sprite.RenderUpdates()
         self.flowerEntities = pygame.sprite.RenderUpdates()
 
-        self.hive_spawn_range_x = (screen_size[0] * .1, screen_size[0] * .9)
-        self.hive_spawn_range_y = (screen_size[1] * .2, screen_size[1] * .8)
+        self.hive_spawn_range_x = (play_area_dimensions[0] * .1, play_area_dimensions[0] * .9)
+        self.hive_spawn_range_y = (play_area_dimensions[1] * .2, play_area_dimensions[1] * .8)
 
-        self.flower_spawn_range_x = (screen_size[0] * .05, screen_size[0] * .95)
-        self.flower_spawn_range_y = (screen_size[1] * .1, screen_size[1] * .9)
+        self.spawn_hives(initial_hives, default_bees_per_hive)
+        self.spawn_initial_flowers(number_of_flower_zones, initial_growth_stages, self.hiveEntities, play_area_dimensions)
 
-        self.spawn_hives(initial_hives, default_bee_number)
-        self.spawn_initial_flowers(initial_flower_beds)
-
-    def get_renderable_entities(self):
+    def get_valid_entities(self):
 
         self.update_game_state()
 
@@ -104,29 +100,15 @@ class EntityMaster:
             hive.add_scout_bee(new_bee)
             self.beeEntities.add(new_bee)
 
-    def spawn_initial_flowers(self, number_of_flower_beds):
+    def spawn_initial_flowers(self, number_of_flower_roots, growth_stages, hives, play_area_dimensions):
 
-        for k in range(number_of_flower_beds):
-            bed_location = (random.randint(self.flower_spawn_range_x[0], self.flower_spawn_range_x[1]),
-                            random.randint(self.flower_spawn_range_y[0], self.flower_spawn_range_y[1]))
+        flower_location_rects = \
+            generate_flower_spawn_points(number_of_flower_roots, growth_stages, hives, play_area_dimensions)
 
-            number_of_flowers = (random.randint(self.flowerLowRange, self.flowerHighRange))
-
-            for l in range(number_of_flowers):
-                r = 100 * math.sqrt(random.random())
-                theta = random.random() * 42 * math.pi
-
-                if random.randint(0, 1) == 0:
-                    random_x_coordinate = bed_location[0] + (r * math.cos(theta))
-                else:
-                    random_x_coordinate = bed_location[0] - (r * math.cos(theta))
-                if random.randint(0, 1) == 1:
-                    random_y_coordinate = bed_location[1] + (r * math.sin(theta))
-                else:
-                    random_y_coordinate = bed_location[1] - (r * math.sin(theta))
-
-                new_flower = flower_data.Flower((random_x_coordinate, random_y_coordinate))
-                self.flowerEntities.add(new_flower)
+        for location_rect in flower_location_rects:
+            new_flower = Flower((location_rect.left + location_rect.width / 2,
+                                 location_rect.top + location_rect.height / 2))
+            self.flowerEntities.add(new_flower)
 
     def get_bee_population(self):
         return len(self.beeEntities)

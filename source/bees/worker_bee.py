@@ -96,13 +96,14 @@ class WorkerBee(Bee):
         if not self.harvesting_pollen:
             self.harvesting_pollen = True
             self.image = pygame.image.load("assets/bee_sprites/beeSprite_harvest.png")
+            flower.begin_harvest()
             self.begin_harvest_time = self.queen_hive.last_tick
         else:
             current_time = self.queen_hive.last_tick
 
             if current_time >= self.begin_harvest_time + self.harvesting_duration:
                 self.harvesting_pollen = False
-                self.current_nectar = self.current_nectar + flower.pollen
+                self.current_nectar = self.current_nectar + flower.finish_harvest()
 
     def check_available_orders(self):
         if self.queen_hive.has_orders():

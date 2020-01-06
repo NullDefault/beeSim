@@ -12,12 +12,12 @@ play_area = (1600, 900)
 
 background = pygame.image.load("assets/grass_background.png")
 
-initial_hives = 1    # These will eventually be tunable parameters you can access from the UI
-default_bee_ratio = 6
-initial_flower_beds = 20
 
-entity_master = EntityMaster(initial_hives, default_bee_ratio,
-                             initial_flower_beds, play_area)
+entity_master = EntityMaster(initial_hives=1,
+                             default_bees_per_hive=6,
+                             number_of_flower_zones=2,
+                             initial_growth_stages=0,
+                             play_area_dimensions=play_area)
 event_master = EventMaster()
 
 play_music = False
@@ -51,13 +51,14 @@ def main():
 
         game_clock.tick(game_frame_rate)
 
-        entities_to_be_rendered = entity_master.get_renderable_entities()
+        entities_to_be_rendered = entity_master.get_valid_entities()
 
         abstract_game_screen.blit(background, (0, 0))
         entities_to_be_rendered.draw(abstract_game_screen)  # TODO: only draw the visible ones
 
         camera_cropped_render = pygame.Surface(camera_size)
-        camera_cropped_render.blit(abstract_game_screen, (0, 0), (camera_location[0], camera_location[1], camera_size[0], camera_size[1]))
+        camera_cropped_render.blit(abstract_game_screen, (0, 0),
+                                   (camera_location[0], camera_location[1], camera_size[0], camera_size[1]))
 
         pygame.transform.scale(camera_cropped_render, screen_resolution, screen)
 
