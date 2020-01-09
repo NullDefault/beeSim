@@ -1,12 +1,11 @@
 from source import bee_hive_data
 from source.bees.scout_bee import ScoutBee
 from source.bees.worker_bee import WorkerBee
-from source.flower_data import Flower
 import pygame
 import math
 import random
 
-from source.random_generators import generate_flower_spawn_points
+from source.random_generators import generate_initial_flower_spawns
 
 
 class EntityMaster:
@@ -29,7 +28,8 @@ class EntityMaster:
         self.hive_spawn_range_y = (play_area_dimensions[1] * .2, play_area_dimensions[1] * .8)
 
         self.spawn_hives(initial_hives, default_bees_per_hive)
-        self.spawn_initial_flowers(number_of_flower_zones, initial_growth_stages, self.hiveEntities, play_area_dimensions)
+        self.spawn_initial_flowers(number_of_flower_zones, initial_growth_stages,
+                                   self.hiveEntities, play_area_dimensions)
 
     def get_valid_entities(self):
 
@@ -102,13 +102,8 @@ class EntityMaster:
 
     def spawn_initial_flowers(self, number_of_flower_roots, growth_stages, hives, play_area_dimensions):
 
-        flower_location_rects = \
-            generate_flower_spawn_points(number_of_flower_roots, growth_stages, hives, play_area_dimensions)
-
-        for location_rect in flower_location_rects:
-            new_flower = Flower((location_rect.left + location_rect.width / 2,
-                                 location_rect.top + location_rect.height / 2))
-            self.flowerEntities.add(new_flower)
+        flower_database = generate_initial_flower_spawns(number_of_flower_roots, growth_stages, hives, play_area_dimensions)
+        self.flowerEntities = flower_database.values()
 
     def get_bee_population(self):
         return len(self.beeEntities)
