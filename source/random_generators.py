@@ -1,13 +1,13 @@
 from random import *
 import pygame
 
+from source.bee_hive_data import BeeHive
 from source.flower_data import Flower
 
 
-def generate_initial_flower_spawns(number_of_field_partitions, growth_stages, hives, play_area_dimensions):
-
-    # TODO: Clean up this hacky mess and also make the flowers grow around hives
-
+def generate_initial_flower_spawns(number_of_field_partitions: int, growth_stages: int,
+                                   play_area_dimensions: int()) -> object:
+    root_growth_stage = 4
     root_locations = area_partition(play_area_dimensions, number_of_field_partitions)
     flower_database = {}
 
@@ -15,13 +15,12 @@ def generate_initial_flower_spawns(number_of_field_partitions, growth_stages, hi
         location = get_center_point(location_rect)
         new_f = Flower(location)
         flower_database[location] = new_f
-    print(flower_database)
     flowers_to_add = {}
 
     for i in range(growth_stages):
         for flower in flower_database.values():
             # grow each flower, if no open spots are near a flower, grow an adjacent flower
-            new_f = drop_seed(flower, flower_database.values())
+            new_f = drop_seed(flower, flower_database.values(), root_growth_stage)
             flowers_to_add[flower.rect.left, flower.rect.top] = new_f
         flower_database = {**flower_database, **flowers_to_add}
 
@@ -35,12 +34,15 @@ def generate_initial_flower_spawns(number_of_field_partitions, growth_stages, hi
     return clean_up_table
 
 
-def drop_seed(flower, existing_flowers):
+def drop_seed(flower, existing_flowers, root_growth_stage):
     drop_direction = find_valid_location(flower, existing_flowers)
     if not drop_direction[0]:
-        return drop_seed(drop_direction[1], existing_flowers)
+        return drop_seed(drop_direction[1], existing_flowers, root_growth_stage - 1)
 
-    return Flower(drop_direction[1])  # In the future this can be used to pass info between neighboring flowers
+    growth_stage = root_growth_stage
+    if growth_stage < 0:
+        growth_stage = 0
+    return Flower(drop_direction[1], growth_stage)
 
 
 def find_valid_location(flower, existing_flowers):
@@ -135,3 +137,24 @@ def cut(rectangles, cut_direction):
         right_cut = flip_direction()
 
         return cut(rectangles[mid_point:], left_cut) + cut(rectangles[:mid_point], right_cut)
+
+
+def find_valid_hive_spawns(hive_num, play_area, flowers):
+    new_hives = []
+    for n in range(hive_num):
+        new_hives.append(BeeHive(find_hive_loc(play_area, new_hives, flowers)))
+
+    return new_hives
+
+
+def find_hive_loc(play_area, existing_hives, flowers):
+    new_loc = randint(0, play_area[0] - 66), randint(0, play_area[1] - 66)
+
+    for hive in existing_hives:
+        if hive.rect.collidepoint(new_loc):
+            return find_hive_loc(play_area, existing_hives, flowers)
+    for flower in flowers:
+        if flower.rect.collidepoint(new_loc):
+            return find_hive_loc(play_area, existing_hives, flowers)
+    else:
+        return new_loc

@@ -13,11 +13,13 @@ play_area = (1600, 900)
 background = pygame.image.load("assets/grass_background.png")
 
 
-entity_master = EntityMaster(initial_hives=1,
+entity_master = EntityMaster(initial_hives=4,
                              default_bees_per_hive=6,
-                             number_of_flower_zones=4,
-                             initial_growth_stages=7,
-                             play_area_dimensions=play_area)
+                             number_of_flower_zones=3,
+                             initial_growth_stages=6,
+                             play_area_dimensions=play_area,
+                             flower_spawn_strategy='default',
+                             hive_spawn_strategy='default')
 event_master = EventMaster()
 
 play_music = False

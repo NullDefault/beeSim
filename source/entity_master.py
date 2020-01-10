@@ -1,11 +1,8 @@
-from source import bee_hive_data
 from source.bees.scout_bee import ScoutBee
 from source.bees.worker_bee import WorkerBee
+from source.spawn_strategies import get_hive_spawn_strategy, get_flower_spawn_strategy
 import pygame
-import math
-import random
-
-from source.random_generators import generate_initial_flower_spawns
+from random import randint
 
 
 class EntityMaster:
@@ -13,23 +10,28 @@ class EntityMaster:
     scout_ratio = .2
     worker_ratio = .8
 
-    used_coordinates = []
-    acceptable_hive_distance = 75
     bee_spawn_offset = (-50, 50)
 
     def __init__(self, initial_hives: int, default_bees_per_hive: int,
-                 number_of_flower_zones: int, initial_growth_stages: int, play_area_dimensions: int()) -> object:
+                 number_of_flower_zones: int, initial_growth_stages: int, play_area_dimensions: int(),
+                 flower_spawn_strategy: str, hive_spawn_strategy: str):
 
         self.beeEntities = pygame.sprite.RenderUpdates()
         self.hiveEntities = pygame.sprite.RenderUpdates()
         self.flowerEntities = pygame.sprite.RenderUpdates()
 
-        self.hive_spawn_range_x = (play_area_dimensions[0] * .1, play_area_dimensions[0] * .9)
-        self.hive_spawn_range_y = (play_area_dimensions[1] * .2, play_area_dimensions[1] * .8)
+        self.flowerDatabase = {}
+        self.playArea = play_area_dimensions
 
-        self.spawn_hives(initial_hives, default_bees_per_hive)
-        self.spawn_initial_flowers(number_of_flower_zones, initial_growth_stages,
-                                   self.hiveEntities, play_area_dimensions)
+        spawn_vars = {
+            'flower_zones': number_of_flower_zones,
+            'initial_growth_stages': initial_growth_stages
+        }
+
+        self.load_flower_data(get_flower_spawn_strategy(flower_spawn_strategy, spawn_vars, play_area_dimensions))
+        self.populate_hives(
+            get_hive_spawn_strategy(hive_spawn_strategy, initial_hives, play_area_dimensions, self.flowerEntities),
+            default_bees_per_hive)
 
     def get_valid_entities(self):
 
@@ -58,26 +60,12 @@ class EntityMaster:
 ########################################################################################################################
 # Functions That Spawn the Initial Game State
 
-    def spawn_hives(self, number_of_hives, bees_per_hive):
+    def populate_hives(self, hives, bees_per_hive):
+        for hive in hives:
 
-        for i in range(number_of_hives):
-            done = False
-            while not done:
-                x_hive_coordinate = random.randint(self.hive_spawn_range_x[0], self.hive_spawn_range_x[1])
-                y_hive_coordinate = random.randint(self.hive_spawn_range_y[0], self.hive_spawn_range_y[1])
-                done = True
-                for n in self.used_coordinates:
-                    distance = abs(math.sqrt(pow(n[0] - x_hive_coordinate, 2) + pow(n[1] - y_hive_coordinate, 2)))
-                    if distance < self.acceptable_hive_distance:
-                        done = False
+            self.hiveEntities.add(hive)
 
-                self.used_coordinates.append((x_hive_coordinate, y_hive_coordinate))
-
-            new_hive = bee_hive_data.BeeHive((x_hive_coordinate, y_hive_coordinate))
-
-            self.hiveEntities.add(new_hive)
-
-            self.spawn_initial_bees(new_hive, bees_per_hive)
+            self.spawn_initial_bees(hive, bees_per_hive)
 
     def spawn_initial_bees(self, hive, bees_per_hive):
 
@@ -86,24 +74,23 @@ class EntityMaster:
 
         for j in range(workers):
             new_bee = \
-                WorkerBee((hive.center[0] + random.randint(self.bee_spawn_offset[0], self.bee_spawn_offset[1]),
-                           hive.center[1] + random.randint(self.bee_spawn_offset[0], self.bee_spawn_offset[1])),
+                WorkerBee((hive.center[0] + randint(self.bee_spawn_offset[0], self.bee_spawn_offset[1]),
+                           hive.center[1] + randint(self.bee_spawn_offset[0], self.bee_spawn_offset[1])),
                           hive)
             hive.add_worker_bee(new_bee)
             self.beeEntities.add(new_bee)
 
         for j in range(scouts):
             new_bee = \
-                ScoutBee((hive.center[0] + random.randint(self.bee_spawn_offset[0], self.bee_spawn_offset[1]),
-                          hive.center[1] + random.randint(self.bee_spawn_offset[0], self.bee_spawn_offset[1])),
+                ScoutBee((hive.center[0] + randint(self.bee_spawn_offset[0], self.bee_spawn_offset[1]),
+                          hive.center[1] + randint(self.bee_spawn_offset[0], self.bee_spawn_offset[1])),
                          hive)
             hive.add_scout_bee(new_bee)
             self.beeEntities.add(new_bee)
 
-    def spawn_initial_flowers(self, number_of_flower_roots, growth_stages, hives, play_area_dimensions):
-
-        flower_database = generate_initial_flower_spawns(number_of_flower_roots, growth_stages, hives, play_area_dimensions)
-        self.flowerEntities = flower_database.values()
+    def load_flower_data(self, data):
+        self.flowerDatabase = data
+        self.flowerEntities = data.values()
 
     def get_bee_population(self):
         return len(self.beeEntities)

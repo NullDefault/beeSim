@@ -4,10 +4,13 @@ from random import randint
 
 class Flower(pygame.sprite.DirtySprite):
 
-    def __init__(self, location):
+    def __init__(self, location, growth_stage=None):
         pygame.sprite.Sprite.__init__(self)
-        random_type = randint(0, 5)
-        self.image = pygame.image.load("assets/flower_sprites/flower_sprites"+str(random_type)+".png")
+        if growth_stage is None:
+            growth_stage = randint(0, 5)
+        else:
+            growth_stage = growth_stage
+        self.image = pygame.image.load("assets/flower_sprites/flower_sprites"+str(growth_stage)+".png")
         self.rect = self.image.get_rect()
         self.rect.left, self.rect.top = location
 
