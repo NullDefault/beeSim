@@ -6,57 +6,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4af50685-68c1-4413-844d-6e6cbe42b9f4" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/source/entities/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/source/entities/entity.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/source/entities/flower_data/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/source/entities/hive_data/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/source/entities/sprite_bank.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/source/logic_and_algorithms/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/source/logic_and_algorithms/masters/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/source/meta_data/class_template.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/assets/beeHive_sprites/beeHive_orange.png" beforeDir="false" afterPath="$PROJECT_DIR$/source/assets/sprites/hive_sprites/bee_hive_orange.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/assets/beeHive_sprites/beeHive_red.png" beforeDir="false" afterPath="$PROJECT_DIR$/source/assets/sprites/hive_sprites/bee_hive_red.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/assets/beeHive_sprites/beeHive_yellow.png" beforeDir="false" afterPath="$PROJECT_DIR$/source/assets/sprites/hive_sprites/bee_hive_yellow.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/assets/beeMusic.mp3" beforeDir="false" afterPath="$PROJECT_DIR$/source/assets/sounds/bee_music.mp3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/assets/bee_sprites/beeSprite_down.png" beforeDir="false" afterPath="$PROJECT_DIR$/source/assets/sprites/bee_sprites/bee_sprite_down.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/assets/bee_sprites/beeSprite_down_selected.png" beforeDir="false" afterPath="$PROJECT_DIR$/source/assets/sprites/bee_sprites/bee_sprite_down_selected.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/assets/bee_sprites/beeSprite_harvest.png" beforeDir="false" afterPath="$PROJECT_DIR$/source/assets/sprites/bee_sprites/bee_sprite_harvest.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/assets/bee_sprites/beeSprite_hidden.png" beforeDir="false" afterPath="$PROJECT_DIR$/source/assets/sprites/bee_sprites/bee_sprite_hidden.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/assets/bee_sprites/beeSprite_left.png" beforeDir="false" afterPath="$PROJECT_DIR$/source/assets/sprites/bee_sprites/bee_sprite_left.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/assets/bee_sprites/beeSprite_left_selected.png" beforeDir="false" afterPath="$PROJECT_DIR$/source/assets/sprites/bee_sprites/bee_sprite_left_selected.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/assets/bee_sprites/beeSprite_right.png" beforeDir="false" afterPath="$PROJECT_DIR$/source/assets/sprites/bee_sprites/bee_sprite_right.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/assets/bee_sprites/beeSprite_right_selected.png" beforeDir="false" afterPath="$PROJECT_DIR$/source/assets/sprites/bee_sprites/bee_sprite_right_selected.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/assets/bee_sprites/beeSprite_up.png" beforeDir="false" afterPath="$PROJECT_DIR$/source/assets/sprites/bee_sprites/bee_sprite_up.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/assets/bee_sprites/beeSprite_up_selected.png" beforeDir="false" afterPath="$PROJECT_DIR$/source/assets/sprites/bee_sprites/bee_sprite_up_selected.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/assets/flower_sprites/flower_sprites0.png" beforeDir="false" afterPath="$PROJECT_DIR$/source/assets/sprites/flower_sprites/flower_0.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/assets/flower_sprites/flower_sprites1.png" beforeDir="false" afterPath="$PROJECT_DIR$/source/assets/sprites/flower_sprites/flower_1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/assets/flower_sprites/flower_sprites2.png" beforeDir="false" afterPath="$PROJECT_DIR$/source/assets/sprites/flower_sprites/flower_2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/assets/flower_sprites/flower_sprites3.png" beforeDir="false" afterPath="$PROJECT_DIR$/source/assets/sprites/flower_sprites/flower_3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/assets/flower_sprites/flower_sprites4.png" beforeDir="false" afterPath="$PROJECT_DIR$/source/assets/sprites/flower_sprites/flower_4.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/assets/flower_sprites/flower_sprites5.png" beforeDir="false" afterPath="$PROJECT_DIR$/source/assets/sprites/flower_sprites/flower_5.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/assets/gameIcon.png" beforeDir="false" afterPath="$PROJECT_DIR$/source/assets/ui_elements/game_icon.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/assets/grassTile.png" beforeDir="false" afterPath="$PROJECT_DIR$/source/assets/map_elements/grass_tile.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/assets/grass_background.png" beforeDir="false" afterPath="$PROJECT_DIR$/source/assets/map_elements/grass_background.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/assets/grass_background_test.png" beforeDir="false" afterPath="$PROJECT_DIR$/source/assets/map_elements/grass_background_test.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/assets/inspection_menu.png" beforeDir="false" afterPath="$PROJECT_DIR$/source/assets/ui_elements/inspection_menu.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/assets/m5x7.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/source/assets/fonts/m5x7.ttf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/assets/menu_background.png" beforeDir="false" afterPath="$PROJECT_DIR$/source/assets/ui_elements/menu_background.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/assets/menu_button.png" beforeDir="false" afterPath="$PROJECT_DIR$/source/assets/ui_elements/menu_button.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/bee_hive_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/entities/hive_data/bee_hive.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/bees/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/UI/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/bees/bee_data.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/bees/castes.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/bees/scout_bee.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/bees/worker_bee.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/entity_master.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/logic_and_algorithms/masters/entity_master.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/event_master.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/logic_and_algorithms/masters/event_master.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/flower_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/entities/flower_data/flower.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/game_board.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/entities/bee_data/bee.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/entities/bee_data/bee.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/entities/bee_data/worker_bee.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/entities/bee_data/worker_bee.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/entities/flower_data/flower.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/entities/flower_data/flower.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/entities/sprite_bank.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/entities/sprite_bank.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/source/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/menus.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/UI/menus.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/random_generators.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/logic_and_algorithms/random_generators.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/spawn_strategies.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/logic_and_algorithms/spawn_strategies.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -65,12 +20,30 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+    <leaf>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/source/entities/bee_data/scout_bee.py">
+        <entry file="file://$PROJECT_DIR$/source/entities/bee_data/worker_bee.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-156">
-              <caret selection-end-line="4" selection-end-column="3" />
+            <state relative-caret-position="408">
+              <caret line="115" column="83" lean-forward="true" selection-start-line="115" selection-start-column="83" selection-end-line="115" selection-end-column="83" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/source/entities/flower_data/flower.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="461">
+              <caret line="40" lean-forward="true" selection-start-line="40" selection-end-line="40" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/source/entities/bee_data/castes.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
             </state>
           </provider>
         </entry>
@@ -78,8 +51,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/source/entities/bee_data/bee.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="473">
-              <caret line="110" column="36" lean-forward="true" selection-start-line="110" selection-start-column="36" selection-end-line="110" selection-end-column="36" />
+            <state relative-caret-position="252">
+              <caret line="97" column="76" selection-start-line="97" selection-start-column="76" selection-end-line="97" selection-end-column="76" />
               <folding>
                 <element signature="e#241#267#0" expanded="true" />
               </folding>
@@ -87,14 +60,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/source/entities/bee_data/worker_bee.py">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/source/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="495">
-              <caret line="124" column="7" lean-forward="true" selection-start-line="124" selection-start-column="7" selection-end-line="124" selection-end-column="7" />
-              <folding>
-                <element signature="e#120#136#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="357">
+              <caret line="24" column="53" selection-start-line="24" selection-start-column="53" selection-end-line="24" selection-end-column="53" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/source/entities/sprite_bank.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="374">
+              <caret line="22" column="88" lean-forward="true" selection-start-line="22" selection-start-column="88" selection-end-line="22" selection-end-column="88" />
             </state>
           </provider>
         </entry>
@@ -164,17 +143,17 @@
         <option value="$PROJECT_DIR$/source/entities/entity.py" />
         <option value="$PROJECT_DIR$/source/entities/bee_data/castes.py" />
         <option value="$PROJECT_DIR$/source/entities/bee_data/scout_bee.py" />
-        <option value="$PROJECT_DIR$/source/entities/flower_data/flower.py" />
-        <option value="$PROJECT_DIR$/source/entities/sprite_bank.py" />
-        <option value="$PROJECT_DIR$/source/entities/bee_data/bee.py" />
         <option value="$PROJECT_DIR$/source/entities/hive_data/bee_hive.py" />
         <option value="$PROJECT_DIR$/source/logic_and_algorithms/masters/entity_master.py" />
         <option value="$PROJECT_DIR$/source/logic_and_algorithms/masters/event_master.py" />
         <option value="$PROJECT_DIR$/source/logic_and_algorithms/random_generators.py" />
         <option value="$PROJECT_DIR$/source/logic_and_algorithms/spawn_strategies.py" />
         <option value="$PROJECT_DIR$/source/UI/menus.py" />
+        <option value="$PROJECT_DIR$/source/entities/sprite_bank.py" />
+        <option value="$PROJECT_DIR$/source/entities/bee_data/bee.py" />
         <option value="$PROJECT_DIR$/source/main.py" />
         <option value="$PROJECT_DIR$/source/entities/bee_data/worker_bee.py" />
+        <option value="$PROJECT_DIR$/source/entities/flower_data/flower.py" />
       </list>
     </option>
   </component>
@@ -190,7 +169,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -202,6 +180,27 @@
               <item name="beeSim" type="b2602c69:ProjectViewProjectNode" />
               <item name="beeSim" type="462c0819:PsiDirectoryNode" />
               <item name="source" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="beeSim" type="b2602c69:ProjectViewProjectNode" />
+              <item name="beeSim" type="462c0819:PsiDirectoryNode" />
+              <item name="source" type="462c0819:PsiDirectoryNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="beeSim" type="b2602c69:ProjectViewProjectNode" />
+              <item name="beeSim" type="462c0819:PsiDirectoryNode" />
+              <item name="source" type="462c0819:PsiDirectoryNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
+              <item name="sprites" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="beeSim" type="b2602c69:ProjectViewProjectNode" />
+              <item name="beeSim" type="462c0819:PsiDirectoryNode" />
+              <item name="source" type="462c0819:PsiDirectoryNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
+              <item name="sprites" type="462c0819:PsiDirectoryNode" />
+              <item name="bee_sprites" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="beeSim" type="b2602c69:ProjectViewProjectNode" />
@@ -220,7 +219,8 @@
               <item name="beeSim" type="b2602c69:ProjectViewProjectNode" />
               <item name="beeSim" type="462c0819:PsiDirectoryNode" />
               <item name="source" type="462c0819:PsiDirectoryNode" />
-              <item name="UI" type="462c0819:PsiDirectoryNode" />
+              <item name="entities" type="462c0819:PsiDirectoryNode" />
+              <item name="flower_data" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="beeSim" type="b2602c69:ProjectViewProjectNode" />
@@ -230,6 +230,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -545,19 +546,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/source/entities/hive_data.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/entities/flower_data.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/game_board.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-line="9" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/source/entities/hive_data.py" />
+    <entry file="file://$PROJECT_DIR$/source/entities/flower_data.py" />
+    <entry file="file://$PROJECT_DIR$/source/game_board.py" />
     <entry file="file://$PROJECT_DIR$/source/entities/bee_data/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -571,16 +562,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/source/entities/flower_data/flower.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-line="4" selection-end-column="3" />
-          <folding>
-            <element signature="e#84#88#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/source/entities/hive_data/bee_hive.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="680">
@@ -588,6 +569,54 @@
           <folding>
             <element signature="e#111#152#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/entities/bee_data/scout_bee.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-156">
+          <caret selection-end-line="4" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/logic_and_algorithms/masters/entity_master.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1207">
+          <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
+          <folding>
+            <element signature="e#98#151#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/logic_and_algorithms/spawn_strategies.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="91" selection-start-line="2" selection-start-column="91" selection-end-line="2" selection-end-column="91" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/UI/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/UI/menus.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-340">
+          <caret line="17" column="76" selection-start-line="17" selection-start-column="76" selection-end-line="17" selection-end-column="76" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/logic_and_algorithms/masters/event_master.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1020">
+          <caret line="61" lean-forward="true" selection-start-line="61" selection-end-line="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/logic_and_algorithms/random_generators.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2654">
+          <caret line="160" column="81" selection-start-line="160" selection-start-column="81" selection-end-line="160" selection-end-column="81" />
         </state>
       </provider>
     </entry>
@@ -606,62 +635,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/source/entities/sprite_bank.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="33" lean-forward="true" selection-start-line="33" selection-end-line="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1464">
-          <caret line="88" lean-forward="true" selection-start-line="88" selection-end-line="88" />
-          <folding>
-            <element signature="e#106#110#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/logic_and_algorithms/masters/entity_master.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
-          <folding>
-            <element signature="e#98#151#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/logic_and_algorithms/masters/event_master.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="73" selection-start-line="3" selection-start-column="73" selection-end-line="3" selection-end-column="73" />
-          <folding>
-            <element signature="e#98#118#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/logic_and_algorithms/spawn_strategies.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="91" selection-start-line="2" selection-start-column="91" selection-end-line="2" selection-end-column="91" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/UI/menus.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-423">
-          <caret line="17" column="76" selection-start-line="17" selection-start-column="76" selection-end-line="17" selection-end-column="76" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/logic_and_algorithms/random_generators.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2720">
-          <caret line="160" column="81" selection-start-line="160" selection-start-column="81" selection-end-line="160" selection-end-column="81" />
-          <folding>
-            <element signature="e#144#155#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="374">
+          <caret line="22" column="88" lean-forward="true" selection-start-line="22" selection-start-column="88" selection-end-line="22" selection-end-column="88" />
         </state>
       </provider>
     </entry>
@@ -672,30 +647,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/source/entities/bee_data/scout_bee.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-156">
-          <caret selection-end-line="4" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/source/entities/bee_data/bee.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="473">
-          <caret line="110" column="36" lean-forward="true" selection-start-line="110" selection-start-column="36" selection-end-line="110" selection-end-column="36" />
+        <state relative-caret-position="252">
+          <caret line="97" column="76" selection-start-line="97" selection-start-column="76" selection-end-line="97" selection-end-column="76" />
           <folding>
             <element signature="e#241#267#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/source/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="24" column="53" selection-start-line="24" selection-start-column="53" selection-end-line="24" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/source/entities/bee_data/worker_bee.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="495">
-          <caret line="124" column="7" lean-forward="true" selection-start-line="124" selection-start-column="7" selection-end-line="124" selection-end-column="7" />
-          <folding>
-            <element signature="e#120#136#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="408">
+          <caret line="115" column="83" lean-forward="true" selection-start-line="115" selection-start-column="83" selection-end-line="115" selection-end-column="83" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/entities/flower_data/flower.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="461">
+          <caret line="40" lean-forward="true" selection-start-line="40" selection-end-line="40" />
         </state>
       </provider>
     </entry>

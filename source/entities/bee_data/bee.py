@@ -90,28 +90,24 @@ class Bee(Entity):
         x_distance = self.target_destination[0] - self.rect.left
         y_distance = self.target_destination[1] - self.rect.top
 
-        if abs(x_distance) > abs(y_distance):
+        highlight_str = ''
+        if self.highlighted:
+            highlight_str = '_highlighted'
+        if self.bee_states.current == 'offload':
+            self.image = sprite_bank.retrieve("bee_hidden_sprite"+highlight_str)
+        elif self.bee_states.current == 'harvest' and self.harvesting_pollen:
+            self.image = sprite_bank.retrieve("bee_harvest_sprite"+highlight_str)
+
+        elif abs(x_distance) > abs(y_distance):
             if x_distance < 0:
-                if self.highlighted:
-                    self.image = sprite_bank.retrieve("bee_left_selected_sprite")
-                else:
-                    self.image = sprite_bank.retrieve("bee_left_sprite")
+                self.image = sprite_bank.retrieve("bee_left_sprite"+highlight_str)
             else:
-                if self.highlighted:
-                    self.image = sprite_bank.retrieve("bee_right_selected_sprite")
-                else:
-                    self.image = sprite_bank.retrieve("bee_right_sprite")
+                self.image = sprite_bank.retrieve("bee_right_sprite"+highlight_str)
         else:
             if y_distance < 0:
-                if self.highlighted:
-                    self.image = sprite_bank.retrieve("bee_up_selected_sprite")
-                else:
-                    self.image = sprite_bank.retrieve("bee_up_sprite")
+                self.image = sprite_bank.retrieve("bee_up_sprite"+highlight_str)
             else:
-                if self.highlighted:
-                    self.image = sprite_bank.retrieve("bee_down_selected_sprite")
-                else:
-                    self.image = sprite_bank.retrieve("bee_down_sprite")
+                self.image = sprite_bank.retrieve("bee_down_sprite"+highlight_str)
 
     def validate_collision(self):  # Logic function for detecting collisions for bees of interest
         # Note: bee_states is assigned only in subclasses

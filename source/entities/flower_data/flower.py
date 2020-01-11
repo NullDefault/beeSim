@@ -36,8 +36,7 @@ class Flower(Entity):
 
     def finish_harvest(self):
         self.occupied = False
-        pollen_gain_rate = 10
-        pollen_taken = self.pollen - pollen_gain_rate  # pollen_gain_rate is eventually going to have a formula
+        pollen_taken = 1  # TODO: Replace this with a formula of some kind
         self.pollen = self.pollen - pollen_taken
 
         return pollen_taken

@@ -20,13 +20,13 @@ class WorkerBee(Bee):
 
     def __init__(self, location, queen):
 
-        self.max_nectar_capacity = 10  # Max nectar the worker can carry
+        self.max_nectar_capacity = 1  # Max nectar the worker can carry
         self.current_nectar = 0  # Current nectar on bee-hand
 
         self.target_flower = None  # Variables used in the harvesting process
         self.harvesting_pollen = False
         self.begin_harvest_time = 0
-        self.harvesting_duration = randint(4250, 7800)
+        self.harvesting_duration = randint(2000, 4000)
 
         self.offloading = False  # Variables used in the offloading process
         self.begin_offload_time = 0
@@ -41,8 +41,7 @@ class WorkerBee(Bee):
     def move(self):
         self.target_destination = self.update_target(self.bee_states.current)
         self.head_towards()
-        if not (self.offloading or self.harvesting_pollen):
-            self.update_sprite()
+        self.update_sprite()
 
     def deliver_nectar_load(self):
         if self.queen_hive.center[0] - 10 <= self.rect.left <= self.queen_hive.center[0] + 10 and \
@@ -112,7 +111,6 @@ class WorkerBee(Bee):
             self.begin_harvest_time = self.queen_hive.last_tick
         else:
             current_time = self.queen_hive.last_tick
-
             if current_time >= self.begin_harvest_time + self.harvesting_duration:
                 self.harvesting_pollen = False
                 self.current_nectar = self.current_nectar + flower.finish_harvest()
