@@ -9,6 +9,7 @@ from pygame import image, time, display, Surface, mixer, transform, event
 from source.logic_and_algorithms.masters.entity_master import EntityMaster
 from source.UI.menus import menu_render
 from source.logic_and_algorithms.masters.event_master import EventMaster
+from source.entities import sprite_bank
 
 
 # DATA FIELDS
@@ -17,14 +18,14 @@ screen_resolution = (1600, 900)
 menu_location = (1200, 0)
 
 play_area = (1600, 900)
+  
+background = sprite_bank.retrieve('grass_background')
 
-background = image.load("assets/map_elements/grass_background.png")
 
-
-entity_master = EntityMaster(initial_hives=1,                 # This variable decides what entities get spawned,
-                             default_bees_per_hive=8,         # how many and on how big of a field. When i implement
-                             number_of_flower_zones=4,        # saving and loading, this will be what loads and saves
-                             initial_growth_stages=6,         # game states and data.
+entity_master = EntityMaster(initial_hives=4,                 # This variable decides what entities get spawned,
+                             default_bees_per_hive=7,         # how many and on how big of a field. When i implement
+                             number_of_flower_zones=1,        # saving and loading, this will be what loads and saves
+                             initial_growth_stages=30,         # game states and data.
                              play_area_dimensions=play_area,
                              flower_spawn_strategy='default',
                              hive_spawn_strategy='default')
@@ -33,7 +34,7 @@ event_master = EventMaster()
 
 play_music = False
 
-game_icon = image.load("assets/ui_elements/game_icon.png")
+game_icon = sprite_bank.retrieve('game_icon')
 
 game_clock = time.Clock()
 game_frame_rate = 24

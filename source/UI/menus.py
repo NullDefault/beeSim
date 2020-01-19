@@ -5,12 +5,13 @@ Notes:
 """
 
 #  IMPORTS
-from pygame import image, font, Surface
+from pygame import font, Surface
+from source.entities import sprite_bank
 
 # DATA FIELDS
-menu_image = image.load("assets/ui_elements/menu_background.png")
-inspection_menu = image.load("assets/ui_elements/inspection_menu.png")
-highlight_button = image.load("assets/ui_elements/menu_button.png")
+menu_image = sprite_bank.retrieve('menu_image')
+inspection_menu = sprite_bank.retrieve('inspection_menu')
+highlight_button = sprite_bank.retrieve('inspection_button')
 
 font.init()
 gameFont = font.Font("assets/fonts/m5x7.ttf", 30)

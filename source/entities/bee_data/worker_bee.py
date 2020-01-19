@@ -57,7 +57,6 @@ class WorkerBee(Bee):
     def offload(self):
         if not self.offloading:
             self.offloading = True
-            self.image = image.load("assets/sprites/bee_sprites/bee_sprite_hidden.png")
             self.begin_offload_time = self.queen_hive.last_tick
         else:
             current_time = self.queen_hive.last_tick
@@ -106,7 +105,6 @@ class WorkerBee(Bee):
     def harvest_nectar_from(self, flower):
         if not self.harvesting_pollen:
             self.harvesting_pollen = True
-            self.image = image.load("assets/sprites/bee_sprites/bee_sprite_harvest.png")
             flower.begin_harvest()
             self.begin_harvest_time = self.queen_hive.last_tick
         else:
