@@ -23,6 +23,7 @@ class BeeHive(Entity):
         self.last_tick = 0  # Time since last tick check
 
         self.known_flowers = []  # Flowers the scouts have discovered
+        self.available_orders = [] # Flowers the workers can be ordered to pursue
 
         self.workers = []  # Hive workers
         self.scouts = []  # Hive scouts
@@ -49,16 +50,26 @@ class BeeHive(Entity):
 
     def remember_flower(self, flower):
         self.known_flowers.append(flower)
+        self.available_orders.append(flower)
+
+    def update_order_queue(self):
+        available_orders = []
+        for flower in self.known_flowers:
+            if flower.pollen != 0 and not flower.busy:
+                available_orders.append(flower)
+
+        self.available_orders = available_orders
 
     def has_orders(self):
-        if len(self.known_flowers) < 1:
-            return False
-        else:
+        self.update_order_queue()
+        if len(self.available_orders) is not 0:
             return True
+        else:
+            return False
 
-    def get_order(self):  # Randomly picks a known flower and returns it
-        random_index = randint(0, len(self.known_flowers)-1)
-        flower = self.known_flowers[random_index]
+    def get_order(self):
+        flower = self.available_orders.pop()
+        flower.busy = True
         return flower
 
     def highlight_bees(self):

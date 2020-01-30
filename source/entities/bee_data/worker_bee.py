@@ -99,6 +99,7 @@ class WorkerBee(Bee):
                 return self.target_flower.rect.left + 9, self.target_flower.rect.top + 6
         else:
             self.wiggle = 1
+            self.target_flower.busy = False
             self.bee_states.trigger('harvest complete')
             return self.queen_hive_x, self.queen_hive_y
 

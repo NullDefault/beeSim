@@ -69,8 +69,13 @@ class EntityMaster:
         bee_and_flower_collisions = groupcollide(self.bee_entities, self.flower_entities, False, False)
 
         for bee_in_question in bee_and_flower_collisions:
+            flower = bee_and_flower_collisions.get(bee_in_question)[0]
             if bee_in_question.validate_collision():
-                bee_in_question.collide_with_flower(bee_and_flower_collisions.get(bee_in_question)[0])
+                if isinstance(bee_in_question, ScoutBee) and \
+                        flower not in bee_in_question.queen_hive.known_flowers:
+                    bee_in_question.collide_with_flower(flower)
+                if isinstance(bee_in_question, WorkerBee):
+                    bee_in_question.collide_with_flower(flower)
 
     def populate_hives(self, hives, bees_per_hive):  # Populates the new hives with bees
         for hive in hives:
