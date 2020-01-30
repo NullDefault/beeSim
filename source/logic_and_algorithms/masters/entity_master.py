@@ -5,7 +5,7 @@ Notes:
 """
 
 #  IMPORTS
-from pygame.sprite import RenderUpdates, groupcollide
+from pygame.sprite import RenderUpdates, groupcollide, collide_circle_ratio, spritecollide
 from pygame.time import get_ticks
 from random import randint
 from source.entities.bee_data.scout_bee import ScoutBee
@@ -47,6 +47,7 @@ class EntityMaster:
         self.populate_hives(
             get_hive_spawn_strategy(hive_spawn_strategy, initial_hives, play_area_dimensions, self.flower_entities),
             default_bees_per_hive)
+        self.clean_up_spawn()
 
     def get_valid_entities(self):  # Returns entities to render next rendering step
 
@@ -105,9 +106,14 @@ class EntityMaster:
             hive.add_scout_bee(new_bee)
             self.bee_entities.add(new_bee)
 
+    def clean_up_spawn(self):
+        for hive in self.hive_entities:
+            flowers = self.flower_entities
+            spritecollide(hive, flowers, True, collide_circle_ratio(1.3))
+
     def load_flower_data(self, data):  # Load updated flower data
         self.flower_database = data
-        self.flower_entities = data.values()
+        self.flower_entities = RenderUpdates(list((data.values())))
 
     def get_bee_population(self):  # Get number of bees on the board
         return len(self.bee_entities)
