@@ -6,12 +6,12 @@ Notes:
 
 #  IMPORTS
 from pygame.sprite import RenderUpdates, groupcollide, collide_circle_ratio, spritecollide
+from source.entities.background import Background
 from pygame.time import get_ticks
 from random import randint
 from source.entities.bee_data.scout_bee import ScoutBee
 from source.entities.bee_data.worker_bee import WorkerBee
 from source.logic_and_algorithms.spawn_strategies import get_hive_spawn_strategy, get_flower_spawn_strategy
-
 
 # CLASS BODY
 
@@ -31,6 +31,7 @@ class EntityMaster:
                  number_of_flower_zones: int, initial_growth_stages: int, play_area_dimensions: int(),
                  flower_spawn_strategy: str, hive_spawn_strategy: str):
 
+        self.background = Background()
         self.bee_entities = RenderUpdates()
         self.hive_entities = RenderUpdates()
         self.flower_entities = RenderUpdates()
@@ -53,7 +54,7 @@ class EntityMaster:
 
         self.update_game_state()
 
-        valid_entities = RenderUpdates()
+        valid_entities = RenderUpdates(self.background)
 
         valid_entities.add(self.flower_entities)
         valid_entities.add(self.hive_entities)
@@ -120,8 +121,7 @@ class EntityMaster:
 
     def get_hive_at(self, position):  # Get hive at given location
         for hive in self.hive_entities:
-            if hive.rect.left <= position[0] <= hive.rect.left + 66 and \
-                    hive.rect.top <= position[1] <= hive.rect.top + 66:
+            if hive.rect.collidepoint(position):
                 return hive
         else:
             return None

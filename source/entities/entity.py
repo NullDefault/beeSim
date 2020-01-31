@@ -7,7 +7,6 @@ Notes:
 #  IMPORTS
 import pygame
 from source.entities import sprite_bank
-#  CLASS BODY
 
 
 class Entity(pygame.sprite.Sprite):

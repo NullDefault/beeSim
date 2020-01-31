@@ -10,27 +10,24 @@ from source.logic_and_algorithms.masters.entity_master import EntityMaster
 from source.UI.menus import menu_render
 from source.logic_and_algorithms.masters.event_master import EventMaster
 from source.entities import sprite_bank
-
+from source.logic_and_algorithms.camera import Camera
 
 # DATA FIELDS
 
 screen_resolution = (1600, 900)
 menu_location = (1200, 0)
-
+camera = Camera()
 play_area = (1600, 900)
-  
-background = sprite_bank.retrieve('grass_background')
-
 
 entity_master = EntityMaster(initial_hives=2,                 # This variable decides what entities get spawned,
                              default_bees_per_hive=7,         # how many and on how big of a field. When i implement
-                             number_of_flower_zones=8,        # saving and loading, this will be what loads and saves
-                             initial_growth_stages=2,         # game states and data.
+                             number_of_flower_zones=4,        # saving and loading, this will be what loads and saves
+                             initial_growth_stages=4,         # game states and data.
                              play_area_dimensions=play_area,
                              flower_spawn_strategy='default',
                              hive_spawn_strategy='default')
 
-event_master = EventMaster()
+event_master = EventMaster(camera)
 
 play_music = False
 
@@ -45,8 +42,6 @@ def main():
 # Init Screen
     screen = display.set_mode(screen_resolution)
     abstract_game_screen = Surface(play_area)
-    camera_location = [0, 0]  # Controls which part of the screen is being rendered
-    camera_size = (1600, 900)
     display.set_icon(game_icon)
     display.set_caption("beeSim")
 # Init Music
@@ -65,23 +60,21 @@ def main():
 
         entities_to_be_rendered = entity_master.get_valid_entities()
 
-        abstract_game_screen.blit(background, (0, 0))
-        entities_to_be_rendered.draw(abstract_game_screen)  # TODO: only draw the visible ones
-
-        camera_cropped_render = Surface(camera_size)
+        camera_cropped_render = Surface(camera.size)
         camera_cropped_render.blit(abstract_game_screen, (0, 0),
-                                   (camera_location[0], camera_location[1], camera_size[0], camera_size[1]))
+                                   (camera.location[0], camera.location[1], camera.size[0], camera.size[1]))
 
         transform.scale(camera_cropped_render, screen_resolution, screen)
+        updated_screen_rects = entities_to_be_rendered.draw(abstract_game_screen)
 
         if menu_active:
             screen.blit(menu_render(entity_master, game_clock, inspection_target), menu_location)
 
-        display.flip()
+        display.update(updated_screen_rects)
 
         for e in event.get():
-            inspection_target, menu_active, camera_location = \
-                event_master.handle_event(e, menu_active, entity_master, inspection_target, camera_location)
+            inspection_target, menu_active = \
+                event_master.handle_event(e, menu_active, entity_master, inspection_target)
 ########################################################################################################################
 
 

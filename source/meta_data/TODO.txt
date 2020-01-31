@@ -1,3 +1,1 @@
-1 : Make bees land on flowers, so only one can be harvesting nectar at a given moment
-2 : Queue flower orders
-3 : Tie bee population to nectar reserves
+1 : Tie bee population to nectar reserves

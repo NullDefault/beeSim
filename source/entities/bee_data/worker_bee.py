@@ -6,7 +6,7 @@ Notes:
 
 # IMPORTS
 from math import cos, sin
-from pygame import image, sprite
+from pygame import sprite
 from random import randint
 from source.entities.bee_data.bee import Bee
 from source.entities.bee_data.castes import worker_fysom
@@ -106,7 +106,6 @@ class WorkerBee(Bee):
     def harvest_nectar_from(self, flower):
         if not self.harvesting_pollen:
             self.harvesting_pollen = True
-            flower.begin_harvest()
             self.begin_harvest_time = self.queen_hive.last_tick
         else:
             current_time = self.queen_hive.last_tick

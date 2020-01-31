@@ -16,7 +16,6 @@ from source.entities.flower_data.flower import Flower
 
 def generate_initial_flower_spawns(number_of_field_partitions: int, growth_stages: int,  # Spawn initial flowers
                                    play_area_dimensions: int()) -> object:
-    root_growth_stage = 4  # What root flowers wil begin their growth from
     root_locations = area_partition(play_area_dimensions, number_of_field_partitions)  # partitions the field into
     # halves n times
     flower_database = {}
@@ -30,7 +29,7 @@ def generate_initial_flower_spawns(number_of_field_partitions: int, growth_stage
     for i in range(growth_stages):
         for flower in flower_database.values():
             # grow each flower, if no open spots are near a flower, grow an adjacent flower
-            new_f = drop_seed(flower, flower_database.values(), root_growth_stage)
+            new_f = drop_seed(flower, flower_database.values())
             flowers_to_add[flower.rect.left, flower.rect.top] = new_f
         flower_database = {**flower_database, **flowers_to_add}
 
@@ -45,15 +44,12 @@ def generate_initial_flower_spawns(number_of_field_partitions: int, growth_stage
     return clean_up_table
 
 
-def drop_seed(flower, existing_flowers, root_growth_stage):  # Makes a flower spawn offspring adjacently
+def drop_seed(flower, existing_flowers):  # Makes a flower spawn offspring adjacently
     drop_direction = find_valid_location(flower, existing_flowers)
     if not drop_direction[0]:
-        return drop_seed(drop_direction[1], existing_flowers, root_growth_stage - 1)
+        return drop_seed(drop_direction[1], existing_flowers)
 
-    growth_stage = root_growth_stage
-    if growth_stage < 0:
-        growth_stage = 0
-    return Flower(drop_direction[1], growth_stage)
+    return Flower(drop_direction[1])
 
 
 def find_valid_location(flower, existing_flowers):  # Finds a valid location for the next flower

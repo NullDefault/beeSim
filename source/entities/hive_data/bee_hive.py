@@ -6,7 +6,6 @@ Notes:
 
 #  IMPORTS
 from source.entities.entity import Entity
-from random import randint
 # CLASS BODY
 
 
@@ -23,7 +22,7 @@ class BeeHive(Entity):
         self.last_tick = 0  # Time since last tick check
 
         self.known_flowers = []  # Flowers the scouts have discovered
-        self.available_orders = [] # Flowers the workers can be ordered to pursue
+        self.available_orders = []  # Flowers the workers can be ordered to pursue
 
         self.workers = []  # Hive workers
         self.scouts = []  # Hive scouts

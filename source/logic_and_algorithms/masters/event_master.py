@@ -11,15 +11,20 @@ import pygame
 
 class EventMaster:
 
-    def __init__(self):
+    def __init__(self, camera):
+        self.camera = camera
+
         self.moving_up = False
         self.moving_down = False
         self.moving_left = False
         self.moving_right = False
+        self.zoom_in = False
+        self.zoom_out = False
 
-    def handle_event(self, event, menu_active, entity_master, inspection_target, camera_location):
+    def handle_event(self, event, menu_active, entity_master, inspection_target):
+
         if event.type == pygame.MOUSEBUTTONUP:
-            pos = pygame.mouse.get_pos()
+            pos = list(pygame.mouse.get_pos())
             if not (menu_active and pos[0] > 1200):
                 inspection_target = entity_master.get_hive_at(pos)
             elif menu_active and \
@@ -35,6 +40,10 @@ class EventMaster:
                 self.moving_right = False
             if event.key == pygame.K_LEFT or event.key == pygame.K_a:
                 self.moving_left = False
+            if event.key == pygame.K_EQUALS:
+                self.zoom_in = False
+            elif event.key == pygame.K_MINUS:
+                self.zoom_out = False
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_DOWN or event.key == pygame.K_s:
@@ -46,6 +55,11 @@ class EventMaster:
             if event.key == pygame.K_LEFT or event.key == pygame.K_a:
                 self.moving_left = True
 
+            if event.key == pygame.K_EQUALS:
+                self.zoom_in = True
+            elif event.key == pygame.K_MINUS:
+                self.zoom_out = True
+
             if event.key == pygame.K_m and not menu_active:
                 menu_active = True
             elif event.key == pygame.K_m and menu_active:
@@ -55,19 +69,33 @@ class EventMaster:
             pygame.quit()
             exit()
 
-        camera_location = \
-            self.move_camera(camera_location, self.moving_down, self.moving_up, self.moving_right, self.moving_left)
+        self.move_camera(self.moving_down, self.moving_up, self.moving_right, self.moving_left)
+        self.update_camera_zoom(self.zoom_in, self.zoom_out)
 
-        return inspection_target, menu_active, camera_location
+        return inspection_target, menu_active
 
-    def move_camera(self, camera_location, moving_down, moving_up, moving_right, moving_left):
+    def update_camera_zoom(self, z_in, z_out):
+        if z_in:
+            delta_x = self.camera.size[0] / 10
+            delta_y = self.camera.size[1] / 10
+            new_camera_size = \
+                self.camera.size[0] - delta_x, self.camera.size[1] - delta_y
+            if new_camera_size[0] > 400:
+                self.camera.size = new_camera_size
+        elif z_out:
+            delta_x = self.camera.size[0] / 10
+            delta_y = self.camera.size[1] / 10
+            new_camera_size = \
+                self.camera.size[0] + delta_x, self.camera.size[1] + delta_y
+            if new_camera_size[0] < 2000:
+                self.camera.size = new_camera_size
+
+    def move_camera(self, moving_down, moving_up, moving_right, moving_left):
         if moving_down:
-            camera_location[1] = camera_location[1] + 10
+            self.camera.location[1] = self.camera.location[1] + 10
         if moving_up:
-            camera_location[1] = camera_location[1] - 10
+            self.camera.location[1] = self.camera.location[1] - 10
         if moving_right:
-            camera_location[0] = camera_location[0] + 10
+            self.camera.location[0] = self.camera.location[0] + 10
         if moving_left:
-            camera_location[0] = camera_location[0] - 10
-
-        return camera_location
+            self.camera.location[0] = self.camera.location[0] - 10
