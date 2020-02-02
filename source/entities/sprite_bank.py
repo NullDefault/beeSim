@@ -55,6 +55,9 @@ sprite_bank = {
     'inspection_menu': image.load(join('assets', 'ui_elements', 'inspection_menu.png')),
     'inspection_button': image.load(join('assets', 'ui_elements', 'inspection_button.png')),
     'game_icon': image.load(join('assets', 'ui_elements', 'game_icon.png')),
+    'honey_bar': image.load(join('assets', 'ui_elements', 'honey_bar.png')),
+    'worker_counter': image.load(join('assets', 'ui_elements', 'worker_count.png')),
+    'scout_counter': image.load(join('assets', 'ui_elements', 'scout_count.png')),
 
     # MAP ELEMENTS
     'grass_background': image.load(join('assets', 'map_elements', 'grass_background.png')),

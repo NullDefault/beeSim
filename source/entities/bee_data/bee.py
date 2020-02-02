@@ -8,6 +8,7 @@ Notes: Castes.py is a dictionary of finite state machines for each individual be
 from random import randint
 from source.entities.entity import Entity
 from source.entities import sprite_bank
+from source.entities.bee_data.bee_components.stomach import Stomach
 
 # CLASS BODY
 
@@ -27,6 +28,8 @@ class Bee(Entity):
         self.queen_hive_y = queen.center[1]
         self.highlighted = False  # Used for highlighting the bees during inspection mode
         self.target_destination = (self.queen_hive_x, self.queen_hive_y)  # Variable used for movement
+
+        self.stomach = Stomach()
 
         Entity.__init__(self, location, 'bee')  # Calls the Entity constructor
 

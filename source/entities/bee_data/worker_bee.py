@@ -9,7 +9,7 @@ from math import cos, sin
 from pygame import sprite
 from random import randint
 from source.entities.bee_data.bee import Bee
-from source.entities.bee_data.castes import worker_fysom
+from source.entities.bee_data.bee_components.castes import worker_fysom
 
 # CLASS BODY
 
@@ -23,16 +23,14 @@ class WorkerBee(Bee):
         self.max_nectar_capacity = 1  # Max nectar the worker can carry
         self.current_nectar = 0  # Current nectar on bee-hand
 
+        self.spin_affinity = randint(0, 1)
+
         self.target_flower = None  # Variables used in the harvesting process
         self.harvesting_pollen = False
         self.begin_harvest_time = 0
-        self.harvesting_duration = randint(2000, 4000)
 
         self.offloading = False  # Variables used in the offloading process
         self.begin_offload_time = 0
-        self.offloading_duration = randint(2000, 5000)
-
-        self.random_spin_affinity = randint(0, 1)  # Which way the bee will randomly orbit the hive
 
         self.bee_states = worker_fysom()  # Assigns the behavioral finite state machine
 
@@ -60,7 +58,7 @@ class WorkerBee(Bee):
             self.begin_offload_time = self.queen_hive.last_tick
         else:
             current_time = self.queen_hive.last_tick
-            if current_time >= self.begin_offload_time + self.offloading_duration:
+            if current_time >= self.begin_offload_time + randint(2000, 5000):
                 self.offloading = False
                 self.begin_offload_time = 0
                 self.bee_states.trigger('offload complete')
@@ -79,7 +77,7 @@ class WorkerBee(Bee):
 
         px, py = self.rect.left, self.rect.top
 
-        if self.random_spin_affinity == 0:
+        if self.spin_affinity == 0:
             qx = ox + cos(angle) * (px - ox) - sin(angle) * (py - oy)
             qy = oy + sin(angle) * (px - ox) + cos(angle) * (py - oy)
         else:
@@ -109,14 +107,14 @@ class WorkerBee(Bee):
             self.begin_harvest_time = self.queen_hive.last_tick
         else:
             current_time = self.queen_hive.last_tick
-            if current_time >= self.begin_harvest_time + self.harvesting_duration:
+            if current_time >= self.begin_harvest_time + randint(2000, 4000):
                 self.harvesting_pollen = False
                 self.current_nectar = self.current_nectar + flower.finish_harvest()
 
     def check_available_orders(self):
         if self.queen_hive.has_orders():
             self.target_flower = self.queen_hive.get_order()
-            self.bee_states.trigger('go to flower')
+            self.bee_states.go_
             return self.target_flower.rect.left, self.target_flower.rect.top
         else:
             return self.orbit_hive()

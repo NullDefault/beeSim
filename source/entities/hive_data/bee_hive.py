@@ -6,6 +6,8 @@ Notes:
 
 #  IMPORTS
 from source.entities.entity import Entity
+from source.UI.honey_bar import HoneyBar
+from source.UI.bee_counters import WorkerCounter, ScoutCounter
 # CLASS BODY
 
 
@@ -17,18 +19,24 @@ class BeeHive(Entity):
 
         self.highlighted = False  # Used in inspection mode
 
-        self.nectar_storage = 0  # How much nectar the hive has stored
+        self.current_honey = 10  # How much nectar the hive has stored
+        self.max_honey = 100    # Maximum honey the hive can store
 
         self.last_tick = 0  # Time since last tick check
 
         self.known_flowers = []  # Flowers the scouts have discovered
+
         self.available_orders = []  # Flowers the workers can be ordered to pursue
 
         self.workers = []  # Hive workers
+
         self.scouts = []  # Hive scouts
 
         Entity.__init__(self, location, 'hive')
 
+        self.worker_counter = WorkerCounter(self)
+        self.scout_counter = ScoutCounter(self)
+        self.honey_bar = HoneyBar(self)
         self.center = (self.rect.left + 38, self.rect.top + 56)  # Location of hive entrance
 
     def add_worker_bee(self, bee):
@@ -42,10 +50,13 @@ class BeeHive(Entity):
         return len(self.workers), len(self.scouts)
 
     def get_nectar(self):
-        return self.nectar_storage
+        return self.current_honey
 
     def gain_nectar(self, nectar_amount):
-        self.nectar_storage = self.nectar_storage + nectar_amount
+        if self.current_honey < self.max_honey:
+            self.current_honey = self.current_honey + nectar_amount
+        else:
+            self.current_honey = self.max_honey
 
     def remember_flower(self, flower):
         self.known_flowers.append(flower)

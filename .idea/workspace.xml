@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/source/entities/hive_data/bee_hive.py" line="53" />
+    <bookmark url="file://$PROJECT_DIR$/source/entities/hive_data/bee_hive.py" line="64" />
     <bookmark url="file://$PROJECT_DIR$/source/logic_and_algorithms/random_generators.py" line="101" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4af50685-68c1-4413-844d-6e6cbe42b9f4" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/source/entities/background.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/source/logic_and_algorithms/camera.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/source/entities/bee_data/bee_components/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/source/entities/bee_data/bee_components/stomach.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/UI/bee_counters.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/UI/bee_counters.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/UI/honey_bar.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/UI/honey_bar.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/UI/menus.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/UI/menus.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/entities/bee_data/bee.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/entities/bee_data/bee.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/entities/bee_data/castes.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/entities/bee_data/bee_components/castes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/entities/bee_data/scout_bee.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/entities/bee_data/scout_bee.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/source/entities/bee_data/worker_bee.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/entities/bee_data/worker_bee.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/entities/entity.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/entities/entity.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/entities/flower_data/flower.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/entities/flower_data/flower.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/source/entities/hive_data/bee_hive.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/entities/hive_data/bee_hive.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/entities/sprite_bank.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/entities/sprite_bank.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/source/logic_and_algorithms/masters/entity_master.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/logic_and_algorithms/masters/entity_master.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/logic_and_algorithms/masters/event_master.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/logic_and_algorithms/masters/event_master.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/logic_and_algorithms/random_generators.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/logic_and_algorithms/random_generators.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/source/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/source/meta_data/TODO.txt" beforeDir="false" afterPath="$PROJECT_DIR$/source/meta_data/TODO.txt" afterDir="false" />
     </list>
@@ -28,25 +31,64 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/source/entities/sprite_bank.py">
+        <entry file="file://$PROJECT_DIR$/source/logic_and_algorithms/masters/entity_master.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1088">
-              <caret line="64" selection-start-line="64" selection-end-line="64" />
+            <state relative-caret-position="1122">
+              <caret line="108" column="23" lean-forward="true" selection-start-line="108" selection-start-column="23" selection-end-line="108" selection-end-column="23" />
               <folding>
-                <element signature="e#129#153#0" expanded="true" />
+                <element signature="e#98#188#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/source/logic_and_algorithms/masters/entity_master.py">
+        <entry file="file://$PROJECT_DIR$/source/entities/bee_data/bee.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
-              <caret line="119" column="37" lean-forward="true" selection-start-line="119" selection-start-column="37" selection-end-line="119" selection-end-column="37" />
+            <state relative-caret-position="459">
+              <caret line="39" column="40" selection-start-line="39" selection-start-column="40" selection-end-line="39" selection-end-column="40" />
               <folding>
-                <element signature="e#101#191#0" expanded="true" />
+                <element signature="e#241#267#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/source/entities/bee_data/bee_components/castes.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="493">
+              <caret line="29" lean-forward="true" selection-start-line="29" selection-end-line="29" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/source/entities/bee_data/bee_components/stomach.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="272">
+              <caret line="16" selection-start-line="16" selection-end-line="16" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/source/entities/bee_data/worker_bee.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="799">
+              <caret line="116" column="31" selection-start-line="116" selection-start-column="31" selection-end-line="116" selection-end-column="31" />
+              <folding>
+                <element signature="e#120#145#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/source/entities/bee_data/scout_bee.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="187">
+              <caret line="11" column="51" selection-start-line="11" selection-start-column="51" selection-end-line="11" selection-end-column="51" />
             </state>
           </provider>
         </entry>
@@ -54,77 +96,11 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/source/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="63" column="64" lean-forward="true" selection-start-line="63" selection-start-column="64" selection-end-line="63" selection-end-column="64" />
+            <state relative-caret-position="221">
+              <caret line="18" column="17" selection-start-line="18" selection-start-column="17" selection-end-line="18" selection-end-column="17" />
               <folding>
                 <element signature="e#121#187#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/source/logic_and_algorithms/masters/event_master.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="505">
-              <caret line="97" column="62" selection-start-line="97" selection-start-column="62" selection-end-line="97" selection-end-column="62" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/source/logic_and_algorithms/camera.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/source/logic_and_algorithms/random_generators.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-445">
-              <caret line="93" column="19" lean-forward="true" selection-start-line="93" selection-start-column="19" selection-end-line="93" selection-end-column="19" />
-              <folding>
-                <element signature="e#144#170#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/source/logic_and_algorithms/spawn_strategies.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="91" selection-start-line="2" selection-start-column="91" selection-end-line="2" selection-end-column="91" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/source/meta_data/class_template.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="14" selection-start-line="14" selection-end-line="14" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/source/meta_data/TODO.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="27" lean-forward="true" selection-start-column="27" selection-end-column="27" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/source/UI/menus.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
-              <caret line="25" selection-start-line="25" selection-end-line="25" />
             </state>
           </provider>
         </entry>
@@ -156,10 +132,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/source/Background.ipynb" />
-        <option value="$PROJECT_DIR$/source/Background.py" />
-        <option value="$PROJECT_DIR$/source/prototypes.py" />
-        <option value="$PROJECT_DIR$/source/Meadow.py" />
         <option value="$PROJECT_DIR$/source/beeHive.py" />
         <option value="$PROJECT_DIR$/source/bee.py" />
         <option value="$PROJECT_DIR$/source/flower.py" />
@@ -192,21 +164,25 @@
         <option value="$PROJECT_DIR$/source/meta_data/class_template.txt" />
         <option value="$PROJECT_DIR$/source/entities/bee_data/castes.py" />
         <option value="$PROJECT_DIR$/source/logic_and_algorithms/spawn_strategies.py" />
-        <option value="$PROJECT_DIR$/source/entities/bee_data/bee.py" />
-        <option value="$PROJECT_DIR$/source/UI/menus.py" />
-        <option value="$PROJECT_DIR$/source/entities/sprite_bank.py" />
-        <option value="$PROJECT_DIR$/source/entities/bee_data/scout_bee.py" />
-        <option value="$PROJECT_DIR$/source/main.py" />
-        <option value="$PROJECT_DIR$/source/entities/bee_data/worker_bee.py" />
         <option value="$PROJECT_DIR$/source/entities/flower_data/flower.py" />
-        <option value="$PROJECT_DIR$/source/entities/hive_data/bee_hive.py" />
         <option value="$PROJECT_DIR$/source/entities/background.py" />
         <option value="$PROJECT_DIR$/source/entities/entity.py" />
         <option value="$PROJECT_DIR$/source/logic_and_algorithms/camera.py" />
+        <option value="$PROJECT_DIR$/source/logic_and_algorithms/masters/event_master.py" />
         <option value="$PROJECT_DIR$/source/logic_and_algorithms/random_generators.py" />
         <option value="$PROJECT_DIR$/source/meta_data/TODO.txt" />
+        <option value="$PROJECT_DIR$/source/UI/menus.py" />
+        <option value="$PROJECT_DIR$/source/UI/honey_bar.py" />
+        <option value="$PROJECT_DIR$/source/entities/hive_data/bee_hive.py" />
+        <option value="$PROJECT_DIR$/source/entities/sprite_bank.py" />
+        <option value="$PROJECT_DIR$/source/UI/bee_counters.py" />
+        <option value="$PROJECT_DIR$/source/entities/bee_data/scout_bee.py" />
+        <option value="$PROJECT_DIR$/source/main.py" />
+        <option value="$PROJECT_DIR$/source/entities/bee_data/bee_components/stomach.py" />
         <option value="$PROJECT_DIR$/source/logic_and_algorithms/masters/entity_master.py" />
-        <option value="$PROJECT_DIR$/source/logic_and_algorithms/masters/event_master.py" />
+        <option value="$PROJECT_DIR$/source/entities/bee_data/bee.py" />
+        <option value="$PROJECT_DIR$/source/entities/bee_data/worker_bee.py" />
+        <option value="$PROJECT_DIR$/source/entities/bee_data/bee_components/castes.py" />
       </list>
     </option>
   </component>
@@ -239,6 +215,19 @@
               <item name="beeSim" type="b2602c69:ProjectViewProjectNode" />
               <item name="beeSim" type="462c0819:PsiDirectoryNode" />
               <item name="source" type="462c0819:PsiDirectoryNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="beeSim" type="b2602c69:ProjectViewProjectNode" />
+              <item name="beeSim" type="462c0819:PsiDirectoryNode" />
+              <item name="source" type="462c0819:PsiDirectoryNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
+              <item name="ui_elements" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="beeSim" type="b2602c69:ProjectViewProjectNode" />
+              <item name="beeSim" type="462c0819:PsiDirectoryNode" />
+              <item name="source" type="462c0819:PsiDirectoryNode" />
               <item name="entities" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -247,6 +236,14 @@
               <item name="source" type="462c0819:PsiDirectoryNode" />
               <item name="entities" type="462c0819:PsiDirectoryNode" />
               <item name="bee_data" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="beeSim" type="b2602c69:ProjectViewProjectNode" />
+              <item name="beeSim" type="462c0819:PsiDirectoryNode" />
+              <item name="source" type="462c0819:PsiDirectoryNode" />
+              <item name="entities" type="462c0819:PsiDirectoryNode" />
+              <item name="bee_data" type="462c0819:PsiDirectoryNode" />
+              <item name="bee_components" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="beeSim" type="b2602c69:ProjectViewProjectNode" />
@@ -299,17 +296,18 @@
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../SudokuSolver" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\AsuS\PycharmProjects\beeSim\source" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\AsuS\PycharmProjects\beeSim\source\entities\bee_data" />
+      <recent name="C:\Users\AsuS\PycharmProjects\beeSim\source\entities\components" />
       <recent name="C:\Users\AsuS\PycharmProjects\beeSim\source\assets\map_elements" />
       <recent name="C:\Users\AsuS\PycharmProjects\beeSim\source\assets\fonts" />
       <recent name="C:\Users\AsuS\PycharmProjects\beeSim\source\assets\ui_elements" />
-      <recent name="C:\Users\AsuS\PycharmProjects\beeSim\source\assets\sprites" />
-      <recent name="C:\Users\AsuS\PycharmProjects\beeSim\source\assets\sounds" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\AsuS\PycharmProjects\beeSim\source" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -486,12 +484,12 @@
     <frame x="-8" y="-8" width="1936" height="1096" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24762908" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24657534" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3281412" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.33021808" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.2596054" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39875388" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -537,9 +535,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="random roaming behavior implemented for bees" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/source/meadow.py" />
-    <entry file="file://$PROJECT_DIR$/source/NeuralNet.py" />
-    <entry file="file://$PROJECT_DIR$/source/assets/Flowers/red_flower/red_flower_0.png" />
     <entry file="file://$PROJECT_DIR$/source/assets/Flowers/red_flower/red_flower_1.png" />
     <entry file="file://$PROJECT_DIR$/source/assets/Flowers/red_flower/red_flower_2.png" />
     <entry file="file://$PROJECT_DIR$/source/assets/Flowers/red_flower/red_flower_3.png" />
@@ -620,43 +615,6 @@
     <entry file="file://$PROJECT_DIR$/source/assets/map_elements/grass_tile.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/source/entities/bee_data/bee.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1122">
-          <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
-          <folding>
-            <element signature="e#241#267#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/entities/bee_data/castes.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="19" column="10" selection-start-line="19" selection-start-column="10" selection-end-line="19" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/entities/bee_data/scout_bee.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="31" column="60" selection-start-line="31" selection-start-column="60" selection-end-line="31" selection-end-column="60" />
-          <folding>
-            <element signature="e#132#167#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/entities/bee_data/worker_bee.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
-          <folding>
-            <element signature="e#120#145#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/source/entities/flower_data/flower.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="544">
@@ -667,13 +625,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/source/entities/hive_data/bee_hive.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-line="4" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/source/entities/background.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
@@ -681,23 +632,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/source/entities/entity.py">
+    <entry file="file://$PROJECT_DIR$/source/logic_and_algorithms/masters/event_master.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
-          <caret line="13" column="12" lean-forward="true" selection-start-line="13" selection-start-column="12" selection-end-line="13" selection-end-column="12" />
-          <folding>
-            <element signature="e#130#143#0" expanded="true" />
-          </folding>
+          <caret line="14" column="28" selection-start-line="14" selection-start-column="28" selection-end-line="14" selection-end-column="28" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/source/logic_and_algorithms/random_generators.py">
+    <entry file="file://$PROJECT_DIR$/source/logic_and_algorithms/camera.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-445">
-          <caret line="93" column="19" lean-forward="true" selection-start-line="93" selection-start-column="19" selection-end-line="93" selection-end-column="19" />
-          <folding>
-            <element signature="e#144#170#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="187">
+          <caret line="11" selection-start-line="11" selection-end-line="11" />
         </state>
       </provider>
     </entry>
@@ -717,59 +662,133 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/source/meta_data/TODO.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="27" lean-forward="true" selection-start-column="27" selection-end-column="27" />
+        <state relative-caret-position="17">
+          <caret line="1" column="51" lean-forward="true" selection-start-line="1" selection-start-column="51" selection-end-line="1" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/entities/hive_data/bee_hive.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="21" column="70" selection-start-line="21" selection-start-column="70" selection-end-line="21" selection-end-column="70" />
+          <folding>
+            <element signature="e#111#152#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/source/UI/menus.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="25" selection-start-line="25" selection-end-line="25" />
+        <state relative-caret-position="646">
+          <caret line="39" selection-start-line="39" selection-end-line="40" selection-end-column="59" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/source/logic_and_algorithms/masters/entity_master.py">
+    <entry file="file://$PROJECT_DIR$/source/entities/entity.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="119" column="37" lean-forward="true" selection-start-line="119" selection-start-column="37" selection-end-line="119" selection-end-column="37" />
+        <state relative-caret-position="238">
+          <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
           <folding>
-            <element signature="e#101#191#0" expanded="true" />
+            <element signature="e#130#143#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/source/entities/sprite_bank.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1088">
-          <caret line="64" selection-start-line="64" selection-end-line="64" />
+        <state relative-caret-position="467">
+          <caret line="59" column="74" selection-start-line="59" selection-start-column="74" selection-end-line="59" selection-end-column="74" />
           <folding>
             <element signature="e#129#153#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/source/main.py">
+    <entry file="file://$PROJECT_DIR$/source/UI/honey_bar.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="493">
+          <caret line="29" lean-forward="true" selection-start-line="29" selection-end-line="29" />
+          <folding>
+            <element signature="e#120#161#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/logic_and_algorithms/random_generators.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3">
+          <caret line="58" column="1" selection-start-line="58" selection-start-column="1" selection-end-line="58" selection-end-column="1" />
+          <folding>
+            <element signature="e#144#170#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/UI/bee_counters.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
-          <caret line="63" column="64" lean-forward="true" selection-start-line="63" selection-start-column="64" selection-end-line="63" selection-end-column="64" />
+          <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/entities/bee_data/scout_bee.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="51" selection-start-line="11" selection-start-column="51" selection-end-line="11" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="18" column="17" selection-start-line="18" selection-start-column="17" selection-end-line="18" selection-end-column="17" />
           <folding>
             <element signature="e#121#187#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/source/logic_and_algorithms/camera.py">
+    <entry file="file://$PROJECT_DIR$/source/entities/bee_data/bee_components/stomach.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+        <state relative-caret-position="272">
+          <caret line="16" selection-start-line="16" selection-end-line="16" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/source/logic_and_algorithms/masters/event_master.py">
+    <entry file="file://$PROJECT_DIR$/source/logic_and_algorithms/masters/entity_master.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="505">
-          <caret line="97" column="62" selection-start-line="97" selection-start-column="62" selection-end-line="97" selection-end-column="62" />
+        <state relative-caret-position="1122">
+          <caret line="108" column="23" lean-forward="true" selection-start-line="108" selection-start-column="23" selection-end-line="108" selection-end-column="23" />
+          <folding>
+            <element signature="e#98#188#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/entities/bee_data/bee.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="39" column="40" selection-start-line="39" selection-start-column="40" selection-end-line="39" selection-end-column="40" />
+          <folding>
+            <element signature="e#241#267#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/entities/bee_data/worker_bee.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="799">
+          <caret line="116" column="31" selection-start-line="116" selection-start-column="31" selection-end-line="116" selection-end-column="31" />
+          <folding>
+            <element signature="e#120#145#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/entities/bee_data/bee_components/castes.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="493">
+          <caret line="29" lean-forward="true" selection-start-line="29" selection-end-line="29" />
         </state>
       </provider>
     </entry>

@@ -9,7 +9,7 @@ from math import sqrt, pi, cos, sin
 from random import randint, random
 from pygame.sprite import collide_rect
 from source.entities.bee_data.bee import Bee
-from source.entities.bee_data.castes import scout_fysom
+from source.entities.bee_data.bee_components.castes import scout_fysom
 
 # CLASS BODY
 
@@ -19,7 +19,6 @@ class ScoutBee(Bee):
     # FUNCTIONS
 
     def __init__(self, location, queen):
-        self.search_radius = 300  # How far the scout will search for new flower patches
 
         self.scouting_complete = True  # Vars used in the scouting process
         self.remembered_flower = None
@@ -51,7 +50,7 @@ class ScoutBee(Bee):
 
     def begin_new_scouting_mission(self):
 
-        r = self.search_radius * sqrt(random())
+        r = randint(0, 400) * sqrt(random())
         theta = random() * 2 * pi
         if randint(0, 1) == 0:
             random_x_coordinate = self.queen_hive_x + (r * cos(theta))

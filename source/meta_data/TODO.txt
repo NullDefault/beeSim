@@ -1,1 +1,2 @@
 1 : Tie bee population to nectar reserves
+2: Fix inspection not working when zoomed in or out

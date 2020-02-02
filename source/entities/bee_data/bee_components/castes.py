@@ -18,7 +18,7 @@ def worker_fysom():
                 {'name': 'harvest complete', 'src': 'harvest', 'dst': 'head back'},
                 {'name': 'begin offload', 'src': 'head back', 'dst': 'offload'},
                 {'name': 'offload complete', 'src': 'offload', 'dst': 'await orders'}
-            ]
+            ],
         })
 
 # Scout finite state machine

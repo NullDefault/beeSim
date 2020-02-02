@@ -47,10 +47,10 @@ def menu_render(entity_master, game_clock, inspection_target):
         nectar_text = gameFont.render("Nectar Storage: "+str(hive_nectar), False, [0, 0, 0], None)
         inspection_menu_surface.blit(nectar_text, (10, 70))
 
-        highlight_button_text = gameFont.render("Highlight Bees", False, [0, 0, 0], None)
+        highlight_button_text = gameFont.render("Inspect Hive", False, [0, 0, 0], None)
         inspection_menu_surface.blit(highlight_button, bee_highlight_location)
         inspection_menu_surface.blit(highlight_button_text,
-                                     (bee_highlight_location[0]+20, bee_highlight_location[1]+7))
+                                     (bee_highlight_location[0]+50, bee_highlight_location[1]+7))
 
         menu_surface.blit(inspection_menu_surface, inspection_menu_location)
 

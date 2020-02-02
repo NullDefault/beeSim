@@ -12,7 +12,6 @@ from random import randint
 from source.entities.bee_data.scout_bee import ScoutBee
 from source.entities.bee_data.worker_bee import WorkerBee
 from source.logic_and_algorithms.spawn_strategies import get_hive_spawn_strategy, get_flower_spawn_strategy
-
 # CLASS BODY
 
 
@@ -35,6 +34,7 @@ class EntityMaster:
         self.bee_entities = RenderUpdates()
         self.hive_entities = RenderUpdates()
         self.flower_entities = RenderUpdates()
+        self.ui_elements = RenderUpdates()
 
         self.flower_database = {}
         self.play_area = play_area_dimensions
@@ -59,12 +59,26 @@ class EntityMaster:
         valid_entities.add(self.flower_entities)
         valid_entities.add(self.hive_entities)
         valid_entities.add(self.bee_entities)
-
+        valid_entities.add(self.ui_elements)
         return valid_entities
 
     def update_game_state(self):  # Updates the game state
         for hive in self.hive_entities:
             hive.last_tick = get_ticks()
+
+            if hive.highlighted and not self.ui_elements.__contains__(hive.honey_bar):
+                self.ui_elements.add(hive.honey_bar)
+                self.ui_elements.add(hive.scout_counter)
+                self.ui_elements.add(hive.worker_counter)
+            if hive.highlighted and self.ui_elements.__contains__(hive.honey_bar):
+                    hive.honey_bar.draw_honey()
+                    hive.scout_counter.render()
+                    hive.worker_counter.render()
+            elif not hive.highlighted:
+                self.ui_elements.remove(hive.honey_bar)
+                self.ui_elements.remove(hive.scout_counter)
+                self.ui_elements.remove(hive.worker_counter)
+
         for bee in self.bee_entities:
             bee.move()
 
@@ -107,10 +121,11 @@ class EntityMaster:
             hive.add_scout_bee(new_bee)
             self.bee_entities.add(new_bee)
 
-    def clean_up_spawn(self):
+    def clean_up_spawn(self):   # remove flowers under hives and add their ui elements to the ui_elements group
         for hive in self.hive_entities:
             flowers = self.flower_entities
             spritecollide(hive, flowers, True, collide_circle_ratio(1.3))
+            self.ui_elements.add(hive.honey_bar, hive.worker_counter, hive.scout_counter)
 
     def load_flower_data(self, data):  # Load updated flower data
         self.flower_database = data
