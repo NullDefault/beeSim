@@ -114,7 +114,7 @@ class WorkerBee(Bee):
     def check_available_orders(self):
         if self.queen_hive.has_orders():
             self.target_flower = self.queen_hive.get_order()
-            self.bee_states.go_
+            self.bee_states.trigger('go to flower')
             return self.target_flower.rect.left, self.target_flower.rect.top
         else:
             return self.orbit_hive()
