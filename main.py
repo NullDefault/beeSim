@@ -6,11 +6,12 @@ Notes:
 
 #  IMPORTS
 from pygame import time, display, Surface, mixer, transform, event
-from source.logic_and_algorithms.masters.entity_master import EntityMaster
+
 from source.UI.menus import menu_render
-from source.logic_and_algorithms.masters.event_master import EventMaster
 from source.entities import sprite_bank
 from source.logic_and_algorithms.camera import Camera
+from source.logic_and_algorithms.masters.entity_master import EntityMaster
+from source.logic_and_algorithms.masters.event_master import EventMaster
 
 # DATA FIELDS
 
@@ -22,7 +23,7 @@ play_area = (1600, 900)
 entity_master = EntityMaster(initial_hives=2,                 # This variable decides what entities get spawned,
                              default_bees_per_hive=6,         # how many and on how big of a field. When i implement
                              number_of_flower_zones=3,        # saving and loading, this will be what loads and saves
-                             initial_growth_stages=7,         # game states and data.
+                             initial_growth_stages=12,         # game states and data.
                              play_area_dimensions=play_area,
                              flower_spawn_strategy='default',
                              hive_spawn_strategy='default')

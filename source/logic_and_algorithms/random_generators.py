@@ -14,8 +14,8 @@ from source.entities.flower_data.flower import Flower
 # FUNCTIONS
 
 
-def generate_initial_flower_spawns(number_of_field_partitions: int, growth_stages: int,  # Spawn initial flowers
-                                   play_area_dimensions: int()) -> object:
+def default_flower_spawning_strategy(number_of_field_partitions: int, growth_stages: int,  # Spawn initial flowers
+                                     play_area_dimensions: int()) -> object:
     root_locations = area_partition(play_area_dimensions, number_of_field_partitions)  # partitions the field into
     # halves n times
     flower_database = {}

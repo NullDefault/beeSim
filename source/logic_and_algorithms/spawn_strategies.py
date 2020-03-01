@@ -7,12 +7,12 @@ Notes:
 #  IMPORTS
 
 
-from source.logic_and_algorithms.random_generators import generate_initial_flower_spawns, find_valid_hive_spawns
+from source.logic_and_algorithms.random_generators import default_flower_spawning_strategy, find_valid_hive_spawns
 
 
 def get_flower_spawn_strategy(ss, spawn_vars, play_area):
     if ss == 'default':
-        return generate_initial_flower_spawns(
+        return default_flower_spawning_strategy(
             spawn_vars['flower_zones'],
             spawn_vars['initial_growth_stages'],
             play_area

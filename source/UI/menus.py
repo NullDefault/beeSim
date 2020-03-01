@@ -14,7 +14,7 @@ inspection_menu = sprite_bank.retrieve('inspection_menu')
 highlight_button = sprite_bank.retrieve('inspection_button')
 
 font.init()
-gameFont = font.Font("assets/fonts/m5x7.ttf", 30)
+gameFont = font.Font("source/assets/fonts/m5x7.ttf", 30)
 
 # These are the locations of where different things are going to be rendered
 fps_location = (20, 800)
