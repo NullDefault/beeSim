@@ -107,16 +107,16 @@ class EntityMaster:
 
         for j in range(workers):
             new_bee = \
-                WorkerBee((hive.center[0] + randint(self.bee_spawn_offset[0], self.bee_spawn_offset[1]),
-                           hive.center[1] + randint(self.bee_spawn_offset[0], self.bee_spawn_offset[1])),
+                WorkerBee((hive.center.x + randint(self.bee_spawn_offset[0], self.bee_spawn_offset[1]),
+                           hive.center.y + randint(self.bee_spawn_offset[0], self.bee_spawn_offset[1])),
                           hive)
             hive.add_worker_bee(new_bee)
             self.bee_entities.add(new_bee)
 
         for j in range(scouts):
             new_bee = \
-                ScoutBee((hive.center[0] + randint(self.bee_spawn_offset[0], self.bee_spawn_offset[1]),
-                          hive.center[1] + randint(self.bee_spawn_offset[0], self.bee_spawn_offset[1])),
+                ScoutBee((hive.center.x + randint(self.bee_spawn_offset[0], self.bee_spawn_offset[1]),
+                          hive.center.y + randint(self.bee_spawn_offset[0], self.bee_spawn_offset[1])),
                          hive)
             hive.add_scout_bee(new_bee)
             self.bee_entities.add(new_bee)

@@ -9,6 +9,7 @@ from source.entities.entity import Entity
 from source.UI.honey_bar import HoneyBar
 from source.UI.bee_counters import WorkerCounter, ScoutCounter
 # CLASS BODY
+from source.logic_and_algorithms.vector import Vector
 
 
 class BeeHive(Entity):
@@ -37,7 +38,7 @@ class BeeHive(Entity):
         self.worker_counter = WorkerCounter(self)
         self.scout_counter = ScoutCounter(self)
         self.honey_bar = HoneyBar(self)
-        self.center = (self.rect.left + 38, self.rect.top + 56)  # Location of hive entrance
+        self.center = Vector(self.rect.left + 38, self.rect.top + 56)  # Location of hive entrance
 
     def add_worker_bee(self, bee):
         self.workers.append(bee)

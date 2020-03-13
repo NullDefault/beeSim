@@ -20,8 +20,8 @@ menu_location = (1200, 0)
 camera = Camera()
 play_area = (1600, 900)
 
-entity_master = EntityMaster(initial_hives=2,                 # This variable decides what entities get spawned,
-                             default_bees_per_hive=6,         # how many and on how big of a field. When i implement
+entity_master = EntityMaster(initial_hives=1,                 # This variable decides what entities get spawned,
+                             default_bees_per_hive=5,         # how many and on how big of a field. When i implement
                              number_of_flower_zones=3,        # saving and loading, this will be what loads and saves
                              initial_growth_stages=12,         # game states and data.
                              play_area_dimensions=play_area,

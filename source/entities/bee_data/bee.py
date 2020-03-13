@@ -5,30 +5,27 @@ Notes: Castes.py is a dictionary of finite state machines for each individual be
 """
 
 # IMPORTS
+import copy
+import math
 from random import randint
 from source.entities.entity import Entity
 from source.entities import sprite_bank
 from source.entities.bee_data.bee_components.stomach import Stomach
-
+from pygame import transform
 # CLASS BODY
+from source.logic_and_algorithms.vector import Vector
 
 
 class Bee(Entity):
-########################################################################################################################
-    # DATA FIELDS
-    wiggle = 1  # How much a bee 'wiggles' during movement, purely for aesthetic reasons
-    speed = 4  # How many pixels a bee will traverse in a single turn
 ########################################################################################################################
     # FUNCTIONS
 
     def __init__(self, location, queen):
 
         self.queen_hive = queen  # This sets which hive the bee be(e)longs to
-        self.queen_hive_x = queen.center[0]
-        self.queen_hive_y = queen.center[1]
         self.highlighted = False  # Used for highlighting the bees during inspection mode
-        self.target_destination = (self.queen_hive_x, self.queen_hive_y)  # Variable used for movement
-
+        self.target_destination = Vector(queen.center.x, queen.center.y)  # Variable used for movement
+        self.speed = 3
         self.stomach = Stomach()
 
         Entity.__init__(self, location, 'bee')  # Calls the Entity constructor
@@ -50,67 +47,37 @@ class Bee(Entity):
         elif current_state == 'head back':
             return self.deliver_nectar_load()
 
-    def head_towards(self):  # Heads towards the current target destination for self.speed pixels distance
+    @property
+    def location(self):
+        return Vector(self.rect.left + 5, self.rect.top + 4)
 
-        x_distance = self.target_destination[0] - (self.rect.left + 5)
-        y_distance = self.target_destination[1] - (self.rect.top + 4)
+    @property
+    def hive_location(self):
+        return self.queen_hive.center
 
-        dx = 0
-        dy = 0
+    def head_towards(self):
+        dest = copy.deepcopy(self.target_destination)
+        dest.sub(self.location)
+        dest.mult(0.05)
+        dest.norm()
+        dest.mult(self.speed)
 
-        movement_points_to_spend = self.speed
+        self.rect.left = self.rect.left + dest.x
+        self.rect.top = self.rect.top + dest.y
 
-        while True:  # This loop basically picks randomly how much you move on the x and y axis towards the destination
-            if movement_points_to_spend == 0:
-                break
-            coin_flip = randint(0, 1)
-            if coin_flip == 0:
-                dx = dx + 1
-            else:
-                dy = dy + 1
-
-            movement_points_to_spend = movement_points_to_spend - 1
-
-        if x_distance < 0:
-            dx = -dx
-        if y_distance < 0:
-            dy = -dy
-
-        if -4 < x_distance < 4:
-            dx = 0
-        if -4 < y_distance < 4:
-            dy = 0
-
-        #  This wiggles the bee
-        random_x_offset = randint(-self.wiggle, self.wiggle)
-        random_y_offset = randint(-self.wiggle, self.wiggle)
-
-        self.rect.top = self.rect.top + dy + random_x_offset
-        self.rect.left = self.rect.left + dx + random_y_offset
-
-    def update_sprite(self):  # Updates the new sprite, calculating the orientation based on change in coordinates
-
-        x_distance = self.target_destination[0] - self.rect.left
-        y_distance = self.target_destination[1] - self.rect.top
-
-        highlight_str = ''
-        if self.highlighted:
-            highlight_str = '_highlighted'
+    def update_sprite(self):
+        rotate = False
         if self.bee_states.current == 'offload':
-            self.image = sprite_bank.retrieve("bee_hidden_sprite"+highlight_str)
+            self.image = sprite_bank.retrieve("bee_hidden_sprite")
         elif self.bee_states.current == 'harvest' and self.harvesting_pollen:
-            self.image = sprite_bank.retrieve("bee_harvest_sprite"+highlight_str)
-
-        elif abs(x_distance) > abs(y_distance):
-            if x_distance < 0:
-                self.image = sprite_bank.retrieve("bee_left_sprite"+highlight_str)
-            else:
-                self.image = sprite_bank.retrieve("bee_right_sprite"+highlight_str)
+            self.image = sprite_bank.retrieve("bee_harvest_sprite")
         else:
-            if y_distance < 0:
-                self.image = sprite_bank.retrieve("bee_up_sprite"+highlight_str)
-            else:
-                self.image = sprite_bank.retrieve("bee_down_sprite"+highlight_str)
+            self.image = sprite_bank.retrieve("bee")
+            rotate = True
+
+        if rotate:
+            angle = 270 - math.atan2(self.target_destination.y - self.location.y, self.target_destination.x - self.location.x) * 180 / math.pi
+            self.image = transform.rotate(self.image, angle)
 
     def validate_collision(self):  # Logic function for detecting collisions for bees of interest
         # Note: bee_states is assigned only in subclasses

@@ -12,6 +12,7 @@ from source.entities.bee_data.bee import Bee
 from source.entities.bee_data.bee_components.castes import scout_fysom
 
 # CLASS BODY
+from source.logic_and_algorithms.vector import Vector
 
 
 class ScoutBee(Bee):
@@ -43,7 +44,7 @@ class ScoutBee(Bee):
         if self.scouting_complete:
             return self.begin_new_scouting_mission()
         else:
-            if abs(self.target_destination[0] - self.rect.left) < 20:
+            if abs(self.target_destination.x - self.rect.left) < 20:
                 self.scouting_complete = True
 
             return self.target_destination
@@ -53,16 +54,16 @@ class ScoutBee(Bee):
         r = randint(0, 400) * sqrt(random())
         theta = random() * 2 * pi
         if randint(0, 1) == 0:
-            random_x_coordinate = self.queen_hive_x + (r * cos(theta))
+            random_x_coordinate = self.hive_location.x + (r * cos(theta))
         else:
-            random_x_coordinate = self.queen_hive_x - (r * cos(theta))
+            random_x_coordinate = self.hive_location.x - (r * cos(theta))
         if randint(0, 1) == 1:
-            random_y_coordinate = self.queen_hive_y + (r * sin(theta))
+            random_y_coordinate = self.hive_location.y + (r * sin(theta))
         else:
-            random_y_coordinate = self.queen_hive_y - (r * sin(theta))
+            random_y_coordinate = self.hive_location.y - (r * sin(theta))
 
         self.scouting_complete = False
-        return random_x_coordinate, random_y_coordinate
+        return Vector(random_x_coordinate, random_y_coordinate)
 
     def report_back_to_hive(self):
         if collide_rect(self, self.queen_hive):
@@ -71,8 +72,7 @@ class ScoutBee(Bee):
             self.forget_flower()
 
             self.bee_states.trigger('dance complete')
-            return self.queen_hive_x, self.queen_hive_y
-        else:
-            return self.queen_hive_x, self.queen_hive_y
+
+        return Vector(self.hive_location.x, self.hive_location.y)
 
 

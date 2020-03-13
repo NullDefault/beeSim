@@ -10,7 +10,7 @@ import pygame
 
 
 class EventMaster:
-
+    # TODO: UPDATE WITH VECTOR SYSTEM
     def __init__(self, camera):
         self.camera = camera
 

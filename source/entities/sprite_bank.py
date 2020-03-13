@@ -10,34 +10,11 @@ from os.path import join
 sprite_bank = {
     #  BEES
     'bee': image.load(
-        join('source', 'assets', 'sprites', 'bee_sprites', 'bee_sprite_down.png')),
-    'bee_left_sprite': image.load(
-        join('source', 'assets', 'sprites', 'bee_sprites', 'bee_sprite_left.png')),
-    'bee_right_sprite': image.load(
-        join('source', 'assets', 'sprites', 'bee_sprites', 'bee_sprite_right.png')),
-    'bee_up_sprite': image.load(
-        join('source', 'assets', 'sprites', 'bee_sprites', 'bee_sprite_up.png')),
-    'bee_down_sprite': image.load(
-        join('source', 'assets', 'sprites', 'bee_sprites', 'bee_sprite_down.png')),
-
-    'bee_left_sprite_highlighted': image.load(
-        join('source', 'assets', 'sprites', 'bee_sprites', 'bee_sprite_left_highlighted.png')),
-    'bee_right_sprite_highlighted': image.load(
-        join('source', 'assets', 'sprites', 'bee_sprites', 'bee_sprite_right_highlighted.png')),
-    'bee_up_sprite_highlighted': image.load(
-        join('source', 'assets', 'sprites', 'bee_sprites', 'bee_sprite_up_highlighted.png')),
-    'bee_down_sprite_highlighted': image.load(
-        join('source', 'assets', 'sprites', 'bee_sprites', 'bee_sprite_down_highlighted.png')),
-
+        join('source', 'assets', 'sprites', 'bee_sprites', 'bee_sprite.png')),
     'bee_hidden_sprite': image.load(
         join('source', 'assets', 'sprites', 'bee_sprites', 'bee_sprite_hidden.png')),
-    'bee_hidden_sprite_highlighted': image.load(
-        join('source', 'assets', 'sprites', 'bee_sprites', 'bee_sprite_hidden_highlighted.png')),
-
     'bee_harvest_sprite': image.load(
         join('source', 'assets', 'sprites', 'bee_sprites', 'bee_sprite_harvest.png')),
-    'bee_harvest_sprite_highlighted': image.load(
-        join('source', 'assets', 'sprites', 'bee_sprites', 'bee_sprite_harvest_highlighted.png')),
 
     # FLOWERS
     'flower_0': image.load(join('source', 'assets', 'sprites', 'flower_sprites', 'flower_0.png')),
