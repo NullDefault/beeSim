@@ -7,11 +7,12 @@ Notes: Castes.py is a dictionary of finite state machines for each individual be
 # IMPORTS
 import copy
 import math
-from random import randint
-from source.entities.entity import Entity
+
+from pygame import transform
+
 from source.entities import sprite_bank
 from source.entities.bee_data.bee_components.stomach import Stomach
-from pygame import transform
+from source.entities.entity import Entity
 # CLASS BODY
 from source.logic_and_algorithms.vector import Vector
 
@@ -76,7 +77,8 @@ class Bee(Entity):
             rotate = True
 
         if rotate:
-            angle = 270 - math.atan2(self.target_destination.y - self.location.y, self.target_destination.x - self.location.x) * 180 / math.pi
+            angle = 270 - math.atan2(self.target_destination.y - self.location.y,
+                                     self.target_destination.x - self.location.x) * 180 / math.pi
             self.image = transform.rotate(self.image, angle)
 
     def validate_collision(self):  # Logic function for detecting collisions for bees of interest

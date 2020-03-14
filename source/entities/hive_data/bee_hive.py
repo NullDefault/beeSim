@@ -8,8 +8,9 @@ Notes:
 from source.entities.entity import Entity
 from source.UI.honey_bar import HoneyBar
 from source.UI.bee_counters import WorkerCounter, ScoutCounter
-# CLASS BODY
 from source.logic_and_algorithms.vector import Vector
+
+# CLASS BODY
 
 
 class BeeHive(Entity):
@@ -50,9 +51,6 @@ class BeeHive(Entity):
         # 0: workers, 1: scouts
         return len(self.workers), len(self.scouts)
 
-    def get_nectar(self):
-        return self.current_honey
-
     def gain_nectar(self, nectar_amount):
         if self.current_honey < self.max_honey:
             self.current_honey = self.current_honey + nectar_amount
@@ -70,13 +68,6 @@ class BeeHive(Entity):
                 available_orders.append(flower)
 
         self.available_orders = available_orders
-
-    def has_orders(self):
-        self.update_order_queue()
-        if len(self.available_orders) is not 0:
-            return True
-        else:
-            return False
 
     def get_order(self):
         flower = self.available_orders.pop()
@@ -98,5 +89,14 @@ class BeeHive(Entity):
             for bee in self.scouts:
                 bee.highlighted = False
                 self.highlighted = False
+
+    @property
+    def has_orders(self):
+        self.update_order_queue()
+        if len(self.available_orders) != 0:
+            return True
+        else:
+            return False
+
 
 

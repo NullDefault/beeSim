@@ -17,7 +17,7 @@ from source.entities.flower_data.flower import Flower
 def default_flower_spawning_strategy(number_of_field_partitions: int, growth_stages: int,  # Spawn initial flowers
                                      play_area_dimensions: int()) -> object:
     root_locations = area_partition(play_area_dimensions, number_of_field_partitions)  # partitions the field into
-    # halves n times
+                                                                                       # halves n times
     flower_database = {}
 
     for location_rect in root_locations:  # loads root flowers
@@ -101,7 +101,7 @@ def get_center_point(rect):  # Returns the center of a rectangle
 
 
 def area_partition(game_area, number_of_partitions):  # cuts a rectangle into halves n times
-    if number_of_partitions is 0:
+    if number_of_partitions == 0:
         return ()
 
     cut_direction = flip_direction()

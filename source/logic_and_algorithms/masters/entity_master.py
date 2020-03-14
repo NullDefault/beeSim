@@ -22,8 +22,6 @@ class EntityMaster:
     scout_ratio = .2  # 1/5 of a hive are scouts
     worker_ratio = .8  # 4/5 of a hive are workers
 
-    bee_spawn_offset = (-50, 50)
-
     # FUNCTIONS
 
     def __init__(self, initial_hives: int, default_bees_per_hive: int,
@@ -107,17 +105,17 @@ class EntityMaster:
 
         for j in range(workers):
             new_bee = \
-                WorkerBee((hive.center.x + randint(self.bee_spawn_offset[0], self.bee_spawn_offset[1]),
-                           hive.center.y + randint(self.bee_spawn_offset[0], self.bee_spawn_offset[1])),
-                          hive)
+                WorkerBee((hive.center.x + randint(-50, 50),
+                           hive.center.y + randint(-50, 50)),
+                           hive)
             hive.add_worker_bee(new_bee)
             self.bee_entities.add(new_bee)
 
         for j in range(scouts):
             new_bee = \
-                ScoutBee((hive.center.x + randint(self.bee_spawn_offset[0], self.bee_spawn_offset[1]),
-                          hive.center.y + randint(self.bee_spawn_offset[0], self.bee_spawn_offset[1])),
-                         hive)
+                ScoutBee((hive.center.x + randint(-50, 50),
+                          hive.center.y + randint(-50, 50)),
+                          hive)
             hive.add_scout_bee(new_bee)
             self.bee_entities.add(new_bee)
 
@@ -131,12 +129,14 @@ class EntityMaster:
         self.flower_database = data
         self.flower_entities = RenderUpdates(list((data.values())))
 
-    def get_bee_population(self):  # Get number of bees on the board
-        return len(self.bee_entities)
-
     def get_hive_at(self, position):  # Get hive at given location
         for hive in self.hive_entities:
             if hive.rect.collidepoint(position):
                 return hive
         else:
             return None
+
+    @property
+    def bee_population(self):  # Get number of bees on the board
+        return len(self.bee_entities)
+

@@ -39,7 +39,8 @@ class WorkerBee(Bee):
 
     def move(self):
         self.target_destination = self.update_target(self.bee_states.current)
-        self.head_towards()
+        if not self.harvesting_pollen and not self.offloading:
+            self.head_towards()
         self.update_sprite()
 
     def deliver_nectar_load(self):
@@ -102,6 +103,8 @@ class WorkerBee(Bee):
 
     def harvest_nectar_from(self, flower):
         if not self.harvesting_pollen:
+            self.rect.left = flower.rect.left + 4
+            self.rect.top = flower.rect.top + 4
             self.harvesting_pollen = True
             self.begin_harvest_time = self.queen_hive.last_tick
         else:
@@ -111,7 +114,7 @@ class WorkerBee(Bee):
                 self.current_nectar = self.current_nectar + flower.finish_harvest()
 
     def check_available_orders(self):
-        if self.queen_hive.has_orders():
+        if self.queen_hive.has_orders:
             self.target_flower = self.queen_hive.get_order()
             self.bee_states.trigger('go to flower')
             return Vector(self.target_flower.rect.left, self.target_flower.rect.top)

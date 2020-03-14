@@ -43,7 +43,7 @@ def menu_render(entity_master, game_clock, inspection_target):
         scout_text = gameFont.render("Scouts: "+str(bees_total[1]), False, [0, 0, 0], None)
         inspection_menu_surface.blit(scout_text, (10, 50))
 
-        hive_nectar = inspection_target.get_nectar()
+        hive_nectar = inspection_target.current_honey
         nectar_text = gameFont.render("Nectar Storage: "+str(hive_nectar), False, [0, 0, 0], None)
         inspection_menu_surface.blit(nectar_text, (10, 70))
 
@@ -61,7 +61,7 @@ def menu_render(entity_master, game_clock, inspection_target):
 
 
 def number_of_bees(entity_master):
-    bee_num = entity_master.get_bee_population()
+    bee_num = entity_master.bee_population
     render = gameFont.render("Bee Population: "+str(bee_num), False, [0, 0, 0], None)
     return render
 
