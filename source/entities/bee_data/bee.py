@@ -9,12 +9,15 @@ import copy
 import math
 
 from pygame import transform
-
+from random import randint
 from source.entities import sprite_bank
 from source.entities.bee_data.bee_components.stomach import Stomach
 from source.entities.entity import Entity
 # CLASS BODY
 from source.logic_and_algorithms.vector import Vector
+
+animation_fps = 8
+sprite_size = 18
 
 
 class Bee(Entity):
@@ -27,9 +30,13 @@ class Bee(Entity):
         self.highlighted = False  # Used for highlighting the bees during inspection mode
         self.target_destination = Vector(queen.center.x, queen.center.y)  # Variable used for movement
         self.speed = 3
+        self.wings_up = False
+        self.animation_loop = randint(0, animation_fps)
+        self.wings_up_sprite = sprite_bank.retrieve('bee_wings_up')
+        self.wings_down_sprite = sprite_bank.retrieve('bee_wings_down')
         self.stomach = Stomach()
 
-        Entity.__init__(self, location, 'bee')  # Calls the Entity constructor
+        Entity.__init__(self, location, 'bee_wings_down')  # Calls the Entity constructor
 
     def update_target(self, current_state):  # Note: The methods this function calls only exist in the bee subclasses
         # Worker Methods
@@ -50,7 +57,8 @@ class Bee(Entity):
 
     @property
     def location(self):
-        return Vector(self.rect.left + 5, self.rect.top + 4)
+        return Vector(self.rect.left + sprite_size/2,
+                       self.rect.top + sprite_size/2)
 
     @property
     def hive_location(self):
@@ -73,7 +81,18 @@ class Bee(Entity):
         elif self.bee_states.current == 'harvest' and self.harvesting_pollen:
             self.image = sprite_bank.retrieve("bee_harvest_sprite")
         else:
-            self.image = sprite_bank.retrieve("bee")
+
+            if self.wings_up:
+                self.image = self.wings_down_sprite
+                self.wings_up = False
+            else:
+                self.image = self.wings_up_sprite
+                self.wings_up = True
+
+            if self.animation_loop == animation_fps:
+                self.animation_loop = 0
+            else:
+                self.animation_loop = self.animation_loop + 1
             rotate = True
 
         if rotate:

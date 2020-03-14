@@ -88,7 +88,7 @@ def roll_for_location(flower):  # Rolls for one of a cells 8 neighbors
         dest_loc = left, down
     elif r == 6:  # DOWN
         dest_loc = same_x, down
-    elif r == 7:  # DOWN RIGHT
+    else:  # DOWN RIGHT
         dest_loc = right, down
 
     return dest_loc

@@ -44,12 +44,14 @@ class WorkerBee(Bee):
         self.update_sprite()
 
     def deliver_nectar_load(self):
-        if self.queen_hive.center.x - 10 <= self.rect.left <= self.queen_hive.center.x + 10 and \
-           self.queen_hive.center.y - 6 <= self.rect.top <= self.queen_hive.center.y + 6:
+        if self.queen_hive.center.x - 9 <= self.rect.left <= self.queen_hive.center.x + 9 and \
+           self.queen_hive.center.y - 9 <= self.rect.top <= self.queen_hive.center.y + 9:
             self.queen_hive.gain_nectar(self.current_nectar)
             self.current_nectar = 0
 
             self.bee_states.trigger('begin offload')
+            self.rect.left = self.queen_hive.center.x + randint(-2, 3)
+            self.rect.top = self.queen_hive.center.y + randint(-2, 3)
             return self.queen_hive.center
         else:
             return self.queen_hive.center
@@ -74,10 +76,8 @@ class WorkerBee(Bee):
         random_x_offset = randint(-2, 2)
         random_y_offset = randint(-2, 2)
 
-        ox = self.hive_location.x
-        oy = self.hive_location.y
-
-        px, py = self.rect.left, self.rect.top
+        ox, oy = self.hive_location.x, self.hive_location.y - 42  # we sub 42 so the bees spin around the hive roof
+        px, py = self.rect.left + 9, self.rect.top + 9  # 9 is half the sprite size
 
         if self.spin_affinity == 0:
             qx = ox + cos(angle) * (px - ox) - sin(angle) * (py - oy)
@@ -93,9 +93,9 @@ class WorkerBee(Bee):
         if self.current_nectar < self.max_nectar_capacity:
             if sprite.collide_rect(self, self.target_flower):
                 self.harvest_nectar_from(self.target_flower)
-                return Vector(self.target_flower.rect.left + 9, self.target_flower.rect.top + 6)
+                return Vector(self.target_flower.rect.left + 9, self.target_flower.rect.top + 9)
             else:
-                return Vector(self.target_flower.rect.left + 9, self.target_flower.rect.top + 6)
+                return Vector(self.target_flower.rect.left + 9, self.target_flower.rect.top + 9)
         else:
             self.target_flower.busy = False
             self.bee_states.trigger('harvest complete')

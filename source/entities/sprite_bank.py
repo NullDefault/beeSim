@@ -9,8 +9,10 @@ from os.path import join
 
 sprite_bank = {
     #  BEES
-    'bee': image.load(
+    'bee_wings_down': image.load(
         join('source', 'assets', 'sprites', 'bee_sprites', 'bee_sprite.png')),
+    'bee_wings_up': image.load(
+        join('source', 'assets', 'sprites', 'bee_sprites', 'bee_sprite2.png')),
     'bee_hidden_sprite': image.load(
         join('source', 'assets', 'sprites', 'bee_sprites', 'bee_sprite_hidden.png')),
     'bee_harvest_sprite': image.load(
