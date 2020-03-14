@@ -5,10 +5,10 @@ Notes:
 """
 
 #  IMPORTS
+from pygame import Vector2
 from source.entities.entity import Entity
 from source.UI.honey_bar import HoneyBar
 from source.UI.bee_counters import WorkerCounter, ScoutCounter
-from source.logic_and_algorithms.vector import Vector
 
 # CLASS BODY
 
@@ -39,7 +39,7 @@ class BeeHive(Entity):
         self.worker_counter = WorkerCounter(self)
         self.scout_counter = ScoutCounter(self)
         self.honey_bar = HoneyBar(self)
-        self.center = Vector(self.rect.left + 33, self.rect.top + 52)  # Location of hive entrance
+        self.center = Vector2(self.rect.left + 34, self.rect.top + 54)  # Location of hive entrance
 
     def add_worker_bee(self, bee):
         self.workers.append(bee)

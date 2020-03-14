@@ -8,13 +8,12 @@ Notes: Castes.py is a dictionary of finite state machines for each individual be
 import copy
 import math
 
-from pygame import transform
+from pygame import transform, Vector2
 from random import randint
 from source.entities import sprite_bank
 from source.entities.bee_data.bee_components.stomach import Stomach
 from source.entities.entity import Entity
 # CLASS BODY
-from source.logic_and_algorithms.vector import Vector
 
 animation_fps = 8
 sprite_size = 18
@@ -28,7 +27,7 @@ class Bee(Entity):
 
         self.queen_hive = queen  # This sets which hive the bee be(e)longs to
         self.highlighted = False  # Used for highlighting the bees during inspection mode
-        self.target_destination = Vector(queen.center.x, queen.center.y)  # Variable used for movement
+        self.target_destination = Vector2(queen.center.x, queen.center.y)  # Variable used for movement
         self.speed = 3
         self.wings_up = False
         self.animation_loop = randint(0, animation_fps)
@@ -57,7 +56,7 @@ class Bee(Entity):
 
     @property
     def location(self):
-        return Vector(self.rect.left + sprite_size/2,
+        return Vector2(self.rect.left + sprite_size/2,
                        self.rect.top + sprite_size/2)
 
     @property
@@ -65,11 +64,9 @@ class Bee(Entity):
         return self.queen_hive.center
 
     def head_towards(self):
-        dest = copy.deepcopy(self.target_destination)
-        dest.sub(self.location)
-        dest.mult(0.05)
-        dest.norm()
-        dest.mult(self.speed)
+        dest = self.target_destination - self.location
+        if dest.length() != 0:
+            dest.scale_to_length(self.speed)
 
         self.rect.left = self.rect.left + dest.x
         self.rect.top = self.rect.top + dest.y

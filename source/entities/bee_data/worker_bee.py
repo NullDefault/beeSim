@@ -6,13 +6,12 @@ Notes:
 
 # IMPORTS
 from math import cos, sin
-from pygame import sprite
+from pygame import sprite, Vector2
 from random import randint
 from source.entities.bee_data.bee import Bee
 from source.entities.bee_data.bee_components.castes import worker_fysom
 
 # CLASS BODY
-from source.logic_and_algorithms.vector import Vector
 
 
 class WorkerBee(Bee):
@@ -44,14 +43,13 @@ class WorkerBee(Bee):
         self.update_sprite()
 
     def deliver_nectar_load(self):
-        if self.queen_hive.center.x - 9 <= self.rect.left <= self.queen_hive.center.x + 9 and \
-           self.queen_hive.center.y - 9 <= self.rect.top <= self.queen_hive.center.y + 9:
+        if self.location.distance_to(self.queen_hive.center) < 9:
             self.queen_hive.gain_nectar(self.current_nectar)
             self.current_nectar = 0
 
             self.bee_states.trigger('begin offload')
-            self.rect.left = self.queen_hive.center.x + randint(-2, 3)
-            self.rect.top = self.queen_hive.center.y + randint(-2, 3)
+            self.rect.left = self.queen_hive.center.x + randint(-2, 2)
+            self.rect.top = self.queen_hive.center.y + randint(-2, 2)
             return self.queen_hive.center
         else:
             return self.queen_hive.center
@@ -86,20 +84,20 @@ class WorkerBee(Bee):
             qx = ox + cos(-angle) * (px - ox) - sin(-angle) * (py - oy)
             qy = oy + sin(-angle) * (px - ox) + cos(-angle) * (py - oy)
 
-        ship_back = Vector(qx + random_x_offset, qy + random_y_offset)
+        ship_back = Vector2(qx + random_x_offset, qy + random_y_offset)
         return ship_back
 
     def harvest_flower(self):
         if self.current_nectar < self.max_nectar_capacity:
             if sprite.collide_rect(self, self.target_flower):
                 self.harvest_nectar_from(self.target_flower)
-                return Vector(self.target_flower.rect.left + 9, self.target_flower.rect.top + 9)
+                return Vector2(self.target_flower.rect.left + 9, self.target_flower.rect.top + 9)
             else:
-                return Vector(self.target_flower.rect.left + 9, self.target_flower.rect.top + 9)
+                return Vector2(self.target_flower.rect.left + 9, self.target_flower.rect.top + 9)
         else:
             self.target_flower.busy = False
             self.bee_states.trigger('harvest complete')
-            return Vector(self.hive_location.x, self.hive_location.y)
+            return Vector2(self.hive_location.x, self.hive_location.y)
 
     def harvest_nectar_from(self, flower):
         if not self.harvesting_pollen:
@@ -117,6 +115,6 @@ class WorkerBee(Bee):
         if self.queen_hive.has_orders:
             self.target_flower = self.queen_hive.get_order()
             self.bee_states.trigger('go to flower')
-            return Vector(self.target_flower.rect.left, self.target_flower.rect.top)
+            return Vector2(self.target_flower.rect.left, self.target_flower.rect.top)
         else:
             return self.orbit_hive()
