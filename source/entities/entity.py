@@ -5,16 +5,16 @@ Notes:
 """
 
 #  IMPORTS
-import pygame
+from pygame.sprite import DirtySprite
 from source.entities import sprite_bank
 
 
-class Entity(pygame.sprite.Sprite):
+class Entity(DirtySprite):
 
 #  FUNCTIONS
 
     def __init__(self, location, base_sprite):
-        pygame.sprite.Sprite.__init__(self)
+        DirtySprite.__init__(self)
         self.image = sprite_bank.retrieve(base_sprite)
         self.rect = self.image.get_rect()
         self.rect.left, self.rect.top = location

@@ -5,12 +5,14 @@ Notes:
 """
 
 #  IMPORTS
+from pygame.gfxdraw import circle
 from pygame.sprite import RenderUpdates, groupcollide, collide_circle_ratio, spritecollide
 from source.entities.background import Background
 from pygame.time import get_ticks
 from random import randint
 from source.entities.bee_data.scout_bee import ScoutBee
 from source.entities.bee_data.worker_bee import WorkerBee
+from source.entities.crosshair import Crosshair
 from source.logic_and_algorithms.spawn_strategies import get_hive_spawn_strategy, get_flower_spawn_strategy
 # CLASS BODY
 
@@ -33,6 +35,7 @@ class EntityMaster:
         self.hive_entities = RenderUpdates()
         self.flower_entities = RenderUpdates()
         self.ui_elements = RenderUpdates()
+        self.crosshairs = RenderUpdates()
 
         self.flower_database = {}
         self.play_area = play_area_dimensions
@@ -49,7 +52,6 @@ class EntityMaster:
         self.clean_up_spawn()
 
     def get_valid_entities(self):  # Returns entities to render next rendering step
-
         self.update_game_state()
 
         valid_entities = RenderUpdates(self.background)
@@ -57,7 +59,9 @@ class EntityMaster:
         valid_entities.add(self.flower_entities)
         valid_entities.add(self.hive_entities)
         valid_entities.add(self.bee_entities)
+        valid_entities.add(self.crosshairs)
         valid_entities.add(self.ui_elements)
+
         return valid_entities
 
     def update_game_state(self):  # Updates the game state
@@ -79,6 +83,11 @@ class EntityMaster:
 
         for bee in self.bee_entities:
             bee.move()
+            if not bee.highlighted:
+                bee.crosshair.kill()
+            else:
+                bee.crosshair.add(self.crosshairs)
+                bee.crosshair.follow()
 
         bee_and_flower_collisions = groupcollide(self.bee_entities, self.flower_entities, False, False)
 
@@ -108,6 +117,7 @@ class EntityMaster:
                 WorkerBee((hive.center.x + randint(-50, 50),
                            hive.center.y + randint(-50, 50)),
                            hive)
+            self.crosshairs.add(new_bee.crosshair)
             hive.add_worker_bee(new_bee)
             self.bee_entities.add(new_bee)
 
@@ -116,6 +126,7 @@ class EntityMaster:
                 ScoutBee((hive.center.x + randint(-50, 50),
                           hive.center.y + randint(-50, 50)),
                           hive)
+            self.crosshairs.add(new_bee.crosshair)
             hive.add_scout_bee(new_bee)
             self.bee_entities.add(new_bee)
 

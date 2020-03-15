@@ -5,18 +5,17 @@ Notes: Castes.py is a dictionary of finite state machines for each individual be
 """
 
 # IMPORTS
-import copy
 import math
 
 from pygame import transform, Vector2
 from random import randint
 from source.entities import sprite_bank
 from source.entities.bee_data.bee_components.stomach import Stomach
+from source.entities.crosshair import Crosshair
 from source.entities.entity import Entity
 # CLASS BODY
 
 animation_fps = 8
-sprite_size = 18
 
 
 class Bee(Entity):
@@ -36,6 +35,7 @@ class Bee(Entity):
         self.stomach = Stomach()
 
         Entity.__init__(self, location, 'bee_wings_down')  # Calls the Entity constructor
+        self.crosshair = Crosshair(self)
 
     def update_target(self, current_state):  # Note: The methods this function calls only exist in the bee subclasses
         # Worker Methods
@@ -56,8 +56,8 @@ class Bee(Entity):
 
     @property
     def location(self):
-        return Vector2(self.rect.left + sprite_size/2,
-                       self.rect.top + sprite_size/2)
+        return Vector2(self.rect.left + self.rect.width/2,
+                       self.rect.top + self.rect.height/2)
 
     @property
     def hive_location(self):
@@ -96,6 +96,9 @@ class Bee(Entity):
             angle = 270 - math.atan2(self.target_destination.y - self.location.y,
                                      self.target_destination.x - self.location.x) * 180 / math.pi
             self.image = transform.rotate(self.image, angle)
+
+        self.rect.width = self.image.get_rect().width
+        self.rect.height = self.image.get_rect().height
 
     def validate_collision(self):  # Logic function for detecting collisions for bees of interest
         # Note: bee_states is assigned only in subclasses
