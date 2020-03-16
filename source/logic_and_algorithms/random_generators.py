@@ -181,7 +181,7 @@ def map_values(value, left_min, left_max, right_min, right_max):
 
 
 def normal_distr_flower_spawning_strategy(play_area):
-    flower_num = 500  # This could be a parameter
+    flower_num = 400  # This could be a parameter
     normal_distr = NormalDist(0.5, 0.15)
     flower_database = {}
 

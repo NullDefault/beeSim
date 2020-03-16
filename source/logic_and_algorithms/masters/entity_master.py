@@ -20,8 +20,7 @@ class EntityMaster:
 
     # DATA FIELDS
 
-    scout_ratio = .2  # 1/5 of a hive are scouts
-    worker_ratio = .8  # 4/5 of a hive are workers
+    bee_ratio = 5
 
     # FUNCTIONS
 
@@ -106,8 +105,8 @@ class EntityMaster:
 
     def spawn_initial_bees(self, hive, bees_per_hive):  # Spawns initial bees for a given hive
 
-        workers = int(bees_per_hive ** self.worker_ratio)
-        scouts = int(bees_per_hive ** self.scout_ratio)
+        scouts = int(bees_per_hive / self.bee_ratio)
+        workers = bees_per_hive - scouts
 
         for j in range(workers):
             new_bee = \
@@ -147,4 +146,8 @@ class EntityMaster:
     @property
     def bee_population(self):  # Get number of bees on the board
         return len(self.bee_entities)
+
+    @property
+    def flower_population(self):
+        return len(self.flower_entities)
 

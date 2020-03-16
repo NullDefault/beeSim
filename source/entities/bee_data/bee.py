@@ -67,7 +67,7 @@ class Bee(Entity):
         dest = self.target_destination - self.location
         if dest.length() != 0:
             dest.scale_to_length(self.speed)
-        dest.normalize()
+            dest.normalize()
         self.rect.left = self.rect.left + dest.x
         self.rect.top = self.rect.top + dest.y
 
