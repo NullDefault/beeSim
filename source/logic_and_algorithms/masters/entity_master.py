@@ -7,7 +7,6 @@ Notes:
 #  IMPORTS
 from pygame.gfxdraw import circle
 from pygame.sprite import RenderUpdates, groupcollide, collide_circle_ratio, spritecollide
-from source.entities.background import Background
 from pygame.time import get_ticks
 from random import randint
 from source.entities.bee_data.scout_bee import ScoutBee
@@ -30,7 +29,6 @@ class EntityMaster:
                  number_of_flower_zones: int, initial_growth_stages: int, play_area_dimensions: int(),
                  flower_spawn_strategy: str, hive_spawn_strategy: str):
 
-        self.background = Background()
         self.bee_entities = RenderUpdates()
         self.hive_entities = RenderUpdates()
         self.flower_entities = RenderUpdates()
@@ -54,7 +52,7 @@ class EntityMaster:
     def get_valid_entities(self):  # Returns entities to render next rendering step
         self.update_game_state()
 
-        valid_entities = RenderUpdates(self.background)
+        valid_entities = RenderUpdates()
         valid_entities.add(self.flower_entities)
         valid_entities.add(self.hive_entities)
         valid_entities.add(self.bee_entities)
@@ -72,9 +70,9 @@ class EntityMaster:
                 self.ui_elements.add(hive.scout_counter)
                 self.ui_elements.add(hive.worker_counter)
             if hive.highlighted and self.ui_elements.__contains__(hive.honey_bar):
-                    hive.honey_bar.draw_honey()
-                    hive.scout_counter.render()
-                    hive.worker_counter.render()
+                hive.honey_bar.draw_honey()
+                hive.scout_counter.render()
+                hive.worker_counter.render()
             elif not hive.highlighted:
                 self.ui_elements.remove(hive.honey_bar)
                 self.ui_elements.remove(hive.scout_counter)
@@ -87,7 +85,7 @@ class EntityMaster:
             else:
                 bee.crosshair.add(self.crosshairs)
                 bee.crosshair.follow()
-
+        # this block of code costs around 1 fps so it can probably be optimized
         bee_and_flower_collisions = groupcollide(self.bee_entities, self.flower_entities, False, False)
 
         for bee_in_question in bee_and_flower_collisions:
@@ -108,13 +106,13 @@ class EntityMaster:
 
     def spawn_initial_bees(self, hive, bees_per_hive):  # Spawns initial bees for a given hive
 
-        workers = int(bees_per_hive * self.worker_ratio)
-        scouts = int(bees_per_hive * self.scout_ratio)
+        workers = int(bees_per_hive ** self.worker_ratio)
+        scouts = int(bees_per_hive ** self.scout_ratio)
 
         for j in range(workers):
             new_bee = \
-                WorkerBee((hive.center.x + randint(-50, 50),
-                           hive.center.y + randint(-50, 50)),
+                WorkerBee((hive.center.x + randint(-10, 10),
+                           hive.center.y + randint(-10, 10)),
                            hive)
             self.crosshairs.add(new_bee.crosshair)
             hive.add_worker_bee(new_bee)

@@ -15,7 +15,7 @@ from source.entities.crosshair import Crosshair
 from source.entities.entity import Entity
 # CLASS BODY
 
-animation_fps = 8
+animation_fps = 20
 
 
 class Bee(Entity):
@@ -27,7 +27,7 @@ class Bee(Entity):
         self.queen_hive = queen  # This sets which hive the bee be(e)longs to
         self.highlighted = False  # Used for highlighting the bees during inspection mode
         self.target_destination = Vector2(queen.center.x, queen.center.y)  # Variable used for movement
-        self.speed = 3
+        self.speed = 1.5
         self.wings_up = False
         self.animation_loop = randint(0, animation_fps)
         self.wings_up_sprite = sprite_bank.retrieve('bee_wings_up')
@@ -67,7 +67,7 @@ class Bee(Entity):
         dest = self.target_destination - self.location
         if dest.length() != 0:
             dest.scale_to_length(self.speed)
-
+        dest.normalize()
         self.rect.left = self.rect.left + dest.x
         self.rect.top = self.rect.top + dest.y
 

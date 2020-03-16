@@ -48,8 +48,8 @@ class WorkerBee(Bee):
             self.current_nectar = 0
 
             self.bee_states.trigger('begin offload')
-            self.rect.left = self.queen_hive.center.x + randint(-2, 2)
-            self.rect.top = self.queen_hive.center.y + randint(-2, 2)
+            self.rect.left = self.queen_hive.center.x + randint(-1, 1)
+            self.rect.top = self.queen_hive.center.y + randint(-1, 1)
             return self.queen_hive.center
         else:
             return self.queen_hive.center
@@ -69,12 +69,12 @@ class WorkerBee(Bee):
 
     def orbit_hive(self):  # Spin around a hive
 
-        angle = 0.36  # Magic Number - tune for speed of orbit
+        angle = 0.4  # Magic Number - tune for speed of orbit
 
         random_x_offset = randint(-2, 2)
         random_y_offset = randint(-2, 2)
 
-        ox, oy = self.hive_location.x, self.hive_location.y - 56
+        ox, oy = self.hive_location.x, self.hive_location.y - 54
         px, py = self.rect.left + 9, self.rect.top + 9  # 9 is half the sprite size
 
         if self.spin_affinity == 0:
