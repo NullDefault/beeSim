@@ -55,7 +55,6 @@ class EntityMaster:
         self.update_game_state()
 
         valid_entities = RenderUpdates(self.background)
-
         valid_entities.add(self.flower_entities)
         valid_entities.add(self.hive_entities)
         valid_entities.add(self.bee_entities)

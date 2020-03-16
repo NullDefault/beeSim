@@ -4,8 +4,8 @@ Class Purpose: Holds functions for procedurally generating a variety of game str
 Notes:
 """
 #  IMPORTS
-
-from random import randint
+from statistics import NormalDist
+from random import randint, uniform
 from pygame import Rect
 from source.entities.hive_data.bee_hive import BeeHive
 from source.entities.flower_data.flower import Flower
@@ -15,7 +15,7 @@ from source.entities.flower_data.flower import Flower
 
 
 def default_flower_spawning_strategy(number_of_field_partitions: int, growth_stages: int,  # Spawn initial flowers
-                                     play_area_dimensions: int()) -> object:
+                                     play_area_dimensions: int()):
     root_locations = area_partition(play_area_dimensions, number_of_field_partitions)  # partitions the field into
                                                                                        # halves n times
     flower_database = {}
@@ -165,3 +165,41 @@ def find_hive_loc(play_area, existing_hives, flowers):  # Finds one hive locatio
             return find_hive_loc(play_area, existing_hives, flowers)
     else:
         return new_loc
+
+# maps values from one range to another
+
+
+def map_values(value, left_min, left_max, right_min, right_max):
+    left_span = left_max - left_min
+    right_span = right_max - right_min
+
+    # Convert the left range into a 0-1 range (float)
+    value_scaled = float(value - left_min) / float(left_span)
+
+    # Convert the 0-1 range into a value in the right range.
+    return right_min + (value_scaled * right_span)
+
+
+def normal_distr_flower_spawning_strategy(play_area):
+    flower_num = 500  # This could be a parameter
+    normal_distr = NormalDist(0.5, 0.15)
+    flower_database = {}
+
+    x_rolls = normal_distr.samples(flower_num)
+    y_rolls = normal_distr.samples(flower_num)
+
+    for i in range(flower_num):
+        x_pos = map_values(x_rolls[i], 0, 1, 0, play_area[0])
+        y_pos = map_values(y_rolls[i], 0, 1, 0, play_area[1])
+
+        new_f = Flower((x_pos, y_pos))
+        flower_database[(x_pos, y_pos)] = new_f
+
+    clean_up_table = {}
+
+    for f in flower_database.values():
+        f_loc = f.rect.left, f.rect.top
+        if f_loc not in clean_up_table:
+            clean_up_table[f_loc] = f
+
+    return clean_up_table

@@ -74,7 +74,7 @@ class WorkerBee(Bee):
         random_x_offset = randint(-2, 2)
         random_y_offset = randint(-2, 2)
 
-        ox, oy = self.hive_location.x, self.hive_location.y - 42  # we sub 42 so the bees spin around the hive roof
+        ox, oy = self.hive_location.x, self.hive_location.y - 56
         px, py = self.rect.left + 9, self.rect.top + 9  # 9 is half the sprite size
 
         if self.spin_affinity == 0:
