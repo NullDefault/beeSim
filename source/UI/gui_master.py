@@ -1,6 +1,16 @@
+"""
+Class Name: GuiMaster
+Class Purpose: Handles everything UI related.
+Notes:
+"""
+# IMPORTS
+from os.path import join
+
 import pygame_gui
 from pygame import Rect, USEREVENT
-from os.path import join
+
+# CLASS BODY
+
 main_theme = join('source', 'assets', 'ui_elements', 'gui_theme.json')
 
 
