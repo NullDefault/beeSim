@@ -9,7 +9,7 @@ from source.entities.entity import Entity
 from pygame import Rect, font
 
 font.init()
-gameFont = font.Font("source/assets/fonts/m5x7.ttf", 30)
+gameFont = font.Font("assets/fonts/m5x7.ttf", 30)
 
 
 class ScoutCounter(Entity):
