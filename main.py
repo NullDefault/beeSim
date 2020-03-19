@@ -5,78 +5,59 @@ Notes:
 """
 
 #  IMPORTS
-from pygame import time, display, Surface, mixer, transform, event
+from pygame import time, display, mixer, event, QUIT
 
-from source.UI.menus import menu_render
+from source.UI.gui_master import GuiMaster
 from source.entities import sprite_bank
-from source.logic_and_algorithms.camera import Camera
 from source.logic_and_algorithms.masters.entity_master import EntityMaster
-from source.logic_and_algorithms.masters.event_master import EventMaster
 
 # DATA FIELDS
 
+
 screen_resolution = (1600, 900)
 menu_location = (1200, 0)
-camera = Camera()
-play_area = (1600, 900)
-
-entity_master = EntityMaster(initial_hives=1,                 # This variable decides what entities get spawned,
-                             default_bees_per_hive=5,         # how many and on how big of a field. When i implement
-                             number_of_flower_zones=3,        # saving and loading, this will be what loads and saves
-                             initial_growth_stages=12,         # game states and data.
-                             play_area_dimensions=play_area,
-                             flower_spawn_strategy='default',
-                             hive_spawn_strategy='default')
-
-event_master = EventMaster(camera)
-
+play_area = screen_resolution
 play_music = False
-
 game_icon = sprite_bank.retrieve('game_icon')
-
 game_clock = time.Clock()
-game_frame_rate = 24
+game_frame_rate = 60
 
 
 def main():
-########################################################################################################################
-# Init Screen
+
+    # Init Screen
     screen = display.set_mode(screen_resolution)
-    abstract_game_screen = Surface(play_area)
     display.set_icon(game_icon)
     display.set_caption("beeSim")
-# Init Music
+    entity_master = EntityMaster(initial_hives=2,
+                                 default_bees_per_hive=15,
+                                 number_of_flower_zones=4,
+                                 initial_growth_stages=15,
+                                 play_area_dimensions=play_area,
+                                 flower_spawn_strategy='normal_distribution',
+                                 hive_spawn_strategy='default')
+    gui_master = GuiMaster(screen_resolution, entity_master, game_clock)
+    # Init Music
     if play_music:
         mixer.init()
         mixer.music.load("assets/sounds/bee_music.mp3")
         mixer.music.play(loops=-1, start=0.0)
-# Init Game Vars
-    menu_active = False
-    inspection_target = None
-########################################################################################################################
-# Main Game Loop
+
+    # Main Game Loop
     while True:
+        time_delta = game_clock.tick(game_frame_rate) / 1000.0
+        gui_master.update(time_delta)
 
-        game_clock.tick(game_frame_rate)
-
-        entities_to_be_rendered = entity_master.get_valid_entities()
-
-        camera_cropped_render = Surface(camera.size)
-        camera_cropped_render.blit(abstract_game_screen, (0, 0),
-                                   (camera.location[0], camera.location[1], camera.size[0], camera.size[1]))
-
-        transform.scale(camera_cropped_render, screen_resolution, screen)
-        updated_screen_rects = entities_to_be_rendered.draw(abstract_game_screen)
-
-        if menu_active:
-            screen.blit(menu_render(entity_master, game_clock, inspection_target), menu_location)
-
-        display.update(updated_screen_rects)
+        screen.fill((102, 200, 102))
+        entity_master.get_valid_entities().draw(screen)
+        gui_master.draw_ui(screen)
+        display.update()
 
         for e in event.get():
-            inspection_target, menu_active = \
-                event_master.handle_event(e, menu_active, entity_master, inspection_target)
-########################################################################################################################
+            if e.type == QUIT:
+                quit()
+                exit()
+            gui_master.process_events(e)
 
 
 if __name__ == "__main__":
