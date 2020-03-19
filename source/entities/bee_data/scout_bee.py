@@ -7,10 +7,12 @@ Notes:
 # IMPORTS
 from math import sqrt, pi, cos, sin
 from random import randint, random
+
 from pygame import Vector2
-from pygame.sprite import collide_rect
+
 from source.entities.bee_data.bee import Bee
 from source.entities.bee_data.bee_components.castes import scout_fysom
+
 
 # CLASS BODY
 
@@ -45,7 +47,7 @@ class ScoutBee(Bee):
             return self.begin_new_scouting_mission()
         else:
             if self.location.distance_to(self.target_destination) < 5:  # [5] could perhaps be a variable (eyesight)
-                self.scouting_complete = True                           # or maybe its based on flower smelliness?
+                self.scouting_complete = True  # or maybe its based on flower smelliness?
 
             return self.target_destination
 
@@ -74,5 +76,3 @@ class ScoutBee(Bee):
             self.bee_states.trigger('dance complete')
 
         return Vector2(self.hive_location.x, self.hive_location.y)
-
-

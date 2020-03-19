@@ -6,20 +6,22 @@ Notes: Castes.py is a dictionary of finite state machines for each individual be
 
 # IMPORTS
 import math
+from random import randint
 
 from pygame import transform, Vector2
-from random import randint
+
 from source.entities import sprite_bank
 from source.entities.bee_data.bee_components.stomach import Stomach
 from source.entities.crosshair import Crosshair
 from source.entities.entity import Entity
+
 # CLASS BODY
 
 animation_fps = 20
 
 
 class Bee(Entity):
-########################################################################################################################
+
     # FUNCTIONS
 
     def __init__(self, location, queen):
@@ -37,6 +39,15 @@ class Bee(Entity):
         Entity.__init__(self, location, 'bee_wings_down')  # Calls the Entity constructor
         self.crosshair = Crosshair(self)
 
+    @property
+    def location(self):
+        return Vector2(self.rect.left + self.rect.width / 2,
+                       self.rect.top + self.rect.height / 2)
+
+    @property
+    def hive_location(self):
+        return self.queen_hive.center
+
     def update_target(self, current_state):  # Note: The methods this function calls only exist in the bee subclasses
         # Worker Methods
         if current_state == 'await orders':
@@ -53,15 +64,6 @@ class Bee(Entity):
             return self.search_for_flowers()
         elif current_state == 'head back':
             return self.deliver_nectar_load()
-
-    @property
-    def location(self):
-        return Vector2(self.rect.left + self.rect.width/2,
-                       self.rect.top + self.rect.height/2)
-
-    @property
-    def hive_location(self):
-        return self.queen_hive.center
 
     def head_towards(self):
         dest = self.target_destination - self.location

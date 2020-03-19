@@ -1,2 +1,9 @@
 1 : Tie bee population to nectar reserves
-2: Fix inspection not working when zoomed in or out
+2: Re-Introduce Camera Functionality
+3: Make Simulation Area larger than screen resolution (connected to (2))
+4: Make scouts use random walk for scouting missions
+5: Give bees stomachs so they have ot eat nectar to keep on living
+6: Add More Flower Spawning Strategies
+7: Add Some Texture To The Background
+8: Make the bees flock (boid inspired)
+9: Optimize entity updates each frame

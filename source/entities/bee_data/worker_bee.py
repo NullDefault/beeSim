@@ -6,10 +6,13 @@ Notes:
 
 # IMPORTS
 from math import cos, sin
-from pygame import sprite, Vector2
 from random import randint
+
+from pygame import sprite, Vector2
+
 from source.entities.bee_data.bee import Bee
 from source.entities.bee_data.bee_components.castes import worker_fysom
+
 
 # CLASS BODY
 

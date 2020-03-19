@@ -4,8 +4,9 @@ Class Purpose: Holds data on all the sprites for the sake of convenience and org
 Notes:
 """
 
-from pygame import image
 from os.path import join
+
+from pygame import image
 
 sprite_bank = {
     #  BEES
@@ -38,9 +39,6 @@ sprite_bank = {
     'honey_bar': image.load(join('assets', 'ui_elements', 'honey_bar.png')),
     'worker_counter': image.load(join('assets', 'ui_elements', 'worker_count.png')),
     'scout_counter': image.load(join('assets', 'ui_elements', 'scout_count.png')),
-
-    # MAP ELEMENTS
-    'grass_background': image.load(join('assets', 'map_elements', 'grass_background.png')),
 }
 
 

@@ -4,9 +4,9 @@ Class Purpose: UI elements that display how many workers and scouts are in a hiv
 Notes:
 """
 
+from pygame import Rect, font
 
 from source.entities.entity import Entity
-from pygame import Rect, font
 
 font.init()
 gameFont = font.Font("assets/fonts/m5x7.ttf", 30)
@@ -19,7 +19,7 @@ class ScoutCounter(Entity):
         Entity.__init__(self, loc, 'scout_counter')
 
     def render(self):
-        self.image.fill((255, 255, 255), rect=Rect(self.rect.left+3, self.rect.top+3, 26, 26))
+        self.image.fill((255, 255, 255), rect=Rect(self.rect.left + 3, self.rect.top + 3, 26, 26))
         text = gameFont.render(str(len(self.owner.scouts)), False, [0, 0, 0], None)
         self.image.blit(text, (4, 4))
 
@@ -31,7 +31,6 @@ class WorkerCounter(Entity):
         Entity.__init__(self, loc, 'worker_counter')
 
     def render(self):
-        self.image.fill((255, 255, 255), rect=Rect(self.rect.left+3, self.rect.top+3, 26, 26))
+        self.image.fill((255, 255, 255), rect=Rect(self.rect.left + 3, self.rect.top + 3, 26, 26))
         text = gameFont.render(str(len(self.owner.workers)), False, [0, 0, 0], None)
         self.image.blit(text, (4, 4))
-

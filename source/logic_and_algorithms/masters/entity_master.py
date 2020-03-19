@@ -4,20 +4,21 @@ Class Purpose: Handles logic behind entities
 Notes:
 """
 
+
 #  IMPORTS
-from pygame.gfxdraw import circle
+from random import randint
 from pygame.sprite import RenderUpdates, groupcollide, collide_circle_ratio, spritecollide
 from pygame.time import get_ticks
-from random import randint
+
 from source.entities.bee_data.scout_bee import ScoutBee
 from source.entities.bee_data.worker_bee import WorkerBee
-from source.entities.crosshair import Crosshair
 from source.logic_and_algorithms.spawn_strategies import get_hive_spawn_strategy, get_flower_spawn_strategy
+
+
 # CLASS BODY
 
 
 class EntityMaster:
-
     # DATA FIELDS
 
     bee_ratio = 5
@@ -47,6 +48,14 @@ class EntityMaster:
             get_hive_spawn_strategy(hive_spawn_strategy, initial_hives, play_area_dimensions, self.flower_entities),
             default_bees_per_hive)
         self.clean_up_spawn()
+
+    @property
+    def bee_population(self):  # Get number of bees on the board
+        return len(self.bee_entities)
+
+    @property
+    def flower_population(self):
+        return len(self.flower_entities)
 
     def get_valid_entities(self):  # Returns entities to render next rendering step
         self.update_game_state()
@@ -98,7 +107,6 @@ class EntityMaster:
 
     def populate_hives(self, hives, bees_per_hive):  # Populates the new hives with bees
         for hive in hives:
-
             self.hive_entities.add(hive)
 
             self.spawn_initial_bees(hive, bees_per_hive)
@@ -112,7 +120,7 @@ class EntityMaster:
             new_bee = \
                 WorkerBee((hive.center.x + randint(-10, 10),
                            hive.center.y + randint(-10, 10)),
-                           hive)
+                          hive)
             self.crosshairs.add(new_bee.crosshair)
             hive.add_worker_bee(new_bee)
             self.bee_entities.add(new_bee)
@@ -121,12 +129,12 @@ class EntityMaster:
             new_bee = \
                 ScoutBee((hive.center.x + randint(-50, 50),
                           hive.center.y + randint(-50, 50)),
-                          hive)
+                         hive)
             self.crosshairs.add(new_bee.crosshair)
             hive.add_scout_bee(new_bee)
             self.bee_entities.add(new_bee)
 
-    def clean_up_spawn(self):   # remove flowers under hives and add their ui elements to the ui_elements group
+    def clean_up_spawn(self):  # remove flowers under hives and add their ui elements to the ui_elements group
         for hive in self.hive_entities:
             flowers = self.flower_entities
             spritecollide(hive, flowers, True, collide_circle_ratio(1.3))
@@ -142,12 +150,3 @@ class EntityMaster:
                 return hive
         else:
             return None
-
-    @property
-    def bee_population(self):  # Get number of bees on the board
-        return len(self.bee_entities)
-
-    @property
-    def flower_population(self):
-        return len(self.flower_entities)
-

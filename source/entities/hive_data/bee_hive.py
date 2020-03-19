@@ -6,9 +6,11 @@ Notes:
 
 #  IMPORTS
 from pygame import Vector2
-from source.entities.entity import Entity
-from source.UI.honey_bar import HoneyBar
+
 from source.UI.bee_counters import WorkerCounter, ScoutCounter
+from source.UI.honey_bar import HoneyBar
+from source.entities.entity import Entity
+
 
 # CLASS BODY
 
@@ -22,7 +24,7 @@ class BeeHive(Entity):
         self.highlighted = False  # Used in inspection mode
 
         self.current_honey = 10  # How much nectar the hive has stored
-        self.max_honey = 100    # Maximum honey the hive can store
+        self.max_honey = 100  # Maximum honey the hive can store
 
         self.last_tick = 0  # Time since last tick check
 
@@ -41,15 +43,24 @@ class BeeHive(Entity):
         self.honey_bar = HoneyBar(self)
         self.center = Vector2(self.rect.left + 34, self.rect.top + 54)  # Location of hive entrance
 
+    @property
+    def has_orders(self):
+        self.update_order_queue()
+        if len(self.available_orders) != 0:
+            return True
+        else:
+            return False
+
+    @property
+    def number_of_bees(self):
+        # 0: workers, 1: scouts
+        return len(self.workers), len(self.scouts)
+
     def add_worker_bee(self, bee):
         self.workers.append(bee)
 
     def add_scout_bee(self, bee):
         self.scouts.append(bee)
-
-    def get_bees(self):
-        # 0: workers, 1: scouts
-        return len(self.workers), len(self.scouts)
 
     def gain_nectar(self, nectar_amount):
         if self.current_honey < self.max_honey:
@@ -89,14 +100,3 @@ class BeeHive(Entity):
             for bee in self.scouts:
                 bee.highlighted = False
                 self.highlighted = False
-
-    @property
-    def has_orders(self):
-        self.update_order_queue()
-        if len(self.available_orders) != 0:
-            return True
-        else:
-            return False
-
-
-

@@ -180,13 +180,13 @@ def map_values(value, left_min, left_max, right_min, right_max):
     return right_min + (value_scaled * right_span)
 
 
-def normal_distr_flower_spawning_strategy(play_area):
+def normal_distribution_flower_spawning_strategy(play_area):
     flower_num = 400  # This could be a parameter
-    normal_distr = NormalDist(0.5, 0.15)
+    normal_distribution = NormalDist(0.5, 0.15)
     flower_database = {}
 
-    x_rolls = normal_distr.samples(flower_num)
-    y_rolls = normal_distr.samples(flower_num)
+    x_rolls = normal_distribution.samples(flower_num)
+    y_rolls = normal_distribution.samples(flower_num)
 
     for i in range(flower_num):
         x_pos = map_values(x_rolls[i], 0, 1, 0, play_area[0])

@@ -4,8 +4,9 @@ Class Purpose: UI elements used to display how much honey is in a particular hiv
 Notes:
 """
 
-from source.entities.entity import Entity
 from pygame import draw
+
+from source.entities.entity import Entity
 
 
 class HoneyBar(Entity):
@@ -15,7 +16,6 @@ class HoneyBar(Entity):
         Entity.__init__(self, loc, 'honey_bar')
 
     def draw_honey(self):
-
         percent_full = self.owner.current_honey / self.owner.max_honey
 
         if percent_full == 0:

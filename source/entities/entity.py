@@ -6,12 +6,13 @@ Notes:
 
 #  IMPORTS
 from pygame.sprite import DirtySprite
+
 from source.entities import sprite_bank
 
 
 class Entity(DirtySprite):
 
-#  FUNCTIONS
+    #  FUNCTIONS
 
     def __init__(self, location, base_sprite):
         DirtySprite.__init__(self)
