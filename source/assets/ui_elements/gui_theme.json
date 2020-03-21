@@ -36,7 +36,7 @@
         "images":
         {
           "normal_image": {
-            "path": "assets/ui_elements/honeycomb_icon.png"
+            "path": "source/assets/ui_elements/honeycomb_icon.png"
           }
         },
         "misc":

@@ -11,7 +11,7 @@ from pygame import Rect, USEREVENT
 
 # CLASS BODY
 
-main_theme = join('assets', 'ui_elements', 'gui_theme.json')
+main_theme = join('source', 'assets', 'ui_elements', 'gui_theme.json')
 
 
 class GuiMaster:

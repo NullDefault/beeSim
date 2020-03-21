@@ -35,22 +35,32 @@ class WorkerBee(Bee):
         self.offloading = False  # Variables used in the offloading process
         self.begin_offload_time = 0
 
-        self.bee_states = worker_fysom()  # Assigns the behavioral finite state machine
+        self.state_machine = worker_fysom()  # Assigns the behavioral finite state machine
 
         Bee.__init__(self, location, queen)
 
     def move(self):
-        self.target_destination = self.update_target(self.bee_states.current)
+        self.target_destination = self.update_target()
         if not self.harvesting_pollen and not self.offloading:
             self.head_towards()
         self.update_sprite()
 
+    def update_target(self):
+        if self.state == 'await orders':
+            return self.check_available_orders()
+        elif self.state == 'harvest':
+            return self.harvest_flower()
+        elif self.state == 'offload':
+            return self.offload()
+        elif self.state == 'head back':
+            return self.deliver_nectar_load()
+
     def deliver_nectar_load(self):
-        if self.location.distance_to(self.queen_hive.center) < 9:
+        if self.location.distance_to(self.queen_hive.center) < 5:
             self.queen_hive.gain_nectar(self.current_nectar)
             self.current_nectar = 0
 
-            self.bee_states.trigger('begin offload')
+            self.state_machine.trigger('begin offload')
             self.rect.left = self.queen_hive.center.x + randint(-1, 1)
             self.rect.top = self.queen_hive.center.y + randint(-1, 1)
             return self.queen_hive.center
@@ -66,7 +76,7 @@ class WorkerBee(Bee):
             if current_time >= self.begin_offload_time + randint(2000, 5000):
                 self.offloading = False
                 self.begin_offload_time = 0
-                self.bee_states.trigger('offload complete')
+                self.state_machine.trigger('offload complete')
 
         return self.queen_hive.center
 
@@ -94,12 +104,10 @@ class WorkerBee(Bee):
         if self.current_nectar < self.max_nectar_capacity:
             if sprite.collide_rect(self, self.target_flower):
                 self.harvest_nectar_from(self.target_flower)
-                return Vector2(self.target_flower.rect.left + 9, self.target_flower.rect.top + 9)
-            else:
-                return Vector2(self.target_flower.rect.left + 9, self.target_flower.rect.top + 9)
+            return Vector2(self.target_flower.rect.left + 9, self.target_flower.rect.top + 9)
         else:
             self.target_flower.busy = False
-            self.bee_states.trigger('harvest complete')
+            self.state_machine.trigger('harvest complete')
             return Vector2(self.hive_location.x, self.hive_location.y)
 
     def harvest_nectar_from(self, flower):
@@ -117,7 +125,10 @@ class WorkerBee(Bee):
     def check_available_orders(self):
         if self.queen_hive.has_orders:
             self.target_flower = self.queen_hive.get_order()
-            self.bee_states.trigger('go to flower')
+            self.state_machine.trigger('go to flower')
             return Vector2(self.target_flower.rect.left, self.target_flower.rect.top)
         else:
             return self.orbit_hive()
+
+    def collide_with_flower(self, flower):
+        self.state_machine.trigger('arrived at flower')

@@ -6,6 +6,7 @@ Notes: Castes.py is a dictionary of finite state machines for each individual be
 
 # IMPORTS
 import math
+from abc import abstractmethod
 from random import randint
 
 from pygame import transform, Vector2
@@ -20,6 +21,7 @@ from source.entities.entity import Entity
 animation_fps = 20
 
 
+# noinspection PyArgumentList
 class Bee(Entity):
 
     # FUNCTIONS
@@ -48,22 +50,22 @@ class Bee(Entity):
     def hive_location(self):
         return self.queen_hive.center
 
-    def update_target(self, current_state):  # Note: The methods this function calls only exist in the bee subclasses
-        # Worker Methods
-        if current_state == 'await orders':
-            return self.check_available_orders()
-        elif current_state == 'harvest':
-            return self.harvest_flower()
-        elif current_state == 'offload':
-            return self.offload()
+    @property
+    def state(self):
+        return self.state_machine.current
 
-        # Scout Methods
-        elif current_state == 'report':
-            return self.report_back_to_hive()
-        elif current_state == 'scout':
-            return self.search_for_flowers()
-        elif current_state == 'head back':
-            return self.deliver_nectar_load()
+    @abstractmethod
+    def update_target(self):
+        pass
+
+    @abstractmethod
+    def collide_with_flower(self, flower):  # Another collision function
+        pass
+
+    def validate_collision(self):  # Logic function for detecting collisions for bees of interest
+        if self.state == 'scout' or self.state == 'go to flower':
+            return True
+        return False
 
     def head_towards(self):
         dest = self.target_destination - self.location
@@ -75,9 +77,9 @@ class Bee(Entity):
 
     def update_sprite(self):
         rotate = False
-        if self.bee_states.current == 'offload':
+        if self.state == 'offload':
             self.image = sprite_bank.retrieve("bee_hidden_sprite")
-        elif self.bee_states.current == 'harvest' and self.harvesting_pollen:
+        elif self.state == 'harvest' and self.harvesting_pollen:
             self.image = sprite_bank.retrieve("bee_harvest_sprite")
         else:
 
@@ -102,18 +104,4 @@ class Bee(Entity):
         self.rect.width = self.image.get_rect().width
         self.rect.height = self.image.get_rect().height
 
-    def validate_collision(self):  # Logic function for detecting collisions for bees of interest
-        # Note: bee_states is assigned only in subclasses
-        if self.bee_states.current == 'scout' or self.bee_states.current == 'go to flower':
-            return True
-        else:
-            return False
 
-    def collide_with_flower(self, flower):  # Another collision function
-        # Scout logic
-        if self.bee_states.current == 'scout':
-            self.remember_flower(flower)
-            self.bee_states.trigger('found flower')
-        # Worker logic
-        if self.bee_states.current == 'go to flower':
-            self.bee_states.trigger('arrived at flower')

@@ -26,14 +26,22 @@ class ScoutBee(Bee):
         self.scouting_complete = True  # Vars used in the scouting process
         self.remembered_flower = None
 
-        self.bee_states = scout_fysom()  # Assigns the behavior finite state machine
+        self.state_machine = scout_fysom()  # Assigns the behavior finite state machine
 
         Bee.__init__(self, location, queen)
 
     def move(self):
-        self.target_destination = self.update_target(self.bee_states.current)
+        self.target_destination = self.update_target()
         self.head_towards()
         self.update_sprite()
+
+    def update_target(self):
+        if self.state == 'report':
+            return self.report_back_to_hive()
+        elif self.state == 'scout':
+            return self.search_for_flowers()
+        else:
+            return self.report_back_to_hive()
 
     def remember_flower(self, flower):
         self.remembered_flower = flower
@@ -42,7 +50,6 @@ class ScoutBee(Bee):
         self.remembered_flower = None
 
     def search_for_flowers(self):
-
         if self.scouting_complete:
             return self.begin_new_scouting_mission()
         else:
@@ -72,7 +79,10 @@ class ScoutBee(Bee):
             self.scouting_complete = True
             self.queen_hive.remember_flower(self.remembered_flower)
             self.forget_flower()
-
-            self.bee_states.trigger('dance complete')
+            self.state_machine.trigger('dance complete')
 
         return Vector2(self.hive_location.x, self.hive_location.y)
+
+    def collide_with_flower(self, flower):
+        self.remember_flower(flower)
+        self.state_machine.trigger('found flower')
