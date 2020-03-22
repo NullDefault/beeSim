@@ -7,7 +7,7 @@ Notes:
 from os.path import join
 
 import pygame_gui
-from pygame import Rect, USEREVENT
+from pygame import Rect, USEREVENT, MOUSEBUTTONUP, mouse
 
 # CLASS BODY
 
@@ -43,7 +43,12 @@ class GuiMaster:
         self.gui_manager.draw_ui(screen)
 
     def process_events(self, event):
-        if event.type == USEREVENT:
+        if event.type == MOUSEBUTTONUP:
+            selected_hive = self.entity_master.get_hive_at(mouse.get_pos())
+            if selected_hive is not None:
+                selected_hive.highlight_bees()
+
+        elif event.type == USEREVENT:
             if event.user_type == 'ui_button_pressed':
                 if event.ui_element == self.main_menu_button:
                     if self.main_menu_active:

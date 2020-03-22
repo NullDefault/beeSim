@@ -6,7 +6,7 @@ Notes:
 """
 
 
-class Stomach:  # TODO
+class Stomach:
     def __init__(self):
         self.max_capacity = 10
         self.current_food = 1
