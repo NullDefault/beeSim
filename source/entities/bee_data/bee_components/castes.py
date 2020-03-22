@@ -32,7 +32,9 @@ def scout_fysom():
         'initial': 'scout',
         'events': [
             {'name': 'begin search', 'src': 'dance', 'dst': 'scout'},
-            {'name': 'found flower', 'src': 'scout', 'dst': 'report'},
-            {'name': 'dance complete', 'src': 'report', 'dst': 'scout'}
+            {'name': 'found flower', 'src': 'scout', 'dst': 'head back'},
+            {'name': 'dance complete', 'src': 'head back', 'dst': 'scout'},
+
+            {'name': 'stomach empty', 'src': 'scout', 'dst': 'head back'}
         ]
     })

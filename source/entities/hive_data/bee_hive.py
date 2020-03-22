@@ -23,8 +23,8 @@ class BeeHive(Entity):
 
         self.highlighted = False  # Used in inspection mode
 
-        self.current_honey = 10  # How much nectar the hive has stored
-        self.max_honey = 100  # Maximum honey the hive can store
+        self.current_nectar = 10  # How much nectar the hive has stored
+        self.max_nectar = 100  # Maximum honey the hive can store
 
         self.last_tick = 0  # Time since last tick check
 
@@ -63,10 +63,19 @@ class BeeHive(Entity):
         self.scouts.append(bee)
 
     def gain_nectar(self, nectar_amount):
-        if self.current_honey < self.max_honey:
-            self.current_honey = self.current_honey + nectar_amount
+        if self.current_nectar < self.max_nectar:
+            self.current_nectar = self.current_nectar + nectar_amount
         else:
-            self.current_honey = self.max_honey
+            self.current_nectar = self.max_nectar
+
+    def give_food(self, hunger):
+        if self.current_nectar < hunger:
+            temp = self.current_nectar
+            self.current_nectar = 0
+            return temp
+        else:
+            self.current_nectar = self.current_nectar - hunger
+            return hunger
 
     def remember_flower(self, flower):
         self.known_flowers.append(flower)

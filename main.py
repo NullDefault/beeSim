@@ -29,8 +29,8 @@ def main():
     screen = display.set_mode(screen_resolution)
     display.set_icon(game_icon)
     display.set_caption("beeSim")
-    entity_master = EntityMaster(initial_hives=2,
-                                 default_bees_per_hive=15,
+    entity_master = EntityMaster(initial_hives=10,
+                                 default_bees_per_hive=5,
                                  number_of_flower_zones=4,
                                  initial_growth_stages=15,
                                  play_area_dimensions=play_area,

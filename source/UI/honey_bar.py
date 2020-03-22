@@ -16,7 +16,7 @@ class HoneyBar(Entity):
         Entity.__init__(self, loc, 'honey_bar')
 
     def draw_honey(self):
-        percent_full = self.owner.current_honey / self.owner.max_honey
+        percent_full = self.owner.current_nectar / self.owner.max_nectar
 
         if percent_full == 0:
             return 0

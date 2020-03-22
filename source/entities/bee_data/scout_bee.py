@@ -12,6 +12,7 @@ from pygame import Vector2
 
 from source.entities.bee_data.bee import Bee
 from source.entities.bee_data.bee_components.castes import scout_fysom
+from source.entities.bee_data.bee_components.stomach import Stomach
 
 
 # CLASS BODY
@@ -27,6 +28,7 @@ class ScoutBee(Bee):
         self.remembered_flower = None
 
         self.state_machine = scout_fysom()  # Assigns the behavior finite state machine
+        self.stomach = Stomach()
 
         Bee.__init__(self, location, queen)
 
@@ -51,34 +53,39 @@ class ScoutBee(Bee):
 
     def search_for_flowers(self):
         if self.scouting_complete:
-            return self.begin_new_scouting_mission()
+            return self.random_walk_scout()
         else:
             if self.location.distance_to(self.target_destination) < 5:  # [5] could perhaps be a variable (eyesight)
                 self.scouting_complete = True  # or maybe its based on flower smelliness?
 
             return self.target_destination
 
-    def begin_new_scouting_mission(self):  # TODO: Rework into a random walk approach
+    def random_walk_scout(self):
 
-        r = randint(0, 400) * sqrt(random())
-        theta = random() * 2 * pi
-        if randint(0, 1) == 0:
-            random_x_coordinate = self.hive_location.x + (r * cos(theta))
-        else:
-            random_x_coordinate = self.hive_location.x - (r * cos(theta))
-        if randint(0, 1) == 1:
-            random_y_coordinate = self.hive_location.y + (r * sin(theta))
-        else:
-            random_y_coordinate = self.hive_location.y - (r * sin(theta))
+        new_x = self.location.x + randint(-50, 50)
+        new_y = self.location.y + randint(-40, 40)
 
-        self.scouting_complete = False
-        return Vector2(random_x_coordinate, random_y_coordinate)
+        destination = Vector2(new_x, new_y)
+        if self.queen_hive.rect.inflate(10, 10).collidepoint(new_x, new_y):
+            return self.random_walk_scout()
+        else:
+            self.use_energy(self.location.distance_to(destination))
+
+            self.scouting_complete = False
+            return Vector2(destination)
+
+    def use_energy(self, distance):
+        hungry = self.stomach.use_energy_for_turn(distance)
+        if hungry:
+            self.state_machine.trigger("stomach empty")
 
     def report_back_to_hive(self):
         if self.location.distance_to(self.queen_hive.center) < self.rect.width / 2:
             self.scouting_complete = True
-            self.queen_hive.remember_flower(self.remembered_flower)
-            self.forget_flower()
+            if self.remembered_flower is not None:
+                self.queen_hive.remember_flower(self.remembered_flower)
+                self.forget_flower()
+            self.stomach.eat(self.queen_hive)
             self.state_machine.trigger('dance complete')
 
         return Vector2(self.hive_location.x, self.hive_location.y)

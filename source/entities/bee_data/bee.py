@@ -12,7 +12,6 @@ from random import randint
 from pygame import transform, Vector2
 
 from source.entities import sprite_bank
-from source.entities.bee_data.bee_components.stomach import Stomach
 from source.entities.crosshair import Crosshair
 from source.entities.entity import Entity
 
@@ -41,8 +40,6 @@ class Bee(Entity):
 
         self.target_destination = queen.center  # Variable used for movement
         self.speed = 1.5
-
-        self.stomach = Stomach()
 
         self.crosshair = Crosshair(self)
 
