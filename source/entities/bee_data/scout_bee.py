@@ -30,7 +30,7 @@ class ScoutBee(Bee):
 
         Bee.__init__(self, location, queen)
 
-    def move(self):
+    def update(self):
         self.target_destination = self.update_target()
         self.head_towards()
         self.update_sprite()
@@ -75,7 +75,7 @@ class ScoutBee(Bee):
         return Vector2(random_x_coordinate, random_y_coordinate)
 
     def report_back_to_hive(self):
-        if self.location.distance_to(self.queen_hive.center) < 5:
+        if self.location.distance_to(self.queen_hive.center) < self.rect.width / 2:
             self.scouting_complete = True
             self.queen_hive.remember_flower(self.remembered_flower)
             self.forget_flower()
@@ -84,5 +84,12 @@ class ScoutBee(Bee):
         return Vector2(self.hive_location.x, self.hive_location.y)
 
     def collide_with_flower(self, flower):
-        self.remember_flower(flower)
-        self.state_machine.trigger('found flower')
+        if flower not in self.queen_hive.known_flowers:
+            self.remember_flower(flower)
+            self.state_machine.trigger('found flower')
+
+    def validate_collision(self):
+        if self.state == 'scout':
+            return True
+        else:
+            return False

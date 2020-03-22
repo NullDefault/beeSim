@@ -4,9 +4,9 @@ Class Purpose: Handles logic behind entities
 Notes:
 """
 
-
 #  IMPORTS
 from random import randint
+
 from pygame.sprite import RenderUpdates, groupcollide, collide_circle_ratio, spritecollide
 from pygame.time import get_ticks
 
@@ -87,28 +87,23 @@ class EntityMaster:
                 self.ui_elements.remove(hive.worker_counter)
 
         for bee in self.bee_entities:
-            bee.move()
+            bee.update()
             if not bee.highlighted:
                 bee.crosshair.kill()
             else:
                 bee.crosshair.add(self.crosshairs)
                 bee.crosshair.follow()
-        # this block of code costs around 1 fps so it can probably be optimized
+
         bee_and_flower_collisions = groupcollide(self.bee_entities, self.flower_entities, False, False)
 
         for bee_in_question in bee_and_flower_collisions:
             flower = bee_and_flower_collisions.get(bee_in_question)[0]
             if bee_in_question.validate_collision():
-                if isinstance(bee_in_question, ScoutBee) and \
-                        flower not in bee_in_question.queen_hive.known_flowers:
-                    bee_in_question.collide_with_flower(flower)
-                if isinstance(bee_in_question, WorkerBee):
-                    bee_in_question.collide_with_flower(flower)
+                bee_in_question.collide_with_flower(flower)
 
     def populate_hives(self, hives, bees_per_hive):  # Populates the new hives with bees
         for hive in hives:
             self.hive_entities.add(hive)
-
             self.spawn_initial_bees(hive, bees_per_hive)
 
     def spawn_initial_bees(self, hive, bees_per_hive):  # Spawns initial bees for a given hive

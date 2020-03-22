@@ -23,10 +23,12 @@ class WorkerBee(Bee):
 
     def __init__(self, location, queen):
 
-        self.max_nectar_capacity = 1  # Max nectar the worker can carry
-        self.current_nectar = 0  # Current nectar on bee-hand
+        Bee.__init__(self, location, queen)
 
-        self.spin_affinity = randint(0, 1)
+        self.max_nectar_capacity = 5  # Max nectar the worker can carry
+        self.current_nectar = 0
+
+        self.spin_affinity = randint(0, 1)  # Decides if the bee will orbit the hive clock or counter-clock wise
 
         self.target_flower = None  # Variables used in the harvesting process
         self.harvesting_pollen = False
@@ -37,9 +39,7 @@ class WorkerBee(Bee):
 
         self.state_machine = worker_fysom()  # Assigns the behavioral finite state machine
 
-        Bee.__init__(self, location, queen)
-
-    def move(self):
+    def update(self):
         self.target_destination = self.update_target()
         if not self.harvesting_pollen and not self.offloading:
             self.head_towards()
@@ -56,7 +56,7 @@ class WorkerBee(Bee):
             return self.deliver_nectar_load()
 
     def deliver_nectar_load(self):
-        if self.location.distance_to(self.queen_hive.center) < 5:
+        if self.location.distance_to(self.queen_hive.center) < self.rect.width / 2:
             self.queen_hive.gain_nectar(self.current_nectar)
             self.current_nectar = 0
 
@@ -132,3 +132,9 @@ class WorkerBee(Bee):
 
     def collide_with_flower(self, flower):
         self.state_machine.trigger('arrived at flower')
+
+    def validate_collision(self):
+        if self.state == 'go to flower':
+            return True
+        else:
+            return False

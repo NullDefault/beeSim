@@ -28,17 +28,22 @@ class Bee(Entity):
 
     def __init__(self, location, queen):
 
+        Entity.__init__(self, location, 'bee_wings_down')  # Calls the Entity constructor
+
         self.queen_hive = queen  # This sets which hive the bee be(e)longs to
-        self.highlighted = False  # Used for highlighting the bees during inspection mode
-        self.target_destination = Vector2(queen.center.x, queen.center.y)  # Variable used for movement
-        self.speed = 1.5
-        self.wings_up = False
+
+        # All Of These Variables Are Used in Rendering
         self.animation_loop = randint(0, animation_fps)
         self.wings_up_sprite = sprite_bank.retrieve('bee_wings_up')
         self.wings_down_sprite = sprite_bank.retrieve('bee_wings_down')
+        self.highlighted = False  # Used for highlighting the bees during inspection mode
+        self.wings_up = False
+
+        self.target_destination = queen.center  # Variable used for movement
+        self.speed = 1.5
+
         self.stomach = Stomach()
 
-        Entity.__init__(self, location, 'bee_wings_down')  # Calls the Entity constructor
         self.crosshair = Crosshair(self)
 
     @property
@@ -62,10 +67,9 @@ class Bee(Entity):
     def collide_with_flower(self, flower):  # Another collision function
         pass
 
+    @abstractmethod
     def validate_collision(self):  # Logic function for detecting collisions for bees of interest
-        if self.state == 'scout' or self.state == 'go to flower':
-            return True
-        return False
+        pass
 
     def head_towards(self):
         dest = self.target_destination - self.location
@@ -103,5 +107,3 @@ class Bee(Entity):
 
         self.rect.width = self.image.get_rect().width
         self.rect.height = self.image.get_rect().height
-
-
