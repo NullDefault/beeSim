@@ -81,6 +81,10 @@ class BeeHive(Entity):
         self.known_flowers.append(flower)
         self.available_orders.append(flower)
 
+    def forget_flower(self, flower):
+        self.known_flowers.remove(flower)
+        self.available_orders.remove(flower)
+
     def update_order_queue(self):
         available_orders = []
         for flower in self.known_flowers:

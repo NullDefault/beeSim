@@ -81,7 +81,8 @@ class Bee(Entity):
         if self.state == 'offload':
             self.image = sprite_bank.retrieve("bee_hidden_sprite")
         elif self.state == 'harvest' and self.harvesting_pollen:
-            self.image = sprite_bank.retrieve("bee_harvest_sprite")
+            self.wings_up = False
+            self.image = self.wings_down_sprite
         else:
 
             if self.wings_up:

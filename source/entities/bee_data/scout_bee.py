@@ -5,8 +5,7 @@ Notes:
 """
 
 # IMPORTS
-from math import sqrt, pi, cos, sin
-from random import randint, random
+from random import randint
 
 from pygame import Vector2
 

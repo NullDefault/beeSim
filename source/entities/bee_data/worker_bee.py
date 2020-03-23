@@ -101,10 +101,11 @@ class WorkerBee(Bee):
         return ship_back
 
     def harvest_flower(self):
-        if self.current_nectar < self.max_nectar_capacity:
+        if self.current_nectar < self.max_nectar_capacity and self.target_flower.pollen > 0:
             if sprite.collide_rect(self, self.target_flower):
                 self.harvest_nectar_from(self.target_flower)
-            return Vector2(self.target_flower.rect.left + 9, self.target_flower.rect.top + 9)
+            return Vector2(self.target_flower.rect.left + randint(0, self.target_flower.rect.width),
+                           self.target_flower.rect.top + randint(0, self.target_flower.rect.height))
         else:
             self.target_flower.busy = False
             self.state_machine.trigger('harvest complete')
@@ -112,21 +113,23 @@ class WorkerBee(Bee):
 
     def harvest_nectar_from(self, flower):
         if not self.harvesting_pollen:
-            self.rect.left = flower.rect.left + 4
-            self.rect.top = flower.rect.top + 4
+            self.rect.left = flower.rect.left + self.target_flower.rect.width/3 + randint(-2, 2)
+            self.rect.top = flower.rect.top + self.target_flower.rect.height/3 + randint(-2, 2)
             self.harvesting_pollen = True
             self.begin_harvest_time = self.queen_hive.last_tick
         else:
             current_time = self.queen_hive.last_tick
             if current_time >= self.begin_harvest_time + randint(2000, 4000):
                 self.harvesting_pollen = False
-                self.current_nectar = self.current_nectar + flower.finish_harvest()
+                self.current_nectar = self.current_nectar + \
+                                      flower.finish_harvest(self.max_nectar_capacity, self.current_nectar)
 
     def check_available_orders(self):
         if self.queen_hive.has_orders:
             self.target_flower = self.queen_hive.get_order()
             self.state_machine.trigger('go to flower')
-            return Vector2(self.target_flower.rect.left, self.target_flower.rect.top)
+            return Vector2(self.target_flower.rect.left + self.target_flower.rect.width/2,
+                           self.target_flower.rect.top + self.target_flower.rect.height/2)
         else:
             return self.orbit_hive()
 

@@ -20,12 +20,11 @@ sprite_bank = {
         join('source', 'assets', 'sprites', 'bee_sprites', 'bee_sprite_harvest.png')),
 
     # FLOWERS
-    'flower_0': image.load(join('source', 'assets', 'sprites', 'flower_sprites', 'flower_0.png')),
-    'flower_1': image.load(join('source', 'assets', 'sprites', 'flower_sprites', 'flower_1.png')),
-    'flower_2': image.load(join('source', 'assets', 'sprites', 'flower_sprites', 'flower_2.png')),
-    'flower_3': image.load(join('source', 'assets', 'sprites', 'flower_sprites', 'flower_3.png')),
-    'flower_4': image.load(join('source', 'assets', 'sprites', 'flower_sprites', 'flower_4.png')),
-    'flower_5': image.load(join('source', 'assets', 'sprites', 'flower_sprites', 'flower_5.png')),
+    'flower': image.load(join('source', 'assets', 'sprites', 'plant_sprites', 'flower.png')),
+
+    # PLANTS
+    'grass_patch': image.load(join('source', 'assets', 'sprites', 'plant_sprites', 'grass_patch.png')),
+    'grassy_plant': image.load(join('source', 'assets', 'sprites', 'plant_sprites', 'grassy_plant.png')),
 
     # HIVES
     'hive': image.load(join('source', 'assets', 'sprites', 'hive_sprites', 'bee_hive_yellow.png')),

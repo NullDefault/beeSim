@@ -8,9 +8,9 @@ Notes:
 
 class Stomach:
     def __init__(self):
-        self.max_capacity = 10
-        self.current_food = 10
-        self.energy_expenditure = 0.01
+        self.max_capacity = 5
+        self.current_food = 5
+        self.energy_expenditure = 0.005
 
     def use_energy_for_turn(self, distance):
         self.current_food = self.current_food - (self.energy_expenditure * distance)

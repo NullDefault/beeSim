@@ -5,10 +5,11 @@ Notes:
 """
 #  IMPORTS
 from statistics import NormalDist
-from random import randint, uniform
+from random import randint
 from pygame import Rect
 from source.entities.hive_data.bee_hive import BeeHive
 from source.entities.flower_data.flower import Flower
+from source.entities.plant_data.grass_patch import GrassPatch
 
 
 # FUNCTIONS
@@ -160,9 +161,6 @@ def find_hive_loc(play_area, existing_hives, flowers):  # Finds one hive locatio
     for hive in existing_hives:
         if hive.rect.collidepoint(new_loc):
             return find_hive_loc(play_area, existing_hives, flowers)
-    for flower in flowers:
-        if flower.rect.collidepoint(new_loc):
-            return find_hive_loc(play_area, existing_hives, flowers)
     else:
         return new_loc
 
@@ -181,7 +179,7 @@ def map_values(value, left_min, left_max, right_min, right_max):
 
 
 def normal_distribution_flower_spawning_strategy(play_area):
-    flower_num = 400  # This could be a parameter
+    flower_num = 200  # This could be a parameter
     normal_distribution = NormalDist(0.5, 0.15)
     flower_database = {}
 
@@ -203,3 +201,28 @@ def normal_distribution_flower_spawning_strategy(play_area):
             clean_up_table[f_loc] = f
 
     return clean_up_table
+
+
+def grow_grass(play_area):
+    number_of_grass_patches = 100
+    normal_distribution = NormalDist(0.5, 0.15)
+    plant_db = {}
+
+    x_rolls = normal_distribution.samples(number_of_grass_patches)
+    y_rolls = normal_distribution.samples(number_of_grass_patches)
+
+    for i in range(number_of_grass_patches):
+        x_pos = map_values(x_rolls[i], 0, 1, 0, play_area[0])
+        y_pos = map_values(y_rolls[i], 0, 1, 0, play_area[1])
+
+        new_p = GrassPatch((x_pos, y_pos))
+        plant_db[(x_pos, y_pos)] = new_p
+
+    clean_up_db = {}
+
+    for p in plant_db.values():
+        p_loc = p.rect.left, p.rect.top
+        if p_loc not in clean_up_db:
+            clean_up_db[p_loc] = p
+
+    return clean_up_db
