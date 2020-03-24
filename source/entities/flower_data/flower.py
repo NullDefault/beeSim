@@ -4,10 +4,9 @@ Class Purpose: Holds data common to all flowers
 Notes:
 """
 
-from random import randint
-
 #  IMPORTS
 from source.entities.entity import Entity
+from pygame import Vector2
 
 
 # CLASS BODY
@@ -23,6 +22,10 @@ class Flower(Entity):
         self.neighbors = None  # Used for growth
 
         Entity.__init__(self, location, 'flower')
+
+    @property
+    def center_loc(self):
+        return Vector2(self.rect.left + self.rect.width / 2, self.rect.top + self.rect.height / 2)
 
     def set_neighbors(self, neighbors_list):
         self.neighbors = neighbors_list

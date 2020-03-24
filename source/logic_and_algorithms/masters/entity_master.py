@@ -96,13 +96,15 @@ class EntityMaster:
             else:
                 bee.crosshair.add(self.crosshairs)
                 bee.crosshair.follow()
+            bee.handle_collisions(self.flowers)
 
-        bee_and_flower_collisions = groupcollide(self.bees, self.flowers, False, False)
 
-        for bee_in_question in bee_and_flower_collisions:
-            flower = bee_and_flower_collisions.get(bee_in_question)[0]
-            if bee_in_question.validate_collision():
-                bee_in_question.collide_with_flower(flower)
+        # bee_and_flower_collisions = groupcollide(self.bees, self.flowers, False, False)
+
+        # for bee_in_question in bee_and_flower_collisions:
+        #     flower = bee_and_flower_collisions.get(bee_in_question)[0]
+        #     if bee_in_question.validate_collision():
+        #         bee_in_question.collide_with_flower(flower)
 
     def populate_hives(self, hives, bees_per_hive):  # Populates the new hives with bees
         for hive in hives:

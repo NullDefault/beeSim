@@ -8,7 +8,7 @@ Notes:
 from random import randint
 
 from pygame import Vector2
-
+from math import floor, atan2, pi, cos, sin
 from source.entities.bee_data.bee import Bee
 from source.entities.bee_data.bee_components.castes import scout_fysom
 from source.entities.bee_data.bee_components.stomach import Stomach
@@ -17,19 +17,27 @@ from source.entities.bee_data.bee_components.stomach import Stomach
 # CLASS BODY
 
 
+def map_to_range(orientation):
+    """ Maps the angle orientation in degrees to range [-180, 180) """
+    return orientation - 360 * floor((orientation + 180) * (1 / 360))
+
+
+def vector_to_degrees(vector):
+    """ Returns the angle from X+ axis to the given vector """
+    return atan2(-vector[1], vector[0]) * (180/pi)
+
+
 class ScoutBee(Bee):
 
     # FUNCTIONS
 
     def __init__(self, location, queen):
-
+        Bee.__init__(self, location, queen)
         self.scouting_complete = True  # Vars used in the scouting process
         self.remembered_flower = None
-
+        self.sight_range = self.rect.height * 2
         self.state_machine = scout_fysom()  # Assigns the behavior finite state machine
         self.stomach = Stomach()
-
-        Bee.__init__(self, location, queen)
 
     def update(self):
         self.target_destination = self.update_target()
@@ -88,6 +96,25 @@ class ScoutBee(Bee):
             self.state_machine.trigger('dance complete')
 
         return Vector2(self.hive_location.x, self.hive_location.y)
+
+    def handle_collisions(self, flowers):
+        if self.state == 'scout':
+            for f in flowers:
+                distance_vector = f.center_loc - self.location
+                dist = distance_vector.length()
+
+                if dist < self.sight_range:  # 16 should be how far the bee can see
+                    dist_orientation = vector_to_degrees(distance_vector)
+
+                    bee_angle = 270 - atan2(self.target_destination.y - self.location.y,
+                                            self.target_destination.x - self.location.x) * 180 / pi
+
+                    angular_distance = dist_orientation - bee_angle
+                    angular_distance = map_to_range(angular_distance)
+
+                    if abs(angular_distance) < 150:
+                        self.collide_with_flower(f)
+                        break
 
     def collide_with_flower(self, flower):
         if flower not in self.queen_hive.known_flowers:

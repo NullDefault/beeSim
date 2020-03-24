@@ -133,11 +133,8 @@ class WorkerBee(Bee):
         else:
             return self.orbit_hive()
 
-    def collide_with_flower(self, flower):
-        self.state_machine.trigger('arrived at flower')
-
-    def validate_collision(self):
+    def handle_collisions(self, flowers):
         if self.state == 'go to flower':
-            return True
-        else:
-            return False
+            if sprite.collide_rect(self, self.target_flower):
+                    self.state_machine.trigger('arrived at flower')
+
