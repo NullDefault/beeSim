@@ -7,16 +7,16 @@ Notes:
 from os.path import join
 
 import pygame_gui
-from pygame import Rect, USEREVENT, MOUSEBUTTONUP, mouse
+from pygame import Rect, USEREVENT, MOUSEBUTTONUP, mouse, Vector2, MOUSEBUTTONDOWN
 
 # CLASS BODY
-
-main_theme = join('source', 'assets', 'ui_elements', 'gui_theme.json')
+main_theme = join('source', 'assets', 'gui_theme.json')
 
 
 class GuiMaster:
     def __init__(self, screen_resolution, entity_master, game_clock):
         self.gui_manager = pygame_gui.UIManager(screen_resolution, main_theme)
+
         self.entity_master = entity_master
         self.game_clock = game_clock
         self.main_menu_active = False
@@ -25,10 +25,10 @@ class GuiMaster:
                                                                    screen_resolution[1] - 112), (110, 110)),
                                                              text='',
                                                              manager=self.gui_manager,
-                                                             tool_tip_text="Menu",
-                                                             object_id="m_m_b")
+                                                             tool_tip_text="Menu")
 
         self.menu_rect = Rect(screen_resolution[0] - 400, 0, screen_resolution[0] // 4, screen_resolution[1])
+        self.drag_begin = None
         self.menu_display = None
         self.bee_num = None
         self.flower_num = None
@@ -42,11 +42,23 @@ class GuiMaster:
     def draw_ui(self, screen):
         self.gui_manager.draw_ui(screen)
 
-    def process_events(self, event):
+    def process_events(self, event, camera):
         if event.type == MOUSEBUTTONUP:
-            selected_hive = self.entity_master.get_hive_at(mouse.get_pos())
+            test_position = mouse.get_pos()
+            test_position = test_position[0] + camera.location[0], test_position[1] + camera.location[1]
+            selected_hive = self.entity_master.get_hive_at(test_position)
             if selected_hive is not None:
                 selected_hive.highlight_bees()
+
+            if event.button == 1:
+                drag_end = Vector2(event.pos)
+                drag_direction = self.drag_begin - drag_end
+                camera.move(drag_direction)
+
+        elif event.type == MOUSEBUTTONDOWN:
+            if event.button == 1:
+                mouse_x, mouse_y = event.pos
+                self.drag_begin = Vector2(mouse_x, mouse_y)
 
         elif event.type == USEREVENT:
             if event.user_type == 'ui_button_pressed':
