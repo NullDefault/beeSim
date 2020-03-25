@@ -13,13 +13,11 @@ simulation is to create emergent behavior without explicitly programming it.
 - Libraries: pygame for rendering
 ### Features
 - Finite State Automata form the backbone of the project, each individual bee being an independent automaton.
-- Procedurally generated flower fields.
+- Procedurally generated environment.
 - UI elements that allow the inspection of individual hives during simulation.
-- Caste system for bees, the two castes being workers and scouts
-- Bees search and harvest nectar from nearby flowers
-- Camera features which allow zooming in / out and shifting perspective.
+- Bees search and harvest nectar from nearby flowers, using it to feed themselves and expand the hive.
 ### Setup
-Clone the repository, install pygame if you have to and then run main.
+Clone the repository, install the needed libraries if you have to and then run main.
 ### Screenshots
 ![Screenshot 1](./screenshots/screenshot1.png)
 ![Screenshot 2](./screenshots/screenshot2.png)
