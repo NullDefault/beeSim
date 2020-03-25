@@ -7,16 +7,29 @@ Notes:
 #  IMPORTS
 from random import randint
 
-from pygame.sprite import RenderUpdates, groupcollide, collide_circle_ratio, spritecollide
+from pygame.sprite import RenderUpdates, collide_circle_ratio, spritecollide, spritecollideany
 from pygame.time import get_ticks
+from pygame import Vector2
 
 from source.entities.bee_data.scout_bee import ScoutBee
 from source.entities.bee_data.worker_bee import WorkerBee
-from source.logic_and_algorithms.random_generators import grow_grass
+from source.logic_and_algorithms.random_generators import grow_plants
 from source.logic_and_algorithms.spawn_strategies import get_hive_spawn_strategy, get_flower_spawn_strategy
 
 
 # CLASS BODY
+
+
+def merge_plant_sets(origin_dict, merging_dict):
+
+    for plant in merging_dict.values():
+        collision = spritecollideany(plant, origin_dict.values())
+        if collision:
+            move_dir = Vector2(plant.rect.left, plant.rect.top) - Vector2(collision.rect.left, collision.rect.top)
+            plant.rect.left = plant.rect.left + move_dir.x
+            plant.rect.top = plant.rect.top + move_dir.y
+
+    return {**origin_dict, **merging_dict}
 
 
 class EntityMaster:
@@ -26,8 +39,7 @@ class EntityMaster:
 
     # FUNCTIONS
 
-    def __init__(self, initial_hives: int, default_bees_per_hive: int,
-                 number_of_flower_zones: int, initial_growth_stages: int, play_area_dimensions: int(),
+    def __init__(self, initial_hives: int, default_bees_per_hive: int, play_area_dimensions: int(),
                  flower_spawn_strategy: str, hive_spawn_strategy: str):
 
         self.bees = RenderUpdates()
@@ -40,12 +52,8 @@ class EntityMaster:
         self.flower_database = {}
         self.play_area = play_area_dimensions
 
-        spawn_vars = {
-            'flower_zones': number_of_flower_zones,
-            'initial_growth_stages': initial_growth_stages
-        }
-        self.grow_plants(play_area_dimensions)
-        self.load_flower_data(get_flower_spawn_strategy(flower_spawn_strategy, spawn_vars, play_area_dimensions))
+        self.grow_flora(play_area_dimensions)
+        self.load_flower_data(get_flower_spawn_strategy(flower_spawn_strategy, play_area_dimensions))
         self.populate_hives(
             get_hive_spawn_strategy(hive_spawn_strategy, initial_hives, play_area_dimensions, self.flowers),
             default_bees_per_hive)
@@ -98,14 +106,6 @@ class EntityMaster:
                 bee.crosshair.follow()
             bee.handle_collisions(self.flowers)
 
-
-        # bee_and_flower_collisions = groupcollide(self.bees, self.flowers, False, False)
-
-        # for bee_in_question in bee_and_flower_collisions:
-        #     flower = bee_and_flower_collisions.get(bee_in_question)[0]
-        #     if bee_in_question.validate_collision():
-        #         bee_in_question.collide_with_flower(flower)
-
     def populate_hives(self, hives, bees_per_hive):  # Populates the new hives with bees
         for hive in hives:
             self.hives.add(hive)
@@ -144,8 +144,27 @@ class EntityMaster:
         self.flower_database = data
         self.flowers = RenderUpdates(list((data.values())))
 
-    def grow_plants(self, play_area):
-        plant_db = grow_grass(play_area)
+    def grow_flora(self, play_area):
+        # Ideally we want the amount of plants to somehow relate to the size of the play area
+
+        plant_db = grow_plants(play_area, num=randint(65, 80), plant_type="grass_patch", bias="center")
+
+        plant_db = merge_plant_sets(plant_db,
+                                         grow_plants(
+                                             play_area, num=randint(40, 70), plant_type="grassy_plant", bias="edges"))
+        plant_db = merge_plant_sets(plant_db,
+                                         grow_plants(
+                                             play_area, num=randint(0, 1), plant_type="pretty_log", bias="edges"))
+        plant_db = merge_plant_sets(plant_db,
+                                         grow_plants(
+                                             play_area, num=randint(0, 2), plant_type="stump", bias="edges"))
+        plant_db = merge_plant_sets(plant_db,
+                                         grow_plants(
+                                             play_area, num=randint(20, 40), plant_type="leaves", bias="edges"))
+        plant_db = merge_plant_sets(plant_db,
+                                         grow_plants(
+                                             play_area, num=randint(10, 30), plant_type="bushy_grass", bias="edges"))
+
         self.plants = RenderUpdates(list(plant_db.values()))
 
     def get_hive_at(self, position):  # Get hive at given location

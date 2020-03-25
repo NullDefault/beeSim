@@ -18,22 +18,35 @@ sprite_bank = {
         join('source', 'assets', 'sprites', 'bee_sprites', 'bee_sprite_hidden.png')),
 
     # FLOWERS
-    'flower': image.load(join('source', 'assets', 'sprites', 'plant_sprites', 'flowers', 'flower.png')),
+    'flower_0': image.load(join('source', 'assets', 'sprites', 'plant_sprites', 'flowers', 'flower_0.png')),
+    'flower_1': image.load(join('source', 'assets', 'sprites', 'plant_sprites', 'flowers', 'flower_1.png')),
+    'flower_2': image.load(join('source', 'assets', 'sprites', 'plant_sprites', 'flowers', 'flower_2.png')),
+    'flower_3': image.load(join('source', 'assets', 'sprites', 'plant_sprites', 'flowers', 'flower_3.png')),
+    'flower_4': image.load(join('source', 'assets', 'sprites', 'plant_sprites', 'flowers', 'flower_4.png')),
 
-    # PLANTS
-    'grass_patch': image.load(join('source', 'assets', 'sprites', 'plant_sprites', 'grass_patch.png')),
-    'grassy_plant': image.load(join('source', 'assets', 'sprites', 'plant_sprites', 'grassy_plant.png')),
+    # DECORATIONS
+    'grass_patch': image.load(join('source', 'assets', 'sprites', 'plant_sprites',
+                                   'decorative_plants', 'grass_patch.png')),
+    'grassy_plant': image.load(join('source', 'assets', 'sprites', 'plant_sprites',
+                                    'decorative_plants', 'grassy_plant.png')),
+    'bushy_grass': image.load(join('source', 'assets', 'sprites', 'plant_sprites',
+                                    'decorative_plants', 'bushy_grass.png')),
+    'leaves': image.load(join('source', 'assets', 'sprites', 'plant_sprites',
+                                    'decorative_plants', 'leaves.png')),
+    'pretty_log': image.load(join('source', 'assets', 'sprites', 'plant_sprites',
+                                    'decorative_plants', 'pretty_log.png')),
+    'stump': image.load(join('source', 'assets', 'sprites', 'plant_sprites',
+                                    'decorative_plants', 'stump.png')),
 
     # HIVES
     'hive': image.load(join('source', 'assets', 'sprites', 'hive_sprites', 'bee_hive_yellow.png')),
 
     # UI
-    'menu_image': image.load(join('source', 'assets', 'ui_elements', 'menu_background.png')),
-    'inspection_menu': image.load(join('source', 'assets', 'ui_elements', 'inspection_menu.png')),
     'inspection_button': image.load(join('source', 'assets', 'ui_elements', 'inspection_button.png')),
     'game_icon': image.load(join('source', 'assets', 'ui_elements', 'game_icon.png')),
     'crosshair': image.load(join('source', 'assets', 'ui_elements', 'crosshair.png')),
     'honey_bar': image.load(join('source', 'assets', 'ui_elements', 'honey_bar.png')),
+    'honeycombs': image.load(join('source', 'assets', 'ui_elements', 'honeycombs.png')),
     'worker_counter': image.load(join('source', 'assets', 'ui_elements', 'worker_count.png')),
     'scout_counter': image.load(join('source', 'assets', 'ui_elements', 'scout_count.png')),
 }

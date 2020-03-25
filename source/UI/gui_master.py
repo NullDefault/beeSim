@@ -26,8 +26,7 @@ class GuiMaster:
                                                              text='',
                                                              manager=self.gui_manager,
                                                              tool_tip_text="Menu")
-
-        self.menu_rect = Rect(screen_resolution[0] - 400, 0, screen_resolution[0] // 4, screen_resolution[1])
+        self.menu_size = screen_resolution
         self.drag_begin = None
         self.menu_display = None
         self.bee_num = None
@@ -84,21 +83,21 @@ class GuiMaster:
 
         menu = pygame_gui.core.UIContainer(
             manager=self.gui_manager,
-            relative_rect=self.menu_rect
+            relative_rect=Rect(0, 0, self.menu_size[0], self.menu_size[1])
         )
         self.bee_num = pygame_gui.elements.UITextBox(
             html_text=number_of_bees,
-            relative_rect=Rect(self.menu_rect[0] + 100, 0, self.menu_rect.width - 100, 40),
+            relative_rect=Rect(self.menu_size[0] - 275, 25, 250, 50),
             manager=self.gui_manager
         )
         self.flower_num = pygame_gui.elements.UITextBox(
             html_text=number_of_flowers,
-            relative_rect=Rect(self.menu_rect[0] + 100, 40, self.menu_rect.width - 100, 40),
+            relative_rect=Rect(self.menu_size[0] - 275, 75, 250, 50),
             manager=self.gui_manager
         )
         self.fps = pygame_gui.elements.UITextBox(
             html_text=fps_string,
-            relative_rect=Rect(self.menu_rect[0] + 100, 80, self.menu_rect.width - 100, 40),
+            relative_rect=Rect(self.menu_size[0] - 275, 125, 250, 50),
             manager=self.gui_manager
         )
 
@@ -114,7 +113,7 @@ class GuiMaster:
         self.fps.kill()
         self.fps = pygame_gui.elements.UITextBox(
             html_text=fps_string,
-            relative_rect=Rect(self.menu_rect[0] + 100, 80, self.menu_rect.width - 100, 40),
+            relative_rect=Rect(self.menu_size[0] - 275, 125, 250, 50),
             manager=self.gui_manager
         )
         self.menu_display.add_element(self.fps)

@@ -11,7 +11,7 @@ class Camera:
     def __init__(self, frame_resolution, map_size):
         self.render_surface = Surface(frame_resolution)
         self.limits = make_limits(map_size, frame_resolution)
-        self.location = Vector2(map_size[0]/2, map_size[1]/2)
+        self.location = Vector2(0, 0)
 
     def render(self, entities):
         self.render_surface.fill((102, 200, 102))

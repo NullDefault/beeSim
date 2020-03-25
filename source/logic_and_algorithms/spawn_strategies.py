@@ -7,17 +7,11 @@ Notes:
 #  IMPORTS
 
 
-from source.logic_and_algorithms.random_generators import default_flower_spawning_strategy, find_valid_hive_spawns, normal_distribution_flower_spawning_strategy
+from source.logic_and_algorithms.random_generators import find_valid_hive_spawns, normal_distribution_flower_spawning_strategy
 
 
-def get_flower_spawn_strategy(ss, spawn_vars, play_area):
-    if ss == 'default':
-        return default_flower_spawning_strategy(
-            spawn_vars['flower_zones'],
-            spawn_vars['initial_growth_stages'],
-            play_area
-        )
-    elif ss == 'normal_distribution':
+def get_flower_spawn_strategy(ss, play_area):
+    if ss == 'normal_distribution':
         return normal_distribution_flower_spawning_strategy(
             play_area
         )
