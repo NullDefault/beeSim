@@ -16,6 +16,11 @@ class HoneyBar(Entity):
         Entity.__init__(self, loc, 'honey_bar')
 
     def draw_honey(self):
+        """
+        Renders the honey bar
+        :return: void
+        """
+
         percent_full = self.owner.current_nectar / self.owner.max_nectar
 
         if percent_full == 0:

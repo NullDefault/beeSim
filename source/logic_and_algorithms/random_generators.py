@@ -6,6 +6,7 @@ Notes:
 #  IMPORTS
 from pygame import Rect
 from statistics import NormalDist
+
 from source.entities.hive_data.bee_hive import BeeHive
 from source.entities.flower_data.flower import Flower
 from source.entities.decorative_entity import Decoration
@@ -13,7 +14,13 @@ from source.entities.decorative_entity import Decoration
 
 # FUNCTIONS
 
-def find_valid_hive_spawns(hive_num, play_area, flowers):  # Finds valid locations for new hives
+def find_valid_hive_spawns(hive_num, play_area, flowers):
+    """
+    :param hive_num:
+    :param play_area:
+    :param flowers:
+    :return: list of hives in valid locations
+    """
     new_hives = []
     for n in range(hive_num):
         new_hives.append(BeeHive(find_hive_loc(play_area, new_hives, flowers)))
@@ -21,7 +28,13 @@ def find_valid_hive_spawns(hive_num, play_area, flowers):  # Finds valid locatio
     return new_hives
 
 
-def find_hive_loc(play_area, existing_hives, flowers):  # Finds one hive location
+def find_hive_loc(play_area, existing_hives, flowers):
+    """
+    :param play_area:
+    :param existing_hives:
+    :param flowers:
+    :return: valid location for a hive
+    """
     normal_distribution = NormalDist(0.5, 0.15)
 
     new_loc = normal_distribution.samples(2)
@@ -35,10 +48,17 @@ def find_hive_loc(play_area, existing_hives, flowers):  # Finds one hive locatio
     else:
         return new_loc
 
-# maps values from one range to another
 
 
 def map_values(value, left_min, left_max, right_min, right_max):
+    """
+    :param value:
+    :param left_min:
+    :param left_max:
+    :param right_min:
+    :param right_max:
+    :return: Maps the value from the left range onto the right range
+    """
     left_span = left_max - left_min
     right_span = right_max - right_min
 
@@ -50,6 +70,11 @@ def map_values(value, left_min, left_max, right_min, right_max):
 
 
 def normal_distribution_flower_spawning_strategy(play_area):
+    """
+    Returns a normal-distribution generated list of flowers
+    :param play_area:
+    :return: list of spawned flowers
+    """
     flower_num = 200  # This could be a parameter
     normal_distribution = NormalDist(0.5, 0.15)
     flower_database = {}
@@ -77,6 +102,10 @@ def normal_distribution_flower_spawning_strategy(play_area):
 
 
 def inverse_probabilities(o_list):
+    """
+    :param o_list:
+    :return: transforms the values from a normal distribution on range (0, 1) into its equivalents on an upside down one
+    """
     transformed = []
     for value in o_list:
         if value < 0.5:
@@ -87,6 +116,13 @@ def inverse_probabilities(o_list):
 
 
 def grow_plants(play_area, num, plant_type, bias):
+    """
+    :param play_area:
+    :param num:
+    :param plant_type:
+    :param bias:
+    :return: a list of spawned plants of given type
+    """
     normal_distribution = NormalDist(0.5, 0.15)
 
     plant_db = {}

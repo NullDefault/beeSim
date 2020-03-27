@@ -7,7 +7,6 @@ Notes:
 # IMPORTS
 from math import cos, sin
 from random import randint
-
 from pygame import sprite, Vector2
 
 from source.entities.bee_data.bee import Bee
@@ -40,6 +39,10 @@ class WorkerBee(Bee):
         self.state_machine = worker_fysom()  # Assigns the behavioral finite state machine
 
     def update(self):
+        """
+        Runs once per frame
+        :return: void
+        """
         self.target_destination = self.update_target()
         if not self.harvesting_pollen and not self.offloading:
             self.head_towards()
@@ -56,6 +59,10 @@ class WorkerBee(Bee):
             return self.deliver_nectar_load()
 
     def deliver_nectar_load(self):
+        """
+        Makes the worker go back to his hive ot drop off nectar
+        :return: Center of its hive
+        """
         if self.location.distance_to(self.queen_hive.center) < self.rect.width / 2:
             self.queen_hive.gain_nectar(self.current_nectar)
             self.current_nectar = 0
@@ -68,6 +75,10 @@ class WorkerBee(Bee):
             return self.queen_hive.center
 
     def offload(self):
+        """
+        Offloads nectar
+        :return: Center of the hive
+        """
         if not self.offloading:
             self.offloading = True
             self.begin_offload_time = self.queen_hive.last_tick
@@ -80,8 +91,11 @@ class WorkerBee(Bee):
 
         return self.queen_hive.center
 
-    def orbit_hive(self):  # Spin around a hive
-
+    def orbit_hive(self):
+        """
+        Spin around the hive
+        :return: Next location on the orbit trajectory
+        """
         angle = 0.4  # Magic Number - tune for speed of orbit
 
         random_x_offset = randint(-2, 2)
@@ -97,13 +111,17 @@ class WorkerBee(Bee):
             qx = ox + cos(-angle) * (px - ox) - sin(-angle) * (py - oy)
             qy = oy + sin(-angle) * (px - ox) + cos(-angle) * (py - oy)
 
-        ship_back = Vector2(qx + random_x_offset, qy + random_y_offset)
-        return ship_back
+        next_orbit_point = Vector2(qx + random_x_offset, qy + random_y_offset)
+        return next_orbit_point
 
     def harvest_flower(self):
+        """
+        Harvest nectar
+        :return: If harvesting isn't done yet, the location of the flower. Otherwise, go to the hive.
+        """
         if self.current_nectar < self.max_nectar_capacity and self.target_flower.pollen > 0:
             if sprite.collide_rect(self, self.target_flower):
-                self.harvest_nectar_from(self.target_flower)
+                self.start_harvesting_from(self.target_flower)
             return Vector2(self.target_flower.rect.left + randint(0, self.target_flower.rect.width),
                            self.target_flower.rect.top + randint(0, self.target_flower.rect.height))
         else:
@@ -111,7 +129,12 @@ class WorkerBee(Bee):
             self.state_machine.trigger('harvest complete')
             return Vector2(self.hive_location.x, self.hive_location.y)
 
-    def harvest_nectar_from(self, flower):
+    def start_harvesting_from(self, flower):
+        """
+        Starts the harvesting process
+        :param flower:
+        :return: void
+        """
         if not self.harvesting_pollen:
             self.rect.left = flower.rect.left + self.target_flower.rect.width/3 + randint(-2, 2)
             self.rect.top = flower.rect.top + self.target_flower.rect.height/3 + randint(-2, 2)
@@ -122,9 +145,12 @@ class WorkerBee(Bee):
             if current_time >= self.begin_harvest_time + randint(2000, 4000):
                 self.harvesting_pollen = False
                 self.current_nectar = self.current_nectar + \
-                                      flower.finish_harvest(self.max_nectar_capacity, self.current_nectar)
+                                      flower.transfer_pollen(self.max_nectar_capacity, self.current_nectar)
 
     def check_available_orders(self):
+        """
+        :return: If an order is received, the order location. Otherwise, orbit the hive.
+        """
         if self.queen_hive.has_orders:
             self.target_flower = self.queen_hive.get_order()
             self.state_machine.trigger('go to flower')
@@ -137,4 +163,10 @@ class WorkerBee(Bee):
         if self.state == 'go to flower':
             if sprite.collide_rect(self, self.target_flower):
                     self.state_machine.trigger('arrived at flower')
+
+    def collide_with_flower(self, flower):
+        pass
+
+    def validate_collision(self):
+        pass
 

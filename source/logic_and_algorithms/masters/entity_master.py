@@ -21,6 +21,11 @@ from source.logic_and_algorithms.spawn_strategies import get_hive_spawn_strategy
 
 
 def merge_plant_sets(origin_dict, merging_dict):
+    """
+    :param origin_dict:
+    :param merging_dict:
+    :return: Merges the two dictionaries merged together, correcting for overlapping plants
+    """
 
     for plant in merging_dict.values():
         collision = spritecollideany(plant, origin_dict.values())
@@ -60,14 +65,23 @@ class EntityMaster:
         self.clean_up_spawn()
 
     @property
-    def bee_population(self):  # Get number of bees on the board
+    def bee_population(self):
+        """
+        :return: Total number of bees in the simulation
+        """
         return len(self.bees)
 
     @property
     def flower_population(self):
+        """
+        :return: Total number of flowers in the simulation
+        """
         return len(self.flowers)
 
-    def get_valid_entities(self):  # Returns entities to render next rendering step
+    def get_valid_entities(self):
+        """
+        :return: Entities that need to be rendered next frame
+        """
         self.update_game_state()
 
         valid_entities = RenderUpdates()
@@ -80,7 +94,10 @@ class EntityMaster:
 
         return valid_entities
 
-    def update_game_state(self):  # Updates the game state
+    def update_game_state(self):
+        """
+        :return: void
+        """
         for hive in self.hives:
             hive.last_tick = get_ticks()
 
@@ -106,13 +123,24 @@ class EntityMaster:
                 bee.crosshair.follow()
             bee.handle_collisions(self.flowers)
 
-    def populate_hives(self, hives, bees_per_hive):  # Populates the new hives with bees
+    def populate_hives(self, hives, bees_per_hive):
+        """
+        Populates the hives with bees
+        :param hives:
+        :param bees_per_hive:
+        :return:
+        """
         for hive in hives:
             self.hives.add(hive)
             self.spawn_initial_bees(hive, bees_per_hive)
 
-    def spawn_initial_bees(self, hive, bees_per_hive):  # Spawns initial bees for a given hive
-
+    def spawn_initial_bees(self, hive, bees_per_hive):
+        """
+        Fills an individual hive with bees
+        :param hive:
+        :param bees_per_hive:
+        :return:
+        """
         scouts = int(bees_per_hive / self.bee_ratio)
         workers = bees_per_hive - scouts
 
@@ -134,18 +162,31 @@ class EntityMaster:
             hive.add_scout_bee(new_bee)
             self.bees.add(new_bee)
 
-    def clean_up_spawn(self):  # remove flowers under hives and add their ui elements to the ui_elements group
+    def clean_up_spawn(self):
+        """
+        Removes flowers that are colliding with hives and adds UI elements to the hives
+        :return:
+        """
         for hive in self.hives:
             flowers = self.flowers
             spritecollide(hive, flowers, True, collide_circle_ratio(1.3))
             self.ui_elements.add(hive.honey_bar, hive.worker_counter, hive.scout_counter)
 
-    def load_flower_data(self, data):  # Load updated flower data
+    def load_flower_data(self, data):
+        """
+        Loads the list of flowers
+        :param data:
+        :return:
+        """
         self.flower_database = data
         self.flowers = RenderUpdates(list((data.values())))
 
     def grow_flora(self, play_area):
-        # Ideally we want the amount of plants to somehow relate to the size of the play area
+        """
+        Grows the decorative plants
+        :param play_area:
+        :return: void
+        """
 
         plant_db = grow_plants(play_area, num=randint(65, 80), plant_type="grass_patch", bias="center")
 
@@ -167,7 +208,11 @@ class EntityMaster:
 
         self.plants = RenderUpdates(list(plant_db.values()))
 
-    def get_hive_at(self, position):  # Get hive at given location
+    def get_hive_at(self, position):
+        """
+        :param position:
+        :return: Hive at given location, None if there are none such.
+        """
         for hive in self.hives:
             if hive.rect.collidepoint(position):
                 return hive

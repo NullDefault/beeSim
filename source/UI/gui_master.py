@@ -77,6 +77,10 @@ class GuiMaster:
         self.menu_display.kill()
 
     def build_menu_display(self):
+        """
+        Builds the ui element displaying the current state of the simulation
+        :return: Menu render
+        """
         number_of_bees = "Number of Bees: " + str(self.entity_master.bee_population)
         number_of_flowers = "Number of Flowers: " + str(self.entity_master.flower_population)
         fps_string = "Frames per Second: " + str(self.game_clock.get_fps())[0:4]
@@ -108,6 +112,10 @@ class GuiMaster:
         return menu
 
     def update_main_menu(self):
+        """
+        Updates all the parameters that have changed since last time
+        :return: void
+        """
         fps_string = "Frames per Second: " + str(self.game_clock.get_fps())[0:4]
         self.menu_display.remove_element(self.fps)
         self.fps.kill()

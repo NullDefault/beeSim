@@ -2,18 +2,28 @@ from pygame import Surface, Vector2
 
 
 def make_limits(map_size, frame_resolution):
+    """
+    :param map_size:
+    :param frame_resolution:
+    :return: The highest value the camera will be allowed to go
+    """
     highest_x_val = map_size[0] - frame_resolution[0]
     highest_y_val = map_size[1] - frame_resolution[1]
     return highest_x_val, highest_y_val
 
 
 class Camera:
+
     def __init__(self, frame_resolution, map_size):
         self.render_surface = Surface(frame_resolution)
         self.limits = make_limits(map_size, frame_resolution)
         self.location = Vector2(0, 0)
 
     def render(self, entities):
+        """
+        :param entities:
+        :return: returns the rendered frame
+        """
         self.render_surface.fill((102, 200, 102))
         for entity in entities:
             self.render_surface.blit(entity.image,
@@ -22,6 +32,11 @@ class Camera:
         return self.render_surface
 
     def move(self, destination):
+        """
+        Moves the camera
+        :param destination:
+        :return: void
+        """
         self.location = self.location + destination
 
         if self.location.x < 0:

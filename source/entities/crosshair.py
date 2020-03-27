@@ -13,5 +13,9 @@ class Crosshair(Entity):
         Entity.__init__(self, (bee.location.x, bee.location.y), 'crosshair')  # Calls the Entity constructor
 
     def follow(self):
+        """
+        Follows the owner bee
+        :return: void
+        """
         self.rect.left = self.owner.location.x - 10
         self.rect.top = self.owner.location.y - 10

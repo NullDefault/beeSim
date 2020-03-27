@@ -53,4 +53,8 @@ sprite_bank = {
 
 
 def retrieve(sprite: str):
+    """
+    :param sprite:
+    :return: Returns the image for the requested sprite
+    """
     return sprite_bank[sprite]
