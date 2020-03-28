@@ -4,6 +4,7 @@ An experiment in attempting to simulate the behavior of a bee hive and individua
 * [General info](#general-info)
 * [Features](#features)
 * [Setup](#setup)
+* [UI Guide](#ui-guide)
 * [Screenshots](#screenshots)
 * [Acknowledgements](#acknowledgements)
 ### General info
@@ -18,6 +19,8 @@ simulation is to create emergent behavior without explicitly programming it.
 - Bees search and harvest nectar from nearby flowers, using it to feed themselves and expand the hive.
 ### Setup
 Clone the repository, install the needed libraries if you have to and then run main.
+### UI Guide
+Click on the honeycomb button in the bottom right corner to bring up the main menu. Clicking on individual hives highlights them, their bees, their known flowers and displays how much nectar the hive has and the number of scouts and workers.
 ### Screenshots
 ![Screenshot 1](./screenshots/screenshot1.png)
 ![Screenshot 2](./screenshots/screenshot2.png)
