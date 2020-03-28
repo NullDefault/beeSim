@@ -8,13 +8,13 @@ from source.entities.entity import Entity
 
 
 class Crosshair(Entity):
-    def __init__(self, bee):
-        self.owner = bee
-        Entity.__init__(self, (bee.location.x, bee.location.y), 'crosshair')  # Calls the Entity constructor
+    def __init__(self, entity, kind):
+        self.owner = entity
+        Entity.__init__(self, (entity.rect.left, entity.rect.top), 'crosshair_'+kind)  # Calls the Entity constructor
 
     def follow(self):
         """
-        Follows the owner bee
+        Follows the owner
         :return: void
         """
         self.rect.left = self.owner.location.x - 10

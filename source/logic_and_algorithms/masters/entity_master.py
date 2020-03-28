@@ -100,28 +100,50 @@ class EntityMaster:
         """
         for hive in self.hives:
             hive.last_tick = get_ticks()
-
-            if hive.highlighted and not self.ui_elements.__contains__(hive.honey_bar):
-                self.ui_elements.add(hive.honey_bar)
-                self.ui_elements.add(hive.scout_counter)
-                self.ui_elements.add(hive.worker_counter)
-            if hive.highlighted and self.ui_elements.__contains__(hive.honey_bar):
-                hive.honey_bar.draw_honey()
-                hive.scout_counter.render()
-                hive.worker_counter.render()
-            elif not hive.highlighted:
-                self.ui_elements.remove(hive.honey_bar)
-                self.ui_elements.remove(hive.scout_counter)
-                self.ui_elements.remove(hive.worker_counter)
+            self.handle_hive_highlighting(hive)
 
         for bee in self.bees:
             bee.update()
-            if not bee.highlighted:
-                bee.crosshair.kill()
-            else:
-                bee.crosshair.add(self.crosshairs)
-                bee.crosshair.follow()
+            self.update_bee_crosshair(bee)
             bee.handle_collisions(self.flowers)
+
+    def update_bee_crosshair(self, bee):
+        """
+        Updates the state of the bee crosshair, adding it to the list of rendered entities if necessary
+        :param bee:
+        :return: void
+        """
+        if not bee.highlighted:
+            bee.crosshair.kill()
+        else:
+            self.crosshairs.add(bee.crosshair)
+            bee.crosshair.follow()
+
+    def handle_hive_highlighting(self, hive):
+        """
+        Takes care of everything that has to do with hive highlighting, adding the needed ui elements if necessary
+        :param hive:
+        :return:
+        """
+        if not self.ui_elements.__contains__(hive.honey_bar) and hive.highlighted:
+            self.ui_elements.add(hive.honey_bar)
+            self.ui_elements.add(hive.scout_counter)
+            self.ui_elements.add(hive.worker_counter)
+        if hive.highlighted:
+            hive.honey_bar.draw_honey()
+            hive.scout_counter.render()
+            hive.worker_counter.render()
+            for flower in hive.known_flowers:
+                if flower.crosshair not in self.crosshairs:
+                    flower.highlighted = True
+                    self.crosshairs.add(flower.crosshair)
+        elif not hive.highlighted:
+            self.ui_elements.remove(hive.honey_bar)
+            self.ui_elements.remove(hive.scout_counter)
+            self.ui_elements.remove(hive.worker_counter)
+            for flower in hive.known_flowers:
+                flower.highlighted = False
+                flower.crosshair.kill()
 
     def populate_hives(self, hives, bees_per_hive):
         """

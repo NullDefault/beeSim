@@ -44,7 +44,10 @@ sprite_bank = {
     # UI
     'inspection_button': image.load(join('source', 'assets', 'ui_elements', 'inspection_button.png')),
     'game_icon': image.load(join('source', 'assets', 'ui_elements', 'game_icon.png')),
-    'crosshair': image.load(join('source', 'assets', 'ui_elements', 'crosshair.png')),
+
+    'crosshair_bee': image.load(join('source', 'assets', 'ui_elements', 'crosshair_bee.png')),
+    'crosshair_flower': image.load(join('source', 'assets', 'ui_elements', 'crosshair_flower.png')),
+
     'honey_bar': image.load(join('source', 'assets', 'ui_elements', 'honey_bar.png')),
     'honeycombs': image.load(join('source', 'assets', 'ui_elements', 'honeycombs.png')),
     'worker_counter': image.load(join('source', 'assets', 'ui_elements', 'worker_count.png')),

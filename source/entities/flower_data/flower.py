@@ -8,6 +8,7 @@ Notes:
 from pygame import Vector2
 from statistics import NormalDist
 
+from source.entities.crosshair import Crosshair
 from source.entities.entity import Entity
 
 random_gen = NormalDist(0.5, 0.15)  # This creates a normal distribution of range (0, 1)
@@ -35,13 +36,14 @@ class Flower(Entity):
     # FUNCTIONS
 
     def __init__(self, location):
+        random_color = choose_color()
+        Entity.__init__(self, location, 'flower'+"_"+str(random_color))
+
         self.busy = False  # Used by hives to designate orders
         self.pollen = 10  # How much pollen the flowers starts with
         self.neighbors = None  # Used for growth
-
-        random_color = choose_color()
-
-        Entity.__init__(self, location, 'flower'+"_"+str(random_color))
+        self.highlighted = False
+        self.crosshair = Crosshair(self, 'flower')
 
     @property
     def center_loc(self):

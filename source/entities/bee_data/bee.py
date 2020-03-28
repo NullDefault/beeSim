@@ -40,7 +40,7 @@ class Bee(Entity):
         self.target_destination = queen.center  # Variable used for movement
         self.speed = 1.5  # The max length a bee can move in a single frame
 
-        self.crosshair = Crosshair(self)
+        self.crosshair = Crosshair(self, 'bee')
 
     @property
     def location(self):
