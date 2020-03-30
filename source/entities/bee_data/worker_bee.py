@@ -126,9 +126,11 @@ class WorkerBee(Bee):
         Harvest nectar
         :return: If harvesting isn't done yet, the location of the flower. Otherwise, go to the hive.
         """
-        if self.current_nectar < self.max_nectar_capacity and self.target_flower.pollen > 0:
+        if self.current_nectar < self.max_nectar_capacity:
             if sprite.collide_rect(self, self.target_flower):
                 self.start_harvesting_from(self.target_flower)
+            if self.target_flower.pollen <= 0:
+                self.state_machine.trigger('harvest complete')
             return Vector2(self.target_flower.rect.left + randint(0, self.target_flower.rect.width),
                            self.target_flower.rect.top + randint(0, self.target_flower.rect.height))
         else:

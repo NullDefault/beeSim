@@ -40,7 +40,7 @@ class Flower(Entity):
         Entity.__init__(self, location, 'flower'+"_"+str(random_color))
 
         self.busy = False  # Used by hives to designate orders
-        self.pollen = 10  # How much pollen the flowers starts with
+        self.pollen = 100  # How much pollen the flowers starts with
         self.highlighted = False
         self.crosshair = Crosshair(self, 'flower')
 

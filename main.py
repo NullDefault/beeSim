@@ -31,8 +31,8 @@ def main():
     camera = Camera(frame_resolution, map_size)
     display.set_icon(game_icon)
     display.set_caption("beeSim")
-    entity_master = EntityMaster(initial_hives=1,
-                                 default_bees_per_hive=10,
+    entity_master = EntityMaster(initial_hives=5,
+                                 default_bees_per_hive=6,
                                  play_area_dimensions=map_size,
                                  flower_spawn_strategy='normal_distribution',
                                  hive_spawn_strategy='default')

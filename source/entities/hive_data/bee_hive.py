@@ -5,21 +5,30 @@ Notes:
 """
 
 #  IMPORTS
-from pygame import Vector2
+from pygame import Vector2, Surface, SRCALPHA, surfarray
 
 from source.UI.bee_counters import Counter
 from source.UI.honey_bar import HoneyBar
 from source.entities.entity import Entity
+from source.entities.sprite_bank import sprite_bank
 
 
 # CLASS BODY
+
+team_color_dict = {
+    'red': [204, 0, 0],
+    'green': [0, 51, 0],
+    'blue': [0, 153, 255],
+    'purple': [153, 0, 153],
+    'yellow': [255, 255, 0]
+}
 
 
 class BeeHive(Entity):
 
     #  FUNCTIONS
 
-    def __init__(self, location):
+    def __init__(self, location, team):
 
         self.highlighted = False  # Used in inspection mode
 
@@ -32,10 +41,12 @@ class BeeHive(Entity):
         self.flowers_getting_harvested = []  # Flowers currently being harvested by workers
 
         self.workers = []  # Hive workers
-
         self.scouts = []  # Hive scouts
 
         Entity.__init__(self, location, 'hive')
+
+        self.team = team
+        self.init_team_data()
 
         self.worker_counter = Counter(self, "worker_counter")
         self.scout_counter = Counter(self, "scout_counter")
@@ -65,11 +76,28 @@ class BeeHive(Entity):
         # 0: workers, 1: scouts
         return len(self.workers), len(self.scouts)
 
+    def init_team_data(self):
+        temp = self.image
+        self.image = Surface(self.rect.size, SRCALPHA)
+        self.image.blit(temp, (0, 0))
+        self.image.blit(sprite_bank[self.team+'_hat'], (20, 4))
+
+    def indoctrinate_bee(self, bee):
+        new_crosshair = bee.crosshair.image.copy()
+        arr = surfarray.pixels3d(new_crosshair)
+        color = team_color_dict[self.team]
+
+        arr[:, :, 0] = color[0]
+        arr[:, :, 1] = color[1]
+        arr[:, :, 2] = color[2]
+        bee.crosshair.image = new_crosshair
+
     def add_worker_bee(self, bee):
         """
         :param bee:
         :return: Adds the worker bee to the hive
         """
+        self.indoctrinate_bee(bee)
         self.workers.append(bee)
 
     def add_scout_bee(self, bee):
@@ -77,6 +105,7 @@ class BeeHive(Entity):
         :param bee:
         :return: Adds the scout bee to the hive
         """
+        self.indoctrinate_bee(bee)
         self.scouts.append(bee)
 
     def gain_nectar(self, nectar_amount):

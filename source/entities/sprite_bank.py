@@ -41,6 +41,13 @@ sprite_bank = {
     # HIVES
     'hive': image.load(join('source', 'assets', 'sprites', 'hive_sprites', 'hive.png')),
 
+    # HIVE HATS
+    'red_hat': image.load(join('source', 'assets', 'sprites', 'hive_sprites', 'red_hat.png')),
+    'blue_hat': image.load(join('source', 'assets', 'sprites', 'hive_sprites', 'blue_hat.png')),
+    'green_hat': image.load(join('source', 'assets', 'sprites', 'hive_sprites', 'green_hat.png')),
+    'purple_hat': image.load(join('source', 'assets', 'sprites', 'hive_sprites', 'purple_hat.png')),
+    'yellow_hat': image.load(join('source', 'assets', 'sprites', 'hive_sprites', 'yellow_hat.png')),
+
     # UI
     'inspection_button': image.load(join('source', 'assets', 'ui_elements', 'inspection_button.png')),
     'game_icon': image.load(join('source', 'assets', 'ui_elements', 'game_icon.png')),

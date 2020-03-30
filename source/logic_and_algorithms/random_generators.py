@@ -22,8 +22,17 @@ def find_valid_hive_spawns(hive_num, play_area, flowers):
     :return: list of hives in valid locations
     """
     new_hives = []
+    c_index = 0
+    colors = ['blue', 'green', 'purple', 'red', 'yellow']
+
     for n in range(hive_num):
-        new_hives.append(BeeHive(find_hive_loc(play_area, new_hives, flowers)))
+
+        if c_index != colors.__len__() - 1:
+            c_index += 1
+        else:
+            c_index = 0
+
+        new_hives.append(BeeHive(find_hive_loc(play_area, new_hives, flowers), colors[c_index]))
 
     return new_hives
 
@@ -47,7 +56,6 @@ def find_hive_loc(play_area, existing_hives, flowers):
             return find_hive_loc(play_area, existing_hives, flowers)
     else:
         return new_loc
-
 
 
 def map_values(value, left_min, left_max, right_min, right_max):
