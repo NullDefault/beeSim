@@ -17,7 +17,7 @@ from source.entities.sprite_bank import sprite_bank
 
 team_color_dict = {
     'red': [204, 0, 0],
-    'green': [0, 51, 0],
+    'green': [0, 255, 10],
     'blue': [0, 153, 255],
     'purple': [153, 0, 153],
     'yellow': [255, 255, 0]
@@ -77,27 +77,36 @@ class BeeHive(Entity):
         return len(self.workers), len(self.scouts)
 
     def init_team_data(self):
+        """
+        Puts the appropriate hat on top of the hive. (It makes its color match its team)
+        :return: void
+        """
         temp = self.image
         self.image = Surface(self.rect.size, SRCALPHA)
         self.image.blit(temp, (0, 0))
         self.image.blit(sprite_bank[self.team+'_hat'], (20, 4))
 
-    def indoctrinate_bee(self, bee):
-        new_crosshair = bee.crosshair.image.copy()
+    def recolor_crosshair(self, entity):
+        """
+        Changes the color of the entity crosshair to that of the hive
+        :param entity:
+        :return: void
+        """
+        new_crosshair = entity.crosshair.image.copy()
         arr = surfarray.pixels3d(new_crosshair)
         color = team_color_dict[self.team]
 
         arr[:, :, 0] = color[0]
         arr[:, :, 1] = color[1]
         arr[:, :, 2] = color[2]
-        bee.crosshair.image = new_crosshair
+        entity.crosshair.image = new_crosshair
 
     def add_worker_bee(self, bee):
         """
         :param bee:
         :return: Adds the worker bee to the hive
         """
-        self.indoctrinate_bee(bee)
+        self.recolor_crosshair(bee)
         self.workers.append(bee)
 
     def add_scout_bee(self, bee):
@@ -105,7 +114,7 @@ class BeeHive(Entity):
         :param bee:
         :return: Adds the scout bee to the hive
         """
-        self.indoctrinate_bee(bee)
+        self.recolor_crosshair(bee)
         self.scouts.append(bee)
 
     def gain_nectar(self, nectar_amount):
@@ -138,6 +147,8 @@ class BeeHive(Entity):
         """
         if self.highlighted:
             flower.highlighted = True
+            if self not in flower.inspecting_hives:
+                flower.inspecting_hives.append(self)
         self.known_flowers.append(flower)
 
     def get_order(self):
@@ -162,7 +173,8 @@ class BeeHive(Entity):
             for bee in self.scouts:
                 bee.highlighted = True
             for flower in self.flowers:
-                flower.highlighted = True
+                self.recolor_crosshair(flower)
+                flower.inspecting_hives.append(self)
         else:
             self.highlighted = False
 
@@ -171,5 +183,5 @@ class BeeHive(Entity):
             for bee in self.scouts:
                 bee.highlighted = False
             for flower in self.flowers:
-                flower.highlighted = False
+                flower.inspecting_hives.remove(self)
 

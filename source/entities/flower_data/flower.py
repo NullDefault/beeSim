@@ -41,7 +41,7 @@ class Flower(Entity):
 
         self.busy = False  # Used by hives to designate orders
         self.pollen = 100  # How much pollen the flowers starts with
-        self.highlighted = False
+        self.inspecting_hives = []
         self.crosshair = Crosshair(self, 'flower')
 
     @property

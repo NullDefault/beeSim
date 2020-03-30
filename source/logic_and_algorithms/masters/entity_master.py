@@ -108,8 +108,9 @@ class EntityMaster:
             bee.handle_collisions(self.flowers)
 
         for flower in self.flowers:
-            if flower.highlighted:
+            if flower.inspecting_hives.__len__() != 0:
                 self.crosshairs.add(flower.crosshair)
+                flower.inspecting_hives[flower.inspecting_hives.__len__()-1].recolor_crosshair(flower)
             else:
                 self.crosshairs.remove(flower.crosshair)
 
