@@ -107,6 +107,12 @@ class EntityMaster:
             self.update_bee_crosshair(bee)
             bee.handle_collisions(self.flowers)
 
+        for flower in self.flowers:
+            if flower.highlighted:
+                self.crosshairs.add(flower.crosshair)
+            else:
+                self.crosshairs.remove(flower.crosshair)
+
     def update_bee_crosshair(self, bee):
         """
         Updates the state of the bee crosshair, adding it to the list of rendered entities if necessary
@@ -133,17 +139,10 @@ class EntityMaster:
             hive.honey_bar.draw_honey()
             hive.scout_counter.render()
             hive.worker_counter.render()
-            for flower in hive.known_flowers:
-                if flower.crosshair not in self.crosshairs:
-                    flower.highlighted = True
-                    self.crosshairs.add(flower.crosshair)
         elif not hive.highlighted:
             self.ui_elements.remove(hive.honey_bar)
             self.ui_elements.remove(hive.scout_counter)
             self.ui_elements.remove(hive.worker_counter)
-            for flower in hive.known_flowers:
-                flower.highlighted = False
-                flower.crosshair.kill()
 
     def populate_hives(self, hives, bees_per_hive):
         """

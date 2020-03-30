@@ -41,7 +41,6 @@ class Flower(Entity):
 
         self.busy = False  # Used by hives to designate orders
         self.pollen = 10  # How much pollen the flowers starts with
-        self.neighbors = None  # Used for growth
         self.highlighted = False
         self.crosshair = Crosshair(self, 'flower')
 

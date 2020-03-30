@@ -47,7 +47,7 @@ class GuiMaster:
             test_position = test_position[0] + camera.location[0], test_position[1] + camera.location[1]
             selected_hive = self.entity_master.get_hive_at(test_position)
             if selected_hive is not None:
-                selected_hive.highlight_bees()
+                selected_hive.highlight()
 
             if event.button == 1:
                 drag_end = Vector2(event.pos)

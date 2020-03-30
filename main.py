@@ -13,7 +13,7 @@ from source.entities import sprite_bank
 from source.logic_and_algorithms.masters.entity_master import EntityMaster
 
 # DATA FIELDS
-map_size = (1600, 900)
+map_size = (2200, 1100)
 
 frame_resolution = (1600, 900)
 menu_location = (1200, 0)

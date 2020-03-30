@@ -67,6 +67,13 @@ class WorkerBee(Bee):
             self.queen_hive.gain_nectar(self.current_nectar)
             self.current_nectar = 0
 
+            if self.target_flower.pollen > 0:
+                self.queen_hive.flowers_getting_harvested.remove(self.target_flower)
+                self.queen_hive.remember_flower(self.target_flower)
+            else:
+                self.queen_hive.flowers_getting_harvested.remove(self.target_flower)
+                self.target_flower.highlighted = False
+
             self.state_machine.trigger('begin offload')
             self.rect.left = self.queen_hive.center.x + randint(-1, 1)
             self.rect.top = self.queen_hive.center.y + randint(-1, 1)
@@ -79,10 +86,6 @@ class WorkerBee(Bee):
         Offloads nectar
         :return: Center of the hive
         """
-
-        if self.target_flower.pollen <= 0:
-            self.queen_hive.forget_flower(self.target_flower)
-
         if not self.offloading:
             self.offloading = True
             self.begin_offload_time = self.queen_hive.last_tick

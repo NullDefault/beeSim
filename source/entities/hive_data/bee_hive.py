@@ -29,6 +29,7 @@ class BeeHive(Entity):
         self.last_tick = 0  # Time since last tick check
 
         self.known_flowers = []  # Flowers the scouts have discovered
+        self.flowers_getting_harvested = []  # Flowers currently being harvested by workers
 
         self.workers = []  # Hive workers
 
@@ -51,6 +52,10 @@ class BeeHive(Entity):
                 return True
         else:
             return False
+
+    @property
+    def flowers(self):
+        return self.known_flowers+self.flowers_getting_harvested
 
     @property
     def number_of_bees(self):
@@ -102,40 +107,40 @@ class BeeHive(Entity):
         :param flower:
         :return: Adds the flower to the list of known flowers
         """
-        self.known_flowers.append(flower)
-
-    def forget_flower(self, flower):
-        """
-        :param flower:
-        :return: Removes the flower from the list of known flowers
-        """
         if self.highlighted:
-            flower.crosshair.kill()
+            flower.highlighted = True
+        self.known_flowers.append(flower)
 
     def get_order(self):
         """
         :return: Returns a flower for harvesting process
         """
         flower = self.known_flowers.pop()
+        self.flowers_getting_harvested.append(flower)
         flower.busy = True
         return flower
 
-    def highlight_bees(self):
+    def highlight(self):
         """
         Turns bee highlighting on or off depending on what state it was in earlier
         :return: void
         """
         if not self.highlighted:
+            self.highlighted = True
+
             for bee in self.workers:
                 bee.highlighted = True
-                self.highlighted = True
             for bee in self.scouts:
                 bee.highlighted = True
-                self.highlighted = True
+            for flower in self.flowers:
+                flower.highlighted = True
         else:
+            self.highlighted = False
+
             for bee in self.workers:
                 bee.highlighted = False
-                self.highlighted = False
             for bee in self.scouts:
                 bee.highlighted = False
-                self.highlighted = False
+            for flower in self.flowers:
+                flower.highlighted = False
+
