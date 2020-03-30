@@ -39,7 +39,7 @@ sprite_bank = {
                                     'decorative_plants', 'stump.png')),
 
     # HIVES
-    'hive': image.load(join('source', 'assets', 'sprites', 'hive_sprites', 'bee_hive_yellow.png')),
+    'hive': image.load(join('source', 'assets', 'sprites', 'hive_sprites', 'hive.png')),
 
     # UI
     'inspection_button': image.load(join('source', 'assets', 'ui_elements', 'inspection_button.png')),
@@ -49,7 +49,6 @@ sprite_bank = {
     'crosshair_flower': image.load(join('source', 'assets', 'ui_elements', 'crosshair_flower.png')),
 
     'honey_bar': image.load(join('source', 'assets', 'ui_elements', 'honey_bar.png')),
-    'honeycombs': image.load(join('source', 'assets', 'ui_elements', 'honeycombs.png')),
     'worker_counter': image.load(join('source', 'assets', 'ui_elements', 'worker_count.png')),
     'scout_counter': image.load(join('source', 'assets', 'ui_elements', 'scout_count.png')),
 }

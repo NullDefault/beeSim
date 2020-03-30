@@ -30,8 +30,6 @@ class BeeHive(Entity):
 
         self.known_flowers = []  # Flowers the scouts have discovered
 
-        self.available_orders = []  # Flowers the workers can be ordered to pursue
-
         self.workers = []  # Hive workers
 
         self.scouts = []  # Hive scouts
@@ -48,9 +46,9 @@ class BeeHive(Entity):
         """
         :return: If there's an available order, return True. Otherwise False.
         """
-        self.update_order_queue()
-        if len(self.available_orders) != 0:
-            return True
+        for flower in self.known_flowers:
+            if not flower.busy:
+                return True
         else:
             return False
 
@@ -105,33 +103,20 @@ class BeeHive(Entity):
         :return: Adds the flower to the list of known flowers
         """
         self.known_flowers.append(flower)
-        self.available_orders.append(flower)
 
     def forget_flower(self, flower):
         """
         :param flower:
         :return: Removes the flower from the list of known flowers
         """
-        self.known_flowers.remove(flower)
-        self.available_orders.remove(flower)
-
-    def update_order_queue(self):
-        """
-        Updates the order queue
-        :return: void
-        """
-        available_orders = []
-        for flower in self.known_flowers:
-            if flower.pollen != 0 and not flower.busy:
-                available_orders.append(flower)
-
-        self.available_orders = available_orders
+        if self.highlighted:
+            flower.crosshair.kill()
 
     def get_order(self):
         """
         :return: Returns a flower for harvesting process
         """
-        flower = self.available_orders.pop()
+        flower = self.known_flowers.pop()
         flower.busy = True
         return flower
 

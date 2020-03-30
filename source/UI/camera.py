@@ -15,6 +15,7 @@ def make_limits(map_size, frame_resolution):
 class Camera:
 
     def __init__(self, frame_resolution, map_size):
+        self.frame_resolution = frame_resolution
         self.render_surface = Surface(frame_resolution)
         self.limits = make_limits(map_size, frame_resolution)
         self.location = Vector2(0, 0)
@@ -26,9 +27,10 @@ class Camera:
         """
         self.render_surface.fill((102, 200, 102))
         for entity in entities:
-            self.render_surface.blit(entity.image,
-                                     (entity.rect.left - self.location[0],
-                                      entity.rect.top - self.location[1]))
+            if self.in_range(entity.rect.left, 'x') and self.in_range(entity.rect.top, 'y'):  # This makes sure we only
+                self.render_surface.blit(entity.image,                                        # render entities that are
+                                         (entity.rect.left - self.location[0],                # within the frame
+                                          entity.rect.top - self.location[1]))
         return self.render_surface
 
     def move(self, destination):
@@ -48,5 +50,21 @@ class Camera:
         if self.location.y > self.limits[1]:
             self.location.y = self.limits[1]
 
-
+    def in_range(self, val, x_or_y):
+        """
+        Checks if the given value is inside of the frame or outside
+        :param val: the given location
+        :param x_or_y: if it is on the x or y axis
+        :return: True if inside of the frame, False otherwise
+        """
+        if x_or_y is 'x':
+            if self.location.x <= val <= self.location.x + self.frame_resolution[0]:
+                return True
+            else:
+                return False
+        elif x_or_y is 'y':
+            if self.location.y <= val <= self.location.y + self.frame_resolution[1]:
+                return True
+            else:
+                return False
 

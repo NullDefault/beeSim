@@ -79,6 +79,10 @@ class WorkerBee(Bee):
         Offloads nectar
         :return: Center of the hive
         """
+
+        if self.target_flower.pollen <= 0:
+            self.queen_hive.forget_flower(self.target_flower)
+
         if not self.offloading:
             self.offloading = True
             self.begin_offload_time = self.queen_hive.last_tick

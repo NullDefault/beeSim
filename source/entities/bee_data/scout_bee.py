@@ -40,6 +40,7 @@ class ScoutBee(Bee):
         Bee.__init__(self, location, queen)
 
         self.scouting_complete = True  # Vars used in the scouting process
+        self.encountered_flowers = []
         self.remembered_flower = None
         self.sight_range = self.rect.height * 2
         self.state_machine = scout_fysom()  # Assigns the behavior finite state machine
@@ -69,6 +70,7 @@ class ScoutBee(Bee):
         :return:
         """
         self.remembered_flower = flower
+        self.encountered_flowers.append(self.remembered_flower)
 
     def forget_flower(self):
         """
@@ -153,7 +155,7 @@ class ScoutBee(Bee):
                         break
 
     def collide_with_flower(self, flower):
-        if flower not in self.queen_hive.known_flowers:
+        if flower not in self.encountered_flowers:
             self.remember_flower(flower)
             self.state_machine.trigger('found flower')
 
