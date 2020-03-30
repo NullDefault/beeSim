@@ -24,7 +24,7 @@ class WorkerBee(Bee):
 
         Bee.__init__(self, location, queen)
 
-        self.max_nectar_capacity = 5  # Max nectar the worker can carry
+        self.max_nectar_capacity = 10  # Max nectar the worker can carry
         self.current_nectar = 0
 
         self.spin_affinity = randint(0, 1)  # Decides if the bee will orbit the hive clock or counter-clock wise
@@ -72,7 +72,7 @@ class WorkerBee(Bee):
                 self.queen_hive.remember_flower(self.target_flower)
             else:
                 self.queen_hive.flowers_getting_harvested.remove(self.target_flower)
-                self.target_flower.highlighted = False
+                self.target_flower.stop_inspection(self.queen_hive)
 
             self.state_machine.trigger('begin offload')
             self.rect.left = self.queen_hive.center.x + randint(-1, 1)
