@@ -147,8 +147,7 @@ class BeeHive(Entity):
         """
         if self.highlighted:
             flower.highlighted = True
-            if self not in flower.inspecting_hives:
-                flower.inspecting_hives.append(self)
+            flower.get_inspected(self)
         self.known_flowers.append(flower)
 
     def get_order(self):
@@ -174,7 +173,7 @@ class BeeHive(Entity):
                 bee.highlighted = True
             for flower in self.flowers:
                 self.recolor_crosshair(flower)
-                flower.inspecting_hives.append(self)
+                flower.get_inspected(self)
         else:
             self.highlighted = False
 
@@ -183,5 +182,5 @@ class BeeHive(Entity):
             for bee in self.scouts:
                 bee.highlighted = False
             for flower in self.flowers:
-                flower.inspecting_hives.remove(self)
+                flower.stop_inspection(self)
 

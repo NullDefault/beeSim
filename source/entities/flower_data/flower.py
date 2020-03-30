@@ -51,6 +51,14 @@ class Flower(Entity):
         """
         return Vector2(self.rect.left + self.rect.width / 2, self.rect.top + self.rect.height / 2)
 
+    def get_inspected(self, hive):
+        if hive not in self.inspecting_hives:
+            self.inspecting_hives.append(hive)
+
+    def stop_inspection(self, hive):
+        if hive in self.inspecting_hives:
+            self.inspecting_hives.remove(hive)
+
     def transfer_pollen(self, limit, current):
         """
         Completes the harvesting process and gives back some amount of pollen
