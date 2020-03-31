@@ -44,7 +44,7 @@ class WorkerBee(Bee):
         :return: void
         """
         self.target_destination = self.update_target()
-        if not self.harvesting_pollen and not self.offloading:
+        if not self.offloading:
             self.head_towards()
         self.update_sprite()
 
@@ -131,8 +131,7 @@ class WorkerBee(Bee):
                 self.start_harvesting_from(self.target_flower)
             if self.target_flower.pollen <= 0:
                 self.state_machine.trigger('harvest complete')
-            return Vector2(self.target_flower.rect.left + randint(0, self.target_flower.rect.width),
-                           self.target_flower.rect.top + randint(0, self.target_flower.rect.height))
+            return Vector2(self.target_flower.center_loc)
         else:
             self.target_flower.busy = False
             self.state_machine.trigger('harvest complete')
