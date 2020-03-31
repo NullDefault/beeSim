@@ -83,8 +83,8 @@ class BeeHive(Entity):
         """
         temp = self.image
         self.image = Surface(self.rect.size, SRCALPHA)
+        self.image.blit(sprite_bank[self.team+'_hat'], (20, 5))
         self.image.blit(temp, (0, 0))
-        self.image.blit(sprite_bank[self.team+'_hat'], (20, 4))
 
     def recolor_crosshair(self, entity):
         """
