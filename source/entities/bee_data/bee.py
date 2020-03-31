@@ -9,10 +9,11 @@ import math
 
 from abc import abstractmethod
 from random import randint
-from pygame import transform, Vector2
+from pygame import transform, Vector2, Rect
 from source.entities import sprite_bank
 from source.entities.crosshair import Crosshair
 from source.entities.entity import Entity
+from source.entities.hive_data.bee_hive import team_color_dict
 
 # CLASS BODY
 
@@ -33,6 +34,7 @@ class Bee(Entity):
         self.animation_loop = randint(0, animation_fps)  # These vars are used to make the bee flap its
         self.wings_up_sprite = sprite_bank.retrieve('bee_wings_up')  # wings when flying around.
         self.wings_down_sprite = sprite_bank.retrieve('bee_wings_down')
+        self.paint_team_marks()
         self.wings_up = False
 
         self.highlighted = False  # Used for highlighting the bees during inspection mode
@@ -100,6 +102,21 @@ class Bee(Entity):
             dest.normalize()
         self.rect.left = self.rect.left + dest.x
         self.rect.top = self.rect.top + dest.y
+
+    def paint_team_marks(self):
+        """
+        Adds small marks on the bee bodies to represent their team affiliation
+        :return:
+        """
+
+        temp = self.wings_up_sprite.copy()
+        temp2 = self.wings_down_sprite.copy()
+
+        temp.fill(team_color_dict[self.queen_hive.team], Rect(8, 14, 2, 2))
+        temp2.fill(team_color_dict[self.queen_hive.team], Rect(8, 14, 2, 2))
+
+        self.wings_up_sprite = temp
+        self.wings_down_sprite = temp2
 
     def update_sprite(self):
         """
