@@ -57,6 +57,8 @@ class EntityMaster:
         self.flower_database = {}
         self.play_area = play_area_dimensions
 
+        self.sim_paused = False
+
         self.grow_flora(play_area_dimensions)
         self.load_flower_data(get_flower_spawn_strategy(flower_spawn_strategy, play_area_dimensions))
         self.populate_hives(
@@ -102,10 +104,14 @@ class EntityMaster:
             hive.last_tick = get_ticks()
             self.handle_hive_highlighting(hive)
 
-        for bee in self.bees:
-            bee.update()
-            self.update_bee_crosshair(bee)
-            bee.handle_collisions(self.flowers)
+        if not self.sim_paused:
+            for bee in self.bees:  # If the sim is not paused, we update the states of the bees
+                bee.update()
+                self.update_bee_crosshair(bee)
+                bee.handle_collisions(self.flowers)
+        else:
+            for bee in self.bees:  # If the sim is paused we only update the crosshairs
+                self.update_bee_crosshair(bee)
 
         for flower in self.flowers:
             if flower.inspecting_hives.__len__() == 0:
