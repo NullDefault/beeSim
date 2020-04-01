@@ -12,7 +12,6 @@ BeeSim is an exploration into how complex behavior emerges from the interaction 
 simulation is to create emergent behavior without explicitly programming it.
 - Language: Python
 - Libraries: pygame for rendering
-![gif_of_simulation](./screenshots/beesim.gif)
 ### Features
 - Finite State Automata form the backbone of the project, each individual bee being an independent automaton.
 - Procedurally generated environment.
@@ -23,6 +22,7 @@ Clone the repository, install the needed libraries if you have to and then run m
 ### UI Guide
 Click on the honeycomb button in the bottom right corner to bring up the main menu. Clicking on individual hives highlights them, their bees, their known flowers and displays how much nectar the hive has and the number of scouts and workers.
 ### Screenshots
+![gif_of_simulation](./screenshots/beesim.gif)
 ![Screenshot 1](./screenshots/screenshot1.png)
 ![Screenshot 2](./screenshots/screenshot2.png)
 ![Screenshot 3](./screenshots/screenshot3.png)
