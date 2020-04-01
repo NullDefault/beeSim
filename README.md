@@ -12,6 +12,7 @@ BeeSim is an exploration into how complex behavior emerges from the interaction 
 simulation is to create emergent behavior without explicitly programming it.
 - Language: Python
 - Libraries: pygame for rendering
+![gif_of_simulation](./screenshots/beesim.gif)
 ### Features
 - Finite State Automata form the backbone of the project, each individual bee being an independent automaton.
 - Procedurally generated environment.
