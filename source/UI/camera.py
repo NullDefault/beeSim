@@ -1,4 +1,6 @@
-from pygame import Surface, Vector2
+from pygame import Surface, Vector2, draw
+
+from source.entities.hive_data.bee_hive import BeeHive, team_color_dict
 
 
 def make_limits(map_size, frame_resolution):
@@ -31,6 +33,9 @@ class Camera:
                 self.render_surface.blit(entity.image,                                        # render entities that are
                                          (entity.rect.left - self.location[0],                # within the frame
                                           entity.rect.top - self.location[1]))
+            if isinstance(entity, BeeHive):
+                self.handle_hive_highways(entity)
+
         return self.render_surface
 
     def move(self, destination):
@@ -57,14 +62,29 @@ class Camera:
         :param x_or_y: if it is on the x or y axis
         :return: True if inside of the frame, False otherwise
         """
-        if x_or_y is 'x':
+        if x_or_y == 'x':
             if self.location.x <= val <= self.location.x + self.frame_resolution[0]:
                 return True
             else:
                 return False
-        elif x_or_y is 'y':
+        elif x_or_y == 'y':
             if self.location.y <= val <= self.location.y + self.frame_resolution[1]:
                 return True
             else:
                 return False
+
+    def handle_hive_highways(self, hive):
+        """
+        Draws lines from the hive to its flowers
+        :param hive:
+        :return:
+        """
+        if hive.highlighted:
+            for flower in hive.flowers:
+
+                draw.line(self.render_surface,
+                          team_color_dict[hive.team],
+                          hive.center - self.location,
+                          flower.center_loc - self.location,
+                          1)
 
