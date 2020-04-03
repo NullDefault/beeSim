@@ -16,6 +16,9 @@ class Entity(DirtySprite):
 
     def __init__(self, location, base_sprite):
         DirtySprite.__init__(self)
-        self.image = sprite_bank.retrieve(base_sprite)
+        try:
+            self.image = sprite_bank.retrieve(base_sprite)
+        except KeyError:
+            self.image = base_sprite
         self.rect = self.image.get_rect()
         self.rect.left, self.rect.top = location

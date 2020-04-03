@@ -11,6 +11,7 @@ from abc import abstractmethod
 from random import randint
 from pygame import transform, Vector2, Rect
 from source.entities import sprite_bank
+from source.entities.bee_data.bee_components.bee_factory import make_bee_sprites
 from source.entities.crosshair import Crosshair
 from source.entities.entity import Entity
 from source.entities.hive_data.bee_hive import team_color_dict
@@ -26,15 +27,17 @@ class Bee(Entity):
 
     def __init__(self, location, queen):
 
-        Entity.__init__(self, location, 'bee_wings_down')  # Calls the Entity constructor
-
         self.queen_hive = queen  # This sets which hive the bee be(e)longs to
 
         # All Of These Variables Are Used in Rendering
         self.animation_loop = randint(0, animation_fps)  # These vars are used to make the bee flap its
-        self.wings_up_sprite = sprite_bank.retrieve('bee_wings_up')  # wings when flying around.
-        self.wings_down_sprite = sprite_bank.retrieve('bee_wings_down')
+        sprites = make_bee_sprites(self.queen_hive.phenotype)
+        self.wings_up_sprite = sprites[0]
+        self.wings_down_sprite = sprites[1]
         self.paint_team_marks()
+
+        Entity.__init__(self, location, self.wings_up_sprite)  # Calls the Entity constructor
+
         self.wings_up = False
 
         self.highlighted = False  # Used for highlighting the bees during inspection mode

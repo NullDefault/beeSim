@@ -6,6 +6,7 @@ Notes:
 
 #  IMPORTS
 from pygame import Vector2, Surface, SRCALPHA, surfarray
+from random import randint
 
 from source.UI.bee_counters import Counter
 from source.UI.honey_bar import HoneyBar
@@ -46,6 +47,7 @@ class BeeHive(Entity):
         Entity.__init__(self, location, 'hive')
 
         self.team = team
+        self.phenotype = (randint(0, 11), randint(0, 5), randint(0, 5), randint(0, 5))
         self.init_team_data()
 
         self.worker_counter = Counter(self, "worker_counter")
