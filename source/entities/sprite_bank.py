@@ -54,6 +54,8 @@ sprite_bank = {
     'honey_bar': image.load(join('source', 'assets', 'ui_elements', 'honey_bar.png')),
     'worker_counter': image.load(join('source', 'assets', 'ui_elements', 'worker_count.png')),
     'scout_counter': image.load(join('source', 'assets', 'ui_elements', 'scout_count.png')),
+
+    'main_menu_graphics': image.load(join('source', 'assets', 'menu_graphics.png'))
 }
 
 

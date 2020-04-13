@@ -31,9 +31,17 @@ class GuiMaster:
                                                          Rect((screen_resolution[0] - 200,
                                                                screen_resolution[1] - 80), (70, 70)),
                                                          text="pause",
-                                                         object_id="button_pause",
+                                                         object_id="sim_button",
                                                          manager=self.gui_manager,
                                                          tool_tip_text="Pause Sim")
+
+        self.exit_button = pygame_gui.elements.UIButton(relative_rect=
+                                                         Rect((10,
+                                                               screen_resolution[1] - 80), (70, 70)),
+                                                         text="exit",
+                                                         object_id="sim_button",
+                                                         manager=self.gui_manager,
+                                                         tool_tip_text="Exit Sim")
         self.menu_size = screen_resolution
         self.drag_begin = None
         self.menu_display = None
@@ -74,11 +82,14 @@ class GuiMaster:
                         self.deactivate_main_menu()
                     else:
                         self.activate_main_menu()
-                if event.ui_element == self.pause_button:
+                elif event.ui_element == self.pause_button:
                     if self.entity_master.sim_paused:
                         self.unpause_sim()
                     else:
                         self.pause_sim()
+                elif event.ui_element == self.exit_button:
+                    return 0  # Takes us back to the main menu
+
         self.gui_manager.process_events(event)
 
     def unpause_sim(self):
