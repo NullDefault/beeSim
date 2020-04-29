@@ -4,13 +4,12 @@ from main_menu_loop import main_menu_loop
 from sim_loop import simulation_loop
 from source.entities import sprite_bank
 
-frame_resolution = (1600, 900)
+frame_resolution = [1600, 900]
 game_icon = sprite_bank.retrieve('game_icon')
 game_clock = time.Clock()
 game_frame_rate = 90
 
-
-game_states = {   # we don't actually use this, but it's convenient to have the dictionary written down somewhere
+game_states = {  # we don't actually use this, but it's convenient to have the dictionary written down somewhere
     0: 'main_menu',
     1: 'simulation'
 }
@@ -36,8 +35,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
-
-

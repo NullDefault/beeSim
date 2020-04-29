@@ -11,9 +11,8 @@ from source.UI.camera import Camera
 from source.UI.gui_master import GuiMaster
 from source.logic_and_algorithms.masters.entity_master import EntityMaster
 
-
 # DATA FIELDS
-map_size = (2200, 1100)
+map_size = (3200, 1800)
 menu_location = (1200, 0)
 play_music = False
 
@@ -36,9 +35,8 @@ def simulation_loop(screen, frame_resolution, game_clock, game_frame_rate):
     while True:
         time_delta = game_clock.tick(game_frame_rate) / 1000.0
         gui_master.update(time_delta)
-
-        frame_render = camera.render(entity_master.get_valid_entities())
-        screen.blit(frame_render, (0, 0))
+        camera.render(entity_master.get_valid_entities())
+        screen.blit(camera.render_surface, (0, 0))
         gui_master.draw_ui(screen)
         display.update()
 

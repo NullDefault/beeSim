@@ -49,9 +49,9 @@ class GuiMaster:
         self.flower_num = None
         self.fps = None
 
-    def update(self, time_delta, camera):
+    def update(self, time_delta):
         if self.main_menu_active:
-            self.update_main_menu(camera)
+            self.update_main_menu()
         self.gui_manager.update(time_delta)
 
     def draw_ui(self, screen):
@@ -145,7 +145,7 @@ class GuiMaster:
 
         return menu
 
-    def update_main_menu(self, camera):
+    def update_main_menu(self):
         """
         Updates all the parameters that have changed since last time
         :return: void
