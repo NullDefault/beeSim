@@ -13,7 +13,6 @@ from source.UI.honey_bar import HoneyBar
 from source.entities.entity import Entity
 from source.entities.sprite_bank import sprite_bank
 
-
 # CLASS BODY
 
 team_color_dict = {
@@ -45,6 +44,7 @@ class BeeHive(Entity):
         self.scouts = []  # Hive scouts
 
         Entity.__init__(self, location, 'hive')
+        self.scaled_loc = self.rect.left, self.rect.top
 
         self.team = team
         self.phenotype = (randint(0, 11), randint(0, 5), randint(0, 5), randint(0, 5))
@@ -68,7 +68,7 @@ class BeeHive(Entity):
 
     @property
     def flowers(self):
-        return self.known_flowers+self.flowers_getting_harvested
+        return self.known_flowers + self.flowers_getting_harvested
 
     @property
     def number_of_bees(self):
@@ -85,7 +85,7 @@ class BeeHive(Entity):
         """
         temp = self.image
         self.image = Surface(self.rect.size, SRCALPHA)
-        self.image.blit(sprite_bank[self.team+'_hat'], (20, 5))
+        self.image.blit(sprite_bank[self.team + '_hat'], (20, 5))
         self.image.blit(temp, (0, 0))
 
     def recolor_crosshair(self, entity):
@@ -185,4 +185,3 @@ class BeeHive(Entity):
                 bee.highlighted = False
             for flower in self.flowers:
                 flower.stop_inspection(self)
-

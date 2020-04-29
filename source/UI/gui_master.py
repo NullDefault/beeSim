@@ -7,7 +7,7 @@ Notes:
 from os.path import join
 
 import pygame_gui
-from pygame import Rect, USEREVENT, MOUSEBUTTONUP, mouse, Vector2, MOUSEBUTTONDOWN
+from pygame import Rect, USEREVENT, MOUSEBUTTONUP, mouse, Vector2, MOUSEBUTTONDOWN, draw
 
 # CLASS BODY
 main_theme = join('source', 'assets', 'gui_theme.json')
@@ -36,22 +36,23 @@ class GuiMaster:
                                                          tool_tip_text="Pause Sim")
 
         self.exit_button = pygame_gui.elements.UIButton(relative_rect=
-                                                         Rect((10,
-                                                               screen_resolution[1] - 80), (70, 70)),
-                                                         text="exit",
-                                                         object_id="sim_button",
-                                                         manager=self.gui_manager,
-                                                         tool_tip_text="Exit Sim")
+                                                        Rect((10,
+                                                              screen_resolution[1] - 80), (70, 70)),
+                                                        text="exit",
+                                                        object_id="sim_button",
+                                                        manager=self.gui_manager,
+                                                        tool_tip_text="Exit Sim")
         self.menu_size = screen_resolution
         self.drag_begin = None
         self.menu_display = None
         self.bee_num = None
         self.flower_num = None
         self.fps = None
+        self.camera_loc = None
 
-    def update(self, time_delta):
+    def update(self, time_delta, camera):
         if self.main_menu_active:
-            self.update_main_menu()
+            self.update_main_menu(camera)
         self.gui_manager.update(time_delta)
 
     def draw_ui(self, screen):
@@ -60,11 +61,10 @@ class GuiMaster:
     def process_events(self, event, camera):
         if event.type == MOUSEBUTTONUP:
             test_position = mouse.get_pos()
-            test_position = test_position[0] + camera.location[0], test_position[1] + camera.location[1]
+            test_position = test_position[0] + camera.location.x, test_position[1] + camera.location.y
             selected_hive = self.entity_master.get_hive_at(test_position)
             if selected_hive is not None:
                 selected_hive.highlight()
-
             if event.button == 1:
                 drag_end = Vector2(event.pos)
                 drag_direction = self.drag_begin - drag_end
@@ -75,13 +75,18 @@ class GuiMaster:
                 mouse_x, mouse_y = event.pos
                 self.drag_begin = Vector2(mouse_x, mouse_y)
 
+            elif event.button == 4:
+                camera.zoom_in()
+            elif event.button == 5:
+                camera.zoom_out()
+
         elif event.type == USEREVENT:
             if event.user_type == 'ui_button_pressed':
                 if event.ui_element == self.main_menu_button:
                     if self.main_menu_active:
                         self.deactivate_main_menu()
                     else:
-                        self.activate_main_menu()
+                        self.activate_main_menu(camera)
                 elif event.ui_element == self.pause_button:
                     if self.entity_master.sim_paused:
                         self.unpause_sim()
@@ -98,15 +103,15 @@ class GuiMaster:
     def pause_sim(self):
         self.entity_master.sim_paused = True
 
-    def activate_main_menu(self):
+    def activate_main_menu(self, camera):
         self.main_menu_active = True
-        self.menu_display = self.build_menu_display()
+        self.menu_display = self.build_menu_display(camera)
 
     def deactivate_main_menu(self):
         self.main_menu_active = False
         self.menu_display.kill()
 
-    def build_menu_display(self):
+    def build_menu_display(self, camera):
         """
         Builds the ui element displaying the current state of the simulation
         :return: Menu render
@@ -114,6 +119,7 @@ class GuiMaster:
         number_of_bees = "Number of Bees: " + str(self.entity_master.bee_population)
         number_of_flowers = "Number of Flowers: " + str(self.entity_master.flower_population)
         fps_string = "Frames per Second: " + str(self.game_clock.get_fps())[0:4]
+        camera_loc_string = "Camera Location: " + str(camera.location)
 
         menu = pygame_gui.core.UIContainer(
             manager=self.gui_manager,
@@ -134,14 +140,20 @@ class GuiMaster:
             relative_rect=Rect(self.menu_size[0] - 275, 125, 250, 50),
             manager=self.gui_manager
         )
+        self.camera_loc = pygame_gui.elements.UITextBox(
+            html_text=camera_loc_string,
+            relative_rect=Rect(self.menu_size[0] - 275, 175, 250, 50),
+            manager=self.gui_manager
+        )
 
         menu.add_element(self.bee_num)
         menu.add_element(self.flower_num)
         menu.add_element(self.fps)
+        menu.add_element(self.camera_loc)
 
         return menu
 
-    def update_main_menu(self):
+    def update_main_menu(self, camera):
         """
         Updates all the parameters that have changed since last time
         :return: void
@@ -155,3 +167,13 @@ class GuiMaster:
             manager=self.gui_manager
         )
         self.menu_display.add_element(self.fps)
+
+        camera_loc_string = "Camera Location: " + str(camera.location)
+        self.menu_display.remove_element(self.camera_loc)
+        self.camera_loc.kill()
+        self.camera_loc = pygame_gui.elements.UITextBox(
+            html_text=camera_loc_string,
+            relative_rect=Rect(self.menu_size[0] - 275, 175, 250, 50),
+            manager=self.gui_manager
+        )
+        self.menu_display.add_element(self.camera_loc)

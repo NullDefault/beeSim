@@ -1,25 +1,17 @@
-from pygame import Surface, Vector2, draw
+from pygame import Surface, Vector2, draw, transform
 
 from source.entities.hive_data.bee_hive import BeeHive, team_color_dict
 
-
-def make_limits(map_size, frame_resolution):
-    """
-    :param map_size:
-    :param frame_resolution:
-    :return: The highest value the camera will be allowed to go
-    """
-    highest_x_val = map_size[0] - frame_resolution[0]
-    highest_y_val = map_size[1] - frame_resolution[1]
-    return highest_x_val, highest_y_val
+background_green = (102, 200, 102)
 
 
 class Camera:
 
-    def __init__(self, frame_resolution, map_size):
-        self.frame_resolution = frame_resolution
-        self.render_surface = Surface(frame_resolution)
-        self.limits = make_limits(map_size, frame_resolution)
+    def __init__(self, native_resolution, map_size):
+        self.native_resolution = native_resolution
+        self.render_surface = Surface(native_resolution)
+        self.map_size = map_size
+        self.zoom_factor = 1
         self.location = Vector2(0, 0)
 
     def render(self, entities):
@@ -27,13 +19,27 @@ class Camera:
         :param entities:
         :return: returns the rendered frame
         """
-        self.render_surface.fill((102, 200, 102))
+        # TODO: Don't render pixels that havent changed
+        self.render_surface.fill(background_green)
+
+        draw.rect(self.render_surface,
+                  (0, 0, 0),
+                  (0 - self.location.x,
+                   0 - self.location.y,
+                   self.map_size[0] * self.zoom_factor + 10,
+                   self.map_size[1] * self.zoom_factor + 10),
+                  3)
+
         for entity in entities:
-            if self.in_range(entity.rect.left, 'x') and self.in_range(entity.rect.top, 'y'):  # This makes sure we only
-                self.render_surface.blit(entity.image,                                        # render entities that are
-                                         (entity.rect.left - self.location[0],                # within the frame
-                                          entity.rect.top - self.location[1]))
+            # TODO: Make only entities in frame render
+            scaled_x = int(entity.rect.left * self.zoom_factor) - self.location[0]
+            scaled_y = int(entity.rect.top * self.zoom_factor) - self.location[1]
+            scaled_image = transform.scale(entity.image, ((int(entity.rect.width * self.zoom_factor)),
+                                                          int(entity.rect.height * self.zoom_factor)))
+            self.render_surface.blit(scaled_image, (scaled_x, scaled_y))
+
             if isinstance(entity, BeeHive):
+                entity.scaled_loc = (scaled_x + self.location[0], scaled_y + self.location[1])
                 self.handle_hive_highways(entity)
 
         return self.render_surface
@@ -44,34 +50,25 @@ class Camera:
         :param destination:
         :return: void
         """
+        # TODO: fix the camera going out of borders
         self.location = self.location + destination
 
-        if self.location.x < 0:
-            self.location.x = 0
-        if self.location.x > self.limits[0]:
-            self.location.x = self.limits[0]
-        if self.location.y < 0:
-            self.location.y = 0
-        if self.location.y > self.limits[1]:
-            self.location.y = self.limits[1]
+    def handle_zoom(self):
+        self.render_surface = Surface((int(self.native_resolution[0] * self.zoom_factor),
+                                       int(self.native_resolution[1] * self.zoom_factor)))
+        self.render_surface = transform.scale(self.render_surface, self.native_resolution)
 
-    def in_range(self, val, x_or_y):
-        """
-        Checks if the given value is inside of the frame or outside
-        :param val: the given location
-        :param x_or_y: if it is on the x or y axis
-        :return: True if inside of the frame, False otherwise
-        """
-        if x_or_y == 'x':
-            if self.location.x <= val <= self.location.x + self.frame_resolution[0]:
-                return True
-            else:
-                return False
-        elif x_or_y == 'y':
-            if self.location.y <= val <= self.location.y + self.frame_resolution[1]:
-                return True
-            else:
-                return False
+    def zoom_out(self):
+        if self.zoom_factor > .3:
+            self.zoom_factor = round(self.zoom_factor - .10, 2)
+            self.location *= .10
+            self.handle_zoom()
+
+    def zoom_in(self):
+        if self.zoom_factor < 2:
+            self.zoom_factor = round(self.zoom_factor + .10, 2)
+            self.location *= .10
+            self.handle_zoom()
 
     def handle_hive_highways(self, hive):
         """
@@ -81,10 +78,13 @@ class Camera:
         """
         if hive.highlighted:
             for flower in hive.flowers:
+                hive_loc = (int(hive.center[0] * self.zoom_factor),
+                            int(hive.center[1] * self.zoom_factor))
+                flower_loc = (int(flower.center_loc[0] * self.zoom_factor),
+                              int(flower.center_loc[1] * self.zoom_factor))
 
                 draw.line(self.render_surface,
                           team_color_dict[hive.team],
-                          hive.center - self.location,
-                          flower.center_loc - self.location,
+                          hive_loc - self.location,
+                          flower_loc - self.location,
                           1)
-

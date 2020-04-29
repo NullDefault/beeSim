@@ -9,7 +9,7 @@ from random import randint
 
 from pygame.sprite import RenderUpdates, collide_circle_ratio, spritecollide, spritecollideany
 from pygame.time import get_ticks
-from pygame import Vector2
+from pygame import Vector2, Rect
 
 from source.entities.bee_data.scout_bee import ScoutBee
 from source.entities.bee_data.worker_bee import WorkerBee
@@ -118,7 +118,7 @@ class EntityMaster:
                 self.crosshairs.remove(flower.crosshair)
             else:
                 self.crosshairs.add(flower.crosshair)
-                flower.inspecting_hives[flower.inspecting_hives.__len__()-1].recolor_crosshair(flower)
+                flower.inspecting_hives[flower.inspecting_hives.__len__() - 1].recolor_crosshair(flower)
 
     def update_bee_crosshair(self, bee):
         """
@@ -219,20 +219,20 @@ class EntityMaster:
         plant_db = grow_plants(play_area, num=randint(80, 90), plant_type="grass_patch", bias="center")
 
         plant_db = merge_plant_sets(plant_db,
-                                         grow_plants(
-                                             play_area, num=randint(40, 70), plant_type="grassy_plant", bias="edges"))
+                                    grow_plants(
+                                        play_area, num=randint(40, 70), plant_type="grassy_plant", bias="edges"))
         plant_db = merge_plant_sets(plant_db,
-                                         grow_plants(
-                                             play_area, num=randint(0, 1), plant_type="pretty_log", bias="edges"))
+                                    grow_plants(
+                                        play_area, num=randint(0, 1), plant_type="pretty_log", bias="edges"))
         plant_db = merge_plant_sets(plant_db,
-                                         grow_plants(
-                                             play_area, num=randint(0, 2), plant_type="stump", bias="edges"))
+                                    grow_plants(
+                                        play_area, num=randint(0, 2), plant_type="stump", bias="edges"))
         plant_db = merge_plant_sets(plant_db,
-                                         grow_plants(
-                                             play_area, num=randint(20, 40), plant_type="leaves", bias="edges"))
+                                    grow_plants(
+                                        play_area, num=randint(20, 40), plant_type="leaves", bias="edges"))
         plant_db = merge_plant_sets(plant_db,
-                                         grow_plants(
-                                             play_area, num=randint(10, 30), plant_type="bushy_grass", bias="edges"))
+                                    grow_plants(
+                                        play_area, num=randint(10, 30), plant_type="bushy_grass", bias="edges"))
 
         self.plants = RenderUpdates(list(plant_db.values()))
 
@@ -242,7 +242,8 @@ class EntityMaster:
         :return: Hive at given location, None if there are none such.
         """
         for hive in self.hives:
-            if hive.rect.collidepoint(position):
+            temp_rect = Rect(hive.scaled_loc[0], hive.scaled_loc[1], hive.rect.width, hive.rect.height)
+            if temp_rect.collidepoint(position):
                 return hive
         else:
             return None
