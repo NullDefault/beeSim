@@ -1,4 +1,4 @@
-from pygame import Surface, Vector2, draw, transform
+from pygame import Surface, Vector2, draw, transform, Rect
 
 from source.entities.hive_data.bee_hive import BeeHive, team_color_dict
 
@@ -32,14 +32,18 @@ class Camera:
 
         for entity in entities:
             # TODO: Make only entities in frame render
+
             scaled_x = int(entity.rect.left * self.zoom_factor) - self.location[0]
             scaled_y = int(entity.rect.top * self.zoom_factor) - self.location[1]
-            scaled_image = transform.scale(entity.image, ((int(entity.rect.width * self.zoom_factor)),
-                                                          int(entity.rect.height * self.zoom_factor)))
-            self.render_surface.blit(scaled_image, (scaled_x, scaled_y))
+            scaled_width = (int(entity.rect.width * self.zoom_factor))
+            scaled_height = (int(entity.rect.height * self.zoom_factor))
+            scaled_image = transform.scale(entity.image, (scaled_width, scaled_height))
 
+            self.render_surface.blit(scaled_image, (scaled_x, scaled_y))
             if isinstance(entity, BeeHive):
-                entity.scaled_loc = (scaled_x + self.location[0], scaled_y + self.location[1])
+                entity.scaled_rect = Rect(scaled_x + self.location[0],
+                                      scaled_y + self.location[1],
+                                      scaled_width, scaled_height)
                 self.handle_hive_highways(entity)
 
         return self.render_surface

@@ -7,7 +7,7 @@ Notes:
 from os.path import join
 
 import pygame_gui
-from pygame import Rect, USEREVENT, MOUSEBUTTONUP, mouse, Vector2, MOUSEBUTTONDOWN, draw
+from pygame import Rect, USEREVENT, MOUSEBUTTONUP, mouse, Vector2, MOUSEBUTTONDOWN
 
 # CLASS BODY
 main_theme = join('source', 'assets', 'gui_theme.json')
@@ -48,7 +48,6 @@ class GuiMaster:
         self.bee_num = None
         self.flower_num = None
         self.fps = None
-        self.camera_loc = None
 
     def update(self, time_delta, camera):
         if self.main_menu_active:
@@ -86,7 +85,7 @@ class GuiMaster:
                     if self.main_menu_active:
                         self.deactivate_main_menu()
                     else:
-                        self.activate_main_menu(camera)
+                        self.activate_main_menu()
                 elif event.ui_element == self.pause_button:
                     if self.entity_master.sim_paused:
                         self.unpause_sim()
@@ -103,15 +102,15 @@ class GuiMaster:
     def pause_sim(self):
         self.entity_master.sim_paused = True
 
-    def activate_main_menu(self, camera):
+    def activate_main_menu(self):
         self.main_menu_active = True
-        self.menu_display = self.build_menu_display(camera)
+        self.menu_display = self.build_menu_display()
 
     def deactivate_main_menu(self):
         self.main_menu_active = False
         self.menu_display.kill()
 
-    def build_menu_display(self, camera):
+    def build_menu_display(self):
         """
         Builds the ui element displaying the current state of the simulation
         :return: Menu render
@@ -119,7 +118,6 @@ class GuiMaster:
         number_of_bees = "Number of Bees: " + str(self.entity_master.bee_population)
         number_of_flowers = "Number of Flowers: " + str(self.entity_master.flower_population)
         fps_string = "Frames per Second: " + str(self.game_clock.get_fps())[0:4]
-        camera_loc_string = "Camera Location: " + str(camera.location)
 
         menu = pygame_gui.core.UIContainer(
             manager=self.gui_manager,
@@ -140,16 +138,10 @@ class GuiMaster:
             relative_rect=Rect(self.menu_size[0] - 275, 125, 250, 50),
             manager=self.gui_manager
         )
-        self.camera_loc = pygame_gui.elements.UITextBox(
-            html_text=camera_loc_string,
-            relative_rect=Rect(self.menu_size[0] - 275, 175, 250, 50),
-            manager=self.gui_manager
-        )
 
         menu.add_element(self.bee_num)
         menu.add_element(self.flower_num)
         menu.add_element(self.fps)
-        menu.add_element(self.camera_loc)
 
         return menu
 
@@ -167,13 +159,3 @@ class GuiMaster:
             manager=self.gui_manager
         )
         self.menu_display.add_element(self.fps)
-
-        camera_loc_string = "Camera Location: " + str(camera.location)
-        self.menu_display.remove_element(self.camera_loc)
-        self.camera_loc.kill()
-        self.camera_loc = pygame_gui.elements.UITextBox(
-            html_text=camera_loc_string,
-            relative_rect=Rect(self.menu_size[0] - 275, 175, 250, 50),
-            manager=self.gui_manager
-        )
-        self.menu_display.add_element(self.camera_loc)

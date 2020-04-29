@@ -242,8 +242,7 @@ class EntityMaster:
         :return: Hive at given location, None if there are none such.
         """
         for hive in self.hives:
-            temp_rect = Rect(hive.scaled_loc[0], hive.scaled_loc[1], hive.rect.width, hive.rect.height)
-            if temp_rect.collidepoint(position):
+            if hive.scaled_rect.collidepoint(position):
                 return hive
         else:
             return None

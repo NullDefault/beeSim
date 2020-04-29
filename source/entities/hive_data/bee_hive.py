@@ -44,7 +44,7 @@ class BeeHive(Entity):
         self.scouts = []  # Hive scouts
 
         Entity.__init__(self, location, 'hive')
-        self.scaled_loc = self.rect.left, self.rect.top
+        self.scaled_rect = self.rect
 
         self.team = team
         self.phenotype = (randint(0, 11), randint(0, 5), randint(0, 5), randint(0, 5))
