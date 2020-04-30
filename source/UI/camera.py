@@ -2,7 +2,8 @@ from pygame import Surface, Vector2, draw, transform, Rect, sprite
 
 from source.entities.hive_data.bee_hive import BeeHive, team_color_dict
 
-background_green = (102, 200, 102)
+grass_color = (102, 200, 102)
+water_color = (51, 153, 255)
 
 
 class Camera:
@@ -42,12 +43,24 @@ class Camera:
 
         self.frame_sprites = frame_sprites
 
+    def paint_background(self):
+        self.render_surface.fill(water_color)
+        circle_center = (
+            int((self.map_size*self.zoom_factor / 2) - self.location[0]),
+            int((self.map_size*self.zoom_factor / 2) - self.location[1])
+        )
+
+        draw.circle(self.render_surface,
+                    grass_color,
+                    circle_center,
+                    int(self.map_size * self.zoom_factor))
+
     def render(self, entities):
         """
         :param entities:
         :return: returns the rendered frame
         """
-        self.render_surface.fill(background_green)
+        self.paint_background()
         self.make_frame_sprites(entities)
         self.frame_sprites.draw(self.render_surface)
 

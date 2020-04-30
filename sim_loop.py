@@ -12,7 +12,7 @@ from source.UI.gui_master import GuiMaster
 from source.logic_and_algorithms.masters.entity_master import EntityMaster
 
 # DATA FIELDS
-map_size = (3200, 1800)
+map_size = 2000
 menu_location = (1200, 0)
 play_music = False
 
