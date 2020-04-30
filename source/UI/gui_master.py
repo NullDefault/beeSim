@@ -59,11 +59,12 @@ class GuiMaster:
 
     def process_events(self, event, camera):
         if event.type == MOUSEBUTTONUP:
-            test_position = mouse.get_pos()
-            test_position = test_position[0] + camera.location.x, test_position[1] + camera.location.y
-            selected_hive = self.entity_master.get_hive_at(test_position)
-            if selected_hive is not None:
-                selected_hive.highlight()
+            if not (event.button == 4 or event.button == 5):
+                test_position = mouse.get_pos()
+                test_position = test_position[0] + camera.location.x, test_position[1] + camera.location.y
+                selected_hive = self.entity_master.get_hive_at(test_position)
+                if selected_hive is not None:
+                    selected_hive.highlight()
             if event.button == 1:
                 drag_end = Vector2(event.pos)
                 drag_direction = self.drag_begin - drag_end
