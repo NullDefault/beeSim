@@ -1,4 +1,4 @@
-from pygame import display, time
+from pygame import display, time, DOUBLEBUF
 
 from main_menu_loop import main_menu_loop
 from sim_loop import simulation_loop
@@ -17,7 +17,8 @@ game_states = {  # we don't actually use this, but it's convenient to have the d
 
 def init():
     state = 0
-    screen = display.set_mode(frame_resolution)
+    display.init()
+    screen = display.set_mode(frame_resolution, DOUBLEBUF)
     display.set_caption("beeSim")
     display.set_icon(game_icon)
     return state, screen

@@ -1,8 +1,10 @@
-from pygame import Surface, Vector2, draw, transform, Rect, sprite
+from pygame import Vector2, draw, transform, Rect, sprite
 
 from source.entities.hive_data.bee_hive import BeeHive, team_color_dict
 
 grass_color = (102, 200, 102)
+shadow_color = (102//2, 200//2, 102//2)
+light_color = (102+50, 200+50, 102+50)
 water_color = (51, 153, 255)
 
 
@@ -10,19 +12,18 @@ class Camera:
 
     def __init__(self, native_resolution, map_size):
         self.native_resolution = native_resolution
-        self.render_surface = Surface(native_resolution)
         self.map_size = map_size
         self.frame_sprites = sprite.RenderUpdates()
         self.zoom_factor = 1
         self.location = Vector2(0, 0)
 
-    def make_frame_sprites(self, entities):
+    def make_frame_sprites(self, entities, surface):
         frame_sprites = sprite.RenderUpdates()
 
         for entity in entities:
-            scaled_x = int(entity.rect.left * self.zoom_factor) - self.location[0]
-            scaled_y = int(entity.rect.top * self.zoom_factor) - self.location[1]
-            if 0 <= scaled_x <= self.native_resolution[0] and 0 <= scaled_y <= self.native_resolution[1]:
+            scaled_loc = self.scale_location((entity.rect.left, entity.rect.top))
+            if 0 <= scaled_loc[0]+entity.rect.height <= self.native_resolution[0] \
+                    and 0 <= scaled_loc[1] <= self.native_resolution[1]:
 
                 scaled_width = (int(entity.rect.width * self.zoom_factor))
                 scaled_height = (int(entity.rect.height * self.zoom_factor))
@@ -31,38 +32,54 @@ class Camera:
                 temp_sprite = sprite.DirtySprite()
                 temp_sprite.image = scaled_image
                 temp_sprite.rect = temp_sprite.image.get_rect()
-                temp_sprite.rect.left, temp_sprite.rect.top = scaled_x, scaled_y
+                temp_sprite.rect.left, temp_sprite.rect.top = scaled_loc
 
                 if isinstance(entity, BeeHive):
-                    entity.scaled_rect = Rect(scaled_x + self.location[0],
-                                              scaled_y + self.location[1],
+                    entity.scaled_rect = Rect(scaled_loc[0] + self.location[0],
+                                              scaled_loc[1] + self.location[1],
                                               scaled_width, scaled_height)
-                    self.handle_hive_highways(entity)
+                    self.handle_hive_highways(entity, surface)
 
                 frame_sprites.add(temp_sprite)
 
         self.frame_sprites = frame_sprites
 
-    def paint_background(self):
-        self.render_surface.fill(water_color)
+    def paint_background(self, surface):
+        surface.fill(water_color)
         circle_center = (
             int((self.map_size*self.zoom_factor / 2) - self.location[0]),
             int((self.map_size*self.zoom_factor / 2) - self.location[1])
         )
 
-        draw.circle(self.render_surface,
-                    grass_color,
-                    circle_center,
+        draw.circle(surface,
+                    shadow_color,
+                    (circle_center[0]+40, circle_center[1]+5),
                     int(self.map_size * self.zoom_factor))
 
-    def render(self, entities):
+        draw.circle(surface,
+                    light_color,
+                    (circle_center[0]-13, circle_center[1]),
+                    int(self.map_size * self.zoom_factor))
+
+        draw.circle(surface,
+                    grass_color,
+                    (circle_center[0]+7, circle_center[1]),
+                    int(self.map_size * self.zoom_factor))
+
+    def render(self, entities, surface):
         """
+        :param surface:
         :param entities:
         :return: returns the rendered frame
         """
-        self.paint_background()
-        self.make_frame_sprites(entities)
-        self.frame_sprites.draw(self.render_surface)
+        self.paint_background(surface)
+        self.make_frame_sprites(entities, surface)
+        self.frame_sprites.draw(surface)
+
+    def scale_location(self, pos):
+        scaled_x = int(pos[0] * self.zoom_factor) - self.location[0]
+        scaled_y = int(pos[1] * self.zoom_factor) - self.location[1]
+        return scaled_x, scaled_y
 
     def move(self, destination):
         """
@@ -72,26 +89,18 @@ class Camera:
         """
         self.location = self.location + destination
 
-    def handle_zoom(self):
-        self.render_surface = Surface((int(self.native_resolution[0] * self.zoom_factor),
-                                       int(self.native_resolution[1] * self.zoom_factor)))
-        self.render_surface = transform.scale(self.render_surface, self.native_resolution)
-
     def zoom_out(self):
         if self.zoom_factor > .3:
             self.zoom_factor = round(self.zoom_factor - .10, 2)
-            self.location *= .10
-            self.handle_zoom()
 
     def zoom_in(self):
         if self.zoom_factor < 2:
             self.zoom_factor = round(self.zoom_factor + .10, 2)
-            self.location *= .10
-            self.handle_zoom()
 
-    def handle_hive_highways(self, hive):
+    def handle_hive_highways(self, hive, surface):
         """
         Draws lines from the hive to its flowers
+        :param surface:
         :param hive:
         :return:
         """
@@ -102,7 +111,7 @@ class Camera:
                 flower_loc = (int(flower.center_loc[0] * self.zoom_factor),
                               int(flower.center_loc[1] * self.zoom_factor))
 
-                draw.line(self.render_surface,
+                draw.line(surface,
                           team_color_dict[hive.team],
                           hive_loc - self.location,
                           flower_loc - self.location,
