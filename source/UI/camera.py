@@ -3,8 +3,6 @@ from pygame import Vector2, draw, transform, Rect, sprite
 from source.entities.hive_data.bee_hive import BeeHive, team_color_dict
 
 grass_color = (102, 200, 102)
-shadow_color = (102//2, 200//2, 102//2)
-light_color = (102+50, 200+50, 102+50)
 water_color = (51, 153, 255)
 
 
@@ -18,6 +16,12 @@ class Camera:
         self.location = Vector2(0, 0)
 
     def make_frame_sprites(self, entities, surface):
+        """
+        Makes scaled sprites ready to be rendered
+        :param entities:
+        :param surface:
+        :return:
+        """
         frame_sprites = sprite.RenderUpdates()
 
         for entity in entities:
@@ -45,26 +49,24 @@ class Camera:
         self.frame_sprites = frame_sprites
 
     def paint_background(self, surface):
-        surface.fill(water_color)
+        """
+        Paints the water and island backgrounds
+        :param surface:
+        :return:
+        """
         circle_center = (
             int((self.map_size*self.zoom_factor / 2) - self.location[0]),
             int((self.map_size*self.zoom_factor / 2) - self.location[1])
         )
 
-        draw.circle(surface,
-                    shadow_color,
-                    (circle_center[0]+40, circle_center[1]+5),
-                    int(self.map_size * self.zoom_factor))
+        radius = int(self.map_size * self.zoom_factor)
 
-        draw.circle(surface,
-                    light_color,
-                    (circle_center[0]-13, circle_center[1]),
-                    int(self.map_size * self.zoom_factor))
+        surface.fill(water_color)
 
         draw.circle(surface,
                     grass_color,
-                    (circle_center[0]+7, circle_center[1]),
-                    int(self.map_size * self.zoom_factor))
+                    circle_center,
+                    radius)
 
     def render(self, entities, surface):
         """
@@ -77,6 +79,11 @@ class Camera:
         self.frame_sprites.draw(surface)
 
     def scale_location(self, pos):
+        """
+        Scales given location to its in game coordinate
+        :param pos:
+        :return:
+        """
         scaled_x = int(pos[0] * self.zoom_factor) - self.location[0]
         scaled_y = int(pos[1] * self.zoom_factor) - self.location[1]
         return scaled_x, scaled_y
@@ -106,13 +113,11 @@ class Camera:
         """
         if hive.highlighted:
             for flower in hive.flowers:
-                hive_loc = (int(hive.center[0] * self.zoom_factor),
-                            int(hive.center[1] * self.zoom_factor))
-                flower_loc = (int(flower.center_loc[0] * self.zoom_factor),
-                              int(flower.center_loc[1] * self.zoom_factor))
+                hive_loc = self.scale_location(hive.center)
+                flower_loc = self.scale_location(flower.center_loc)
 
                 draw.line(surface,
                           team_color_dict[hive.team],
-                          hive_loc - self.location,
-                          flower_loc - self.location,
-                          1)
+                          hive_loc,
+                          flower_loc,
+                          2)
