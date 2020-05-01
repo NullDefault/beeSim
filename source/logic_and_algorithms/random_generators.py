@@ -48,7 +48,7 @@ def find_hive_loc(play_area, existing_hives, flowers):
 
     new_loc = normal_distribution.samples(2)
     # 20 below is not a magic number, rather we just constrain the range a bit so we don't have things going off screen
-    new_loc = map_values(new_loc[0], 0, 1, 20, play_area-20), map_values(new_loc[1], 0, 1, 20, play_area-20)
+    new_loc = map_values(new_loc[0], 0, 1, 0, play_area), map_values(new_loc[1], 0, 1, 0, play_area)
 
     for hive in existing_hives:
         new_rect = Rect(new_loc[0], new_loc[1], 66, 66)
@@ -91,10 +91,8 @@ def normal_distribution_flower_spawning_strategy(play_area):
     y_rolls = normal_distribution.samples(flower_num)
 
     for i in range(flower_num):
-        # 20 below is not a magic number,
-        # rather we just constrain the range a bit so we don't have things going off screen
-        x_pos = map_values(x_rolls[i], 0, 1, 20, play_area - 20)
-        y_pos = map_values(y_rolls[i], 0, 1, 20, play_area - 20)
+        x_pos = map_values(x_rolls[i], 0, 1, 0, play_area)
+        y_pos = map_values(y_rolls[i], 0, 1, 0, play_area)
 
         new_f = Flower((x_pos, y_pos))
         flower_database[(x_pos, y_pos)] = new_f
@@ -146,8 +144,8 @@ def grow_plants(play_area, num, plant_type, bias):
 
         # 20 below is not a magic number,
         # rather we just constrain the range a bit so we don't have things going off screen
-        x_pos = map_values(x_rolls[i], 0, 1, 20, play_area - 20)
-        y_pos = map_values(y_rolls[i], 0, 1, 20, play_area - 20)
+        x_pos = map_values(x_rolls[i], 0, 1, 0, play_area)
+        y_pos = map_values(y_rolls[i], 0, 1, 0, play_area)
 
         new_p = Decoration((x_pos, y_pos), plant_type)
         plant_db[(x_pos, y_pos)] = new_p

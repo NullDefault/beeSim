@@ -28,8 +28,12 @@ sprite_bank = {
     'flower_4': load(join('source', 'assets', 'sprites', 'plant_sprites', 'flowers', 'flower_4.png')),
 
     # DECORATIONS
-    'grass_patch': load(join('source', 'assets', 'sprites', 'plant_sprites',
-                             'decorative_plants', 'grass_patch.png')),
+    'grass1': load(join('source', 'assets', 'sprites', 'plant_sprites',
+                             'decorative_plants', 'grass1.png')),
+    'grass2': load(join('source', 'assets', 'sprites', 'plant_sprites',
+                        'decorative_plants', 'grass2.png')),
+    'grass3': load(join('source', 'assets', 'sprites', 'plant_sprites',
+                        'decorative_plants', 'grass3.png')),
     'grassy_plant': load(join('source', 'assets', 'sprites', 'plant_sprites',
                               'decorative_plants', 'grassy_plant.png')),
     'bushy_grass': load(join('source', 'assets', 'sprites', 'plant_sprites',
