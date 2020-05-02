@@ -216,28 +216,28 @@ class EntityMaster:
         :return: void
         """
 
-        plant_db = grow_plants(play_area, num=randint(30, 50), plant_type="grass1", bias="center")
+        plant_db = grow_plants(play_area, num=randint(35, 50), plant_type="grass1", bias="center")
 
         plant_db = merge_plant_sets(plant_db,
-                                    grow_plants(play_area, num=randint(30, 50), plant_type="grass2", bias="center"))
+                                    grow_plants(play_area, num=randint(35, 50), plant_type="grass2", bias="center"))
         plant_db = merge_plant_sets(plant_db,
-                                    grow_plants(play_area, num=randint(30, 50), plant_type="grass3", bias="center"))
+                                    grow_plants(play_area, num=randint(35, 50), plant_type="grass3", bias="center"))
 
         plant_db = merge_plant_sets(plant_db,
                                     grow_plants(
-                                        play_area, num=randint(40, 70), plant_type="grassy_plant", bias="edges"))
+                                        play_area, num=randint(50, 75), plant_type="grassy_plant", bias="edges"))
         plant_db = merge_plant_sets(plant_db,
                                     grow_plants(
-                                        play_area, num=randint(0, 1), plant_type="pretty_log", bias="edges"))
+                                        play_area, num=randint(1, 2), plant_type="pretty_log", bias="edges"))
         plant_db = merge_plant_sets(plant_db,
                                     grow_plants(
-                                        play_area, num=randint(0, 2), plant_type="stump", bias="edges"))
+                                        play_area, num=randint(0, 3), plant_type="stump", bias="edges"))
         plant_db = merge_plant_sets(plant_db,
                                     grow_plants(
-                                        play_area, num=randint(20, 40), plant_type="leaves", bias="edges"))
+                                        play_area, num=randint(25, 55), plant_type="leaves", bias="edges"))
         plant_db = merge_plant_sets(plant_db,
                                     grow_plants(
-                                        play_area, num=randint(10, 30), plant_type="bushy_grass", bias="edges"))
+                                        play_area, num=randint(15, 25), plant_type="bushy_grass", bias="edges"))
 
         self.plants = RenderUpdates(list(plant_db.values()))
 

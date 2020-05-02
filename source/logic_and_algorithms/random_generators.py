@@ -4,8 +4,9 @@ Class Purpose: Holds functions for procedurally generating a variety of game str
 Notes:
 """
 #  IMPORTS
-from pygame import Rect
+from pygame import Rect, Vector2
 from statistics import NormalDist
+from random import randint, choice
 
 from source.entities.hive_data.bee_hive import BeeHive
 from source.entities.flower_data.flower import Flower
@@ -37,6 +38,21 @@ def find_valid_hive_spawns(hive_num, play_area, flowers):
     return new_hives
 
 
+def get_location_in_circle(distance_roll, play_area):
+    distance = map_values(distance_roll, 0, 1, 0, play_area - 100)
+    angle = randint(0, 360)
+
+    center = play_area // 2, play_area // 2
+
+    movement_vector = Vector2(center)
+    movement_vector.rotate_ip(angle)
+    movement_vector.scale_to_length(distance)
+
+    location = Vector2(center) + movement_vector
+
+    return location.x, location.y
+
+
 def find_hive_loc(play_area, existing_hives, flowers):
     """
     :param play_area:
@@ -44,11 +60,8 @@ def find_hive_loc(play_area, existing_hives, flowers):
     :param flowers:
     :return: valid location for a hive
     """
-    normal_distribution = NormalDist(0.5, 0.15)
-
-    new_loc = normal_distribution.samples(2)
-    # 20 below is not a magic number, rather we just constrain the range a bit so we don't have things going off screen
-    new_loc = map_values(new_loc[0], 0, 1, 0, play_area), map_values(new_loc[1], 0, 1, 0, play_area)
+    dist = 0.3
+    new_loc = get_location_in_circle(dist, play_area)
 
     for hive in existing_hives:
         new_rect = Rect(new_loc[0], new_loc[1], 66, 66)
@@ -83,19 +96,16 @@ def normal_distribution_flower_spawning_strategy(play_area):
     :param play_area:
     :return: list of spawned flowers
     """
-    flower_num = 200  # This could be a parameter
+    flower_num = 300  # This could be a parameter
     normal_distribution = NormalDist(0.5, 0.15)
     flower_database = {}
 
-    x_rolls = normal_distribution.samples(flower_num)
-    y_rolls = normal_distribution.samples(flower_num)
+    dist_rolls = normal_distribution.samples(flower_num)
 
     for i in range(flower_num):
-        x_pos = map_values(x_rolls[i], 0, 1, 0, play_area)
-        y_pos = map_values(y_rolls[i], 0, 1, 0, play_area)
-
-        new_f = Flower((x_pos, y_pos))
-        flower_database[(x_pos, y_pos)] = new_f
+        location = get_location_in_circle(dist_rolls[i], play_area)
+        new_f = Flower(location)
+        flower_database[location] = new_f
 
     clean_up_table = {}
 
@@ -133,22 +143,15 @@ def grow_plants(play_area, num, plant_type, bias):
 
     plant_db = {}
 
-    x_rolls = normal_distribution.samples(num)
-    y_rolls = normal_distribution.samples(num)
+    dist_rolls = normal_distribution.samples(num)
 
     if bias == 'edges':
-        x_rolls = inverse_probabilities(x_rolls)
-        y_rolls = inverse_probabilities(y_rolls)
+        dist_rolls = inverse_probabilities(dist_rolls)
 
     for i in range(num):
-
-        # 20 below is not a magic number,
-        # rather we just constrain the range a bit so we don't have things going off screen
-        x_pos = map_values(x_rolls[i], 0, 1, 0, play_area)
-        y_pos = map_values(y_rolls[i], 0, 1, 0, play_area)
-
-        new_p = Decoration((x_pos, y_pos), plant_type)
-        plant_db[(x_pos, y_pos)] = new_p
+        location = get_location_in_circle(dist_rolls[i], play_area)
+        new_p = Decoration(location, plant_type)
+        plant_db[location] = new_p
 
     clean_up_db = {}
 
