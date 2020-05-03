@@ -1,5 +1,7 @@
-from pygame import Vector2, draw, transform, Rect, sprite
+from pygame import Vector2, draw, transform, Rect
 
+from source.entities.bee_data.bee import Bee
+from source.entities.crosshair import Crosshair
 from source.entities.hive_data.bee_hive import BeeHive, team_color_dict
 
 grass_color = (102, 200, 102)
@@ -11,32 +13,47 @@ class Camera:
     def __init__(self, native_resolution, map_size):
         self.native_resolution = native_resolution
         self.map_size = map_size
-        self.frame_sprites = sprite.RenderUpdates()
+        self.orientation_changed = True
+        self.scaled_sprites = {}
         self.zoom_factor = 1
         self.location = Vector2(0, 0)
 
-    def make_frame_sprites(self, entities, surface):
+    def in_frame(self, location, height):
+        return 0 <= location[0] + height <= self.native_resolution[0] and 0 <= location[1] <= self.native_resolution[1]
+
+    def render_entities(self, entities, surface):
         """
         Makes scaled sprites ready to be rendered
         :param entities:
         :param surface:
         :return:
         """
-        frame_sprites = sprite.RenderUpdates()
+
+        def scale_entity(e):
+            width = (int(e.rect.width * self.zoom_factor))
+            height = (int(e.rect.height * self.zoom_factor))
+            image = transform.scale(e.image, (width, height))
+            return width, height, image
+
+        if self.orientation_changed:
+            self.scaled_sprites = {}
 
         for entity in entities:
             scaled_loc = self.scale_location((entity.rect.left, entity.rect.top))
-            if 0 <= scaled_loc[0]+entity.rect.height <= self.native_resolution[0] \
-                    and 0 <= scaled_loc[1] <= self.native_resolution[1]:
+            if self.in_frame(scaled_loc, entity.rect.height):
+                if self.orientation_changed:
+                    scaled_width, scaled_height, scaled_image = scale_entity(entity)
+                    self.scaled_sprites[entity] = (scaled_image, (scaled_width, scaled_height))
+                else:
+                    if isinstance(entity, Bee) or isinstance(entity, Crosshair):
+                        scaled_width, scaled_height, scaled_image = scale_entity(entity)
+                    else:
+                        scaled_entity_data = self.scaled_sprites[entity]
+                        scaled_width = scaled_entity_data[1][0]
+                        scaled_height = scaled_entity_data[1][1]
+                        scaled_image = scaled_entity_data[0]
 
-                scaled_width = (int(entity.rect.width * self.zoom_factor))
-                scaled_height = (int(entity.rect.height * self.zoom_factor))
-                scaled_image = transform.scale(entity.image, (scaled_width, scaled_height))
-
-                temp_sprite = sprite.DirtySprite()
-                temp_sprite.image = scaled_image
-                temp_sprite.rect = temp_sprite.image.get_rect()
-                temp_sprite.rect.left, temp_sprite.rect.top = scaled_loc
+                surface.blit(scaled_image, scaled_loc)
 
                 if isinstance(entity, BeeHive):
                     entity.scaled_rect = Rect(scaled_loc[0] + self.location[0],
@@ -44,9 +61,8 @@ class Camera:
                                               scaled_width, scaled_height)
                     self.handle_hive_highways(entity, surface)
 
-                frame_sprites.add(temp_sprite)
-
-        self.frame_sprites = frame_sprites
+        if self.orientation_changed:
+            self.orientation_changed = False
 
     def paint_background(self, surface):
         """
@@ -55,8 +71,8 @@ class Camera:
         :return:
         """
         circle_center = (
-            int((self.map_size*self.zoom_factor / 2) - self.location[0]),
-            int((self.map_size*self.zoom_factor / 2) - self.location[1])
+            int((self.map_size * self.zoom_factor / 2) - self.location[0]),
+            int((self.map_size * self.zoom_factor / 2) - self.location[1])
         )
 
         radius = int(self.map_size * self.zoom_factor)
@@ -75,8 +91,7 @@ class Camera:
         :return: returns the rendered frame
         """
         self.paint_background(surface)
-        self.make_frame_sprites(entities, surface)
-        self.frame_sprites.draw(surface)
+        self.render_entities(entities, surface)
 
     def scale_location(self, pos):
         """
@@ -94,13 +109,16 @@ class Camera:
         :param destination:
         :return: void
         """
+        self.orientation_changed = True
         self.location = self.location + destination
 
     def zoom_out(self):
+        self.orientation_changed = True
         if self.zoom_factor > .3:
             self.zoom_factor = round(self.zoom_factor - .10, 2)
 
     def zoom_in(self):
+        self.orientation_changed = True
         if self.zoom_factor < 2:
             self.zoom_factor = round(self.zoom_factor + .10, 2)
 
