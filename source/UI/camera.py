@@ -4,8 +4,8 @@ from source.entities.bee_data.bee import Bee
 from source.entities.crosshair import Crosshair
 from source.entities.hive_data.bee_hive import BeeHive, team_color_dict
 
-grass_color = (102, 200, 102)
-water_color = (51, 153, 255)
+grass_color = (100, 200, 100)
+water_color = (50, 150, 250)
 
 
 class Camera:
@@ -19,23 +19,47 @@ class Camera:
         self.location = Vector2(0, 0)
 
     def in_frame(self, location, height):
+        """
+        Checks if a particular entity is visible in the camera frame
+        :param location:
+        :param height:
+        :return:
+        """
         return 0 <= location[0] + height <= self.native_resolution[0] and 0 <= location[1] <= self.native_resolution[1]
 
     def render_entities(self, entities, surface):
         """
-        Makes scaled sprites ready to be rendered
+        Renders entities on the provided surface
         :param entities:
         :param surface:
         :return:
         """
 
         def scale_entity(e):
+            """
+            Scales an entity according to the current zoom factor
+            :param e:
+            :return:
+            """
             width = (int(e.rect.width * self.zoom_factor))
             height = (int(e.rect.height * self.zoom_factor))
             image = transform.scale(e.image, (width, height))
             return width, height, image
 
+        def handle_hive_highlighting(e):
+            if isinstance(e, BeeHive) and e.highlighted:
+                # This will draw the lines from hives to their known flowers
+                e.scaled_rect = Rect(scaled_loc[0] + self.location[0],
+                                     scaled_loc[1] + self.location[1],
+                                     scaled_width, scaled_height)
+                self.handle_hive_highways(e, surface)
+
         if self.orientation_changed:
+            """
+            If the orientation has changed (camera moved or zoomed in/out) then we need to rescale the sprites that are
+            now in the frame. If the orientation hasn't changed, we use the saved scaled sprites from the previous 
+            iteration, which saves us some computing power.
+            """
             self.scaled_sprites = {}
 
         for entity in entities:
@@ -46,6 +70,8 @@ class Camera:
                     self.scaled_sprites[entity] = (scaled_image, (scaled_width, scaled_height))
                 else:
                     if isinstance(entity, Bee) or isinstance(entity, Crosshair):
+                        # We always scale the bees because they are constantly moving so we need this for the sprites
+                        # to rotate as they fly around.
                         scaled_width, scaled_height, scaled_image = scale_entity(entity)
                     else:
                         scaled_entity_data = self.scaled_sprites[entity]
@@ -55,11 +81,7 @@ class Camera:
 
                 surface.blit(scaled_image, scaled_loc)
 
-                if isinstance(entity, BeeHive):
-                    entity.scaled_rect = Rect(scaled_loc[0] + self.location[0],
-                                              scaled_loc[1] + self.location[1],
-                                              scaled_width, scaled_height)
-                    self.handle_hive_highways(entity, surface)
+                handle_hive_highlighting(entity)
 
         if self.orientation_changed:
             self.orientation_changed = False
@@ -129,13 +151,12 @@ class Camera:
         :param hive:
         :return:
         """
-        if hive.highlighted:
-            for flower in hive.flowers:
-                hive_loc = self.scale_location(hive.center)
-                flower_loc = self.scale_location(flower.center_loc)
+        for flower in hive.flowers:
+            hive_loc = self.scale_location(hive.center)
+            flower_loc = self.scale_location(flower.center_loc)
 
-                draw.line(surface,
-                          team_color_dict[hive.team],
-                          hive_loc,
-                          flower_loc,
-                          2)
+            draw.line(surface,
+                      team_color_dict[hive.team],
+                      hive_loc,
+                      flower_loc,
+                      2)
