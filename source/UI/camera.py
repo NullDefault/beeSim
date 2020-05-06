@@ -47,12 +47,12 @@ class Camera:
             return width, height, image
 
         def handle_hive_highlighting(e):
-            if isinstance(e, BeeHive) and e.highlighted:
-                # This will draw the lines from hives to their known flowers
+            if isinstance(e, BeeHive):
                 e.scaled_rect = Rect(scaled_loc[0] + self.location[0],
                                      scaled_loc[1] + self.location[1],
                                      scaled_width, scaled_height)
-                self.handle_hive_highways(e, surface)
+                if e.highlighted:
+                    self.handle_hive_highways(e, surface)
 
         if self.orientation_changed:
             """
