@@ -44,13 +44,7 @@ class Flower(Entity):
         self.pollen = 100  # How much pollen the flower starts with
         self.inspecting_hives = []
         self.crosshair = Crosshair(self, 'flower')
-
-    @property
-    def center_loc(self):
-        """
-        :return: Center of the flower
-        """
-        return Vector2(self.rect.left + self.rect.width / 2, self.rect.top + self.rect.height / 2)
+        self.center_loc = Vector2(self.rect.left + self.rect.width / 2, self.rect.top + self.rect.height / 2)
 
     def get_inspected(self, hive):
         if hive not in self.inspecting_hives:

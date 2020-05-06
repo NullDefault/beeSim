@@ -49,13 +49,14 @@ class WorkerBee(Bee):
         self.update_sprite()
 
     def update_target(self):
-        if self.state == 'await orders':
+        state = self.state_machine.current
+        if state == 'await orders':
             return self.check_available_orders()
-        elif self.state == 'harvest':
+        elif state == 'harvest':
             return self.harvest_flower()
-        elif self.state == 'offload':
+        elif state == 'offload':
             return self.offload()
-        elif self.state == 'head back':
+        elif state == 'head back':
             return self.deliver_nectar_load()
 
     def deliver_nectar_load(self):
@@ -168,7 +169,7 @@ class WorkerBee(Bee):
             return self.orbit_hive()
 
     def handle_collisions(self, flowers):
-        if self.state == 'go to flower':
+        if self.state_machine.current == 'go to flower':
             if sprite.collide_rect(self, self.target_flower):
                     self.state_machine.trigger('arrived at flower')
 

@@ -6,7 +6,7 @@ Notes:
 
 # IMPORTS
 from random import randint
-from pygame import Vector2
+from pygame import Vector2, sprite
 from math import floor, atan2, pi
 
 from source.entities.bee_data.bee import Bee
@@ -56,9 +56,10 @@ class ScoutBee(Bee):
         self.update_sprite()
 
     def update_target(self):
-        if self.state == 'report':
+        state = self.state_machine.current
+        if state == 'report':
             return self.report_back_to_hive()
-        elif self.state == 'scout':
+        elif state == 'scout':
             return self.search_for_flowers()
         else:
             return self.report_back_to_hive()
@@ -136,12 +137,12 @@ class ScoutBee(Bee):
         return Vector2(self.hive_location.x, self.hive_location.y)
 
     def handle_collisions(self, flowers):
-        if self.state == 'scout':
+        if self.state_machine.current == 'scout':
             for f in flowers:
                 distance_vector = f.center_loc - self.location
                 dist = distance_vector.length()
 
-                if dist < self.sight_range:  # 16 should be how far the bee can see
+                if dist < self.sight_range:
                     dist_orientation = vector_to_degrees(distance_vector)
 
                     bee_angle = 270 - atan2(self.target_destination.y - self.location.y,

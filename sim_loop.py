@@ -37,7 +37,7 @@ def simulation_loop(main_surface, frame_resolution, game_clock, game_frame_rate)
         gui_master.update(time_delta)
         camera.render(entity_master.get_valid_entities(), main_surface)
         gui_master.draw_ui(main_surface)
-        display.update()
+        display.flip()
 
         for e in event.get():
             if e.type == QUIT:

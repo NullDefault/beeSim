@@ -47,13 +47,8 @@ class Bee(Entity):
 
         self.crosshair = Crosshair(self, 'bee')
 
-    @property
-    def location(self):
-        """
-        :return: The location of the bee (not the top left corner, but the middle of the bee's sprite)
-        """
-        return Vector2(self.rect.left + self.rect.width / 2,
-                       self.rect.top + self.rect.height / 2)
+        self.location = Vector2(self.rect.left + self.rect.width / 2,
+                                self.rect.top + self.rect.height / 2)
 
     @property
     def hive_location(self):
@@ -61,13 +56,6 @@ class Bee(Entity):
         :return: The location of the hive (also the center, not the top left corner)
         """
         return self.queen_hive.center
-
-    @property
-    def state(self):
-        """
-        :return: The state the bee's state machine is currently in
-        """
-        return self.state_machine.current
 
     @abstractmethod
     def update_target(self):
@@ -103,8 +91,8 @@ class Bee(Entity):
         if dest.length() != 0:
             dest.scale_to_length(self.speed)
             dest.normalize()
-        self.rect.left = self.rect.left + dest.x
-        self.rect.top = self.rect.top + dest.y
+        self.rect.left += dest.x
+        self.rect.top += dest.y
 
     def paint_team_marks(self):
         """
@@ -127,9 +115,10 @@ class Bee(Entity):
         :return: void
         """
         rotate = False
-        if self.state == 'offload':
+        state = self.state_machine.current
+        if state == 'offload':
             self.image = sprite_bank.retrieve("bee_hidden_sprite")
-        elif self.state == 'harvest' and self.harvesting_pollen:
+        elif state == 'harvest' and self.harvesting_pollen:
             self.wings_up = False
             self.image = self.wings_down_sprite
         else:
@@ -154,3 +143,7 @@ class Bee(Entity):
 
         self.rect.width = self.image.get_rect().width
         self.rect.height = self.image.get_rect().height
+
+        self.location = Vector2(self.rect.left + self.rect.width / 2,
+                                self.rect.top + self.rect.height / 2)
+

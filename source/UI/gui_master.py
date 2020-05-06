@@ -55,7 +55,7 @@ class GuiMaster:
         self.gui_manager.update(time_delta)
 
     def draw_ui(self, screen):
-        self.gui_manager.draw_ui(screen)
+        return self.gui_manager.ui_group.draw(screen)
 
     def process_events(self, event, camera):
         if event.type == MOUSEBUTTONUP:
