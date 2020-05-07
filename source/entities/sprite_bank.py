@@ -29,7 +29,7 @@ sprite_bank = {
 
     # DECORATIONS
     'grass1': load(join('source', 'assets', 'sprites', 'plant_sprites',
-                             'decorative_plants', 'grass1.png')),
+                        'decorative_plants', 'grass1.png')),
     'grass2': load(join('source', 'assets', 'sprites', 'plant_sprites',
                         'decorative_plants', 'grass2.png')),
     'grass3': load(join('source', 'assets', 'sprites', 'plant_sprites',

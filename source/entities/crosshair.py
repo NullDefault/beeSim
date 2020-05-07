@@ -10,7 +10,7 @@ from source.entities.entity import Entity
 class Crosshair(Entity):
     def __init__(self, entity, kind):
         self.owner = entity
-        Entity.__init__(self, (entity.rect.left, entity.rect.top), 'crosshair_'+kind)  # Calls the Entity constructor
+        Entity.__init__(self, (entity.rect.left, entity.rect.top), 'crosshair_' + kind)  # Calls the Entity constructor
 
     def follow(self):
         """

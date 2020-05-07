@@ -6,7 +6,6 @@ from source.entities.sprite_bank import retrieve
 
 
 def main_menu_loop(screen, game_clock, settings):
-
     frame_resolution = settings.frame_resolution
     game_frame_rate = settings.frame_rate
 
@@ -27,7 +26,7 @@ def main_menu_loop(screen, game_clock, settings):
         object_id="settings_button",
         manager=gui_manager)
 
-    screen.fill((179, 147, 0))   # This is the initial draw, we don't need to re render the menu graphics later
+    screen.fill((179, 147, 0))  # This is the initial draw, we don't need to re render the menu graphics later
     screen.blit(menu_graphics, (0, 0))  # This ensures a decent fps
 
     # Main Game Loop

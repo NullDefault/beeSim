@@ -1,5 +1,6 @@
 import pickle
 from os.path import join
+
 from screeninfo import get_monitors
 
 save_file_location = join("source", "assets", "save_data", "settings_save_data.pickle")

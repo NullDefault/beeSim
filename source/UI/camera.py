@@ -1,7 +1,7 @@
 from pygame import Vector2, draw, transform, Rect
 
-from source.entities.bee_data.bee import Bee
-from source.entities.crosshair import Crosshair
+from source.entities.decorative_entity import Decoration
+from source.entities.flower_data.flower import Flower
 from source.entities.hive_data.bee_hive import BeeHive, team_color_dict
 
 grass_color = (100, 200, 100)
@@ -69,9 +69,7 @@ class Camera:
                     scaled_width, scaled_height, scaled_image = scale_entity(entity)
                     self.scaled_sprites[entity] = (scaled_image, (scaled_width, scaled_height))
                 else:
-                    if isinstance(entity, Bee) or isinstance(entity, Crosshair):
-                        # We always scale the bees because they are constantly moving so we need this for the sprites
-                        # to rotate as they fly around.
+                    if not isinstance(entity, Flower) and not isinstance(entity, Decoration):
                         scaled_width, scaled_height, scaled_image = scale_entity(entity)
                     else:
                         scaled_entity_data = self.scaled_sprites[entity]

@@ -4,9 +4,11 @@ Class Purpose: Entry point for the code, starts the engine up, all that jazz
 Notes:
 """
 
+from os.path import join
+
 #  IMPORTS
 from pygame import display, mixer, event, QUIT
-from os.path import join
+
 from source.UI.camera import Camera
 from source.UI.gui_master import GuiMaster
 from source.logic_and_algorithms.masters.entity_master import EntityMaster

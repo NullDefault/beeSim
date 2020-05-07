@@ -5,19 +5,16 @@ Notes:
 """
 
 #  IMPORTS
-from random import randint
+from random import randint, random
 
+from pygame import Vector2
 from pygame.sprite import RenderUpdates, collide_circle_ratio, spritecollide, spritecollideany
 from pygame.time import get_ticks
-from pygame import Vector2, Rect
 
 from source.entities.bee_data.scout_bee import ScoutBee
 from source.entities.bee_data.worker_bee import WorkerBee
 from source.logic_and_algorithms.random_generators import grow_plants
 from source.logic_and_algorithms.spawn_strategies import get_hive_spawn_strategy, get_flower_spawn_strategy
-
-
-# CLASS BODY
 
 
 def merge_plant_sets(origin_dict, merging_dict):
@@ -103,6 +100,8 @@ class EntityMaster:
         for hive in self.hives:
             hive.last_tick = get_ticks()
             self.handle_hive_highlighting(hive)
+            if hive.current_nectar == hive.max_nectar:
+                self.add_a_bee(hive)
 
         if not self.sim_paused:
             for bee in self.bees:  # If the sim is not paused, we update the states of the bees
@@ -132,24 +131,39 @@ class EntityMaster:
             self.crosshairs.add(bee.crosshair)
             bee.crosshair.follow()
 
+    def add_worker(self, hive):
+        new_bee = \
+            WorkerBee((hive.center.x + randint(-10, 10),
+                       hive.center.y + randint(-10, 10)),
+                      hive)
+        self.crosshairs.add(new_bee.crosshair)
+        hive.add_worker_bee(new_bee)
+        self.bees.add(new_bee)
+
+    def add_scout(self, hive):
+        new_bee = \
+            ScoutBee((hive.center.x + randint(-50, 50),
+                      hive.center.y + randint(-50, 50)),
+                     hive)
+        self.crosshairs.add(new_bee.crosshair)
+        hive.add_scout_bee(new_bee)
+        self.bees.add(new_bee)
+
+    def add_a_bee(self, hive):
+        hive.buy_bee()
+        bee_roll = random()
+        if bee_roll >= 1 / self.bee_ratio:
+            self.add_scout(hive)
+        else:
+            self.add_worker(hive)
+
     def handle_hive_highlighting(self, hive):
         """
         Takes care of everything that has to do with hive highlighting, adding the needed ui elements if necessary
         :param hive:
         :return:
         """
-        if not self.ui_elements.__contains__(hive.honey_bar) and hive.highlighted:
-            self.ui_elements.add(hive.honey_bar)
-            self.ui_elements.add(hive.scout_counter)
-            self.ui_elements.add(hive.worker_counter)
-        if hive.highlighted:
-            hive.honey_bar.draw_honey()
-            hive.scout_counter.render()
-            hive.worker_counter.render()
-        elif not hive.highlighted:
-            self.ui_elements.remove(hive.honey_bar)
-            self.ui_elements.remove(hive.scout_counter)
-            self.ui_elements.remove(hive.worker_counter)
+        # TODO: REPLACE OLD WITH PYGAME_GUI ELEMENTS
 
     def populate_hives(self, hives, bees_per_hive):
         """
@@ -173,22 +187,10 @@ class EntityMaster:
         workers = bees_per_hive - scouts
 
         for j in range(workers):
-            new_bee = \
-                WorkerBee((hive.center.x + randint(-10, 10),
-                           hive.center.y + randint(-10, 10)),
-                          hive)
-            self.crosshairs.add(new_bee.crosshair)
-            hive.add_worker_bee(new_bee)
-            self.bees.add(new_bee)
+            self.add_worker(hive)
 
         for j in range(scouts):
-            new_bee = \
-                ScoutBee((hive.center.x + randint(-50, 50),
-                          hive.center.y + randint(-50, 50)),
-                         hive)
-            self.crosshairs.add(new_bee.crosshair)
-            hive.add_scout_bee(new_bee)
-            self.bees.add(new_bee)
+            self.add_scout(hive)
 
     def clean_up_spawn(self):
         """
@@ -198,7 +200,6 @@ class EntityMaster:
         for hive in self.hives:
             flowers = self.flowers
             spritecollide(hive, flowers, True, collide_circle_ratio(1.3))
-            self.ui_elements.add(hive.honey_bar, hive.worker_counter, hive.scout_counter)
 
     def load_flower_data(self, data):
         """

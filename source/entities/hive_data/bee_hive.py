@@ -4,12 +4,11 @@ Class Purpose: Holds data and functions relevant for bee hives
 Notes:
 """
 
-#  IMPORTS
-from pygame import Vector2, Surface, SRCALPHA, surfarray
 from random import randint
 
-from source.UI.bee_counters import Counter
-from source.UI.honey_bar import HoneyBar
+#  IMPORTS
+from pygame import Vector2, Surface, SRCALPHA, surfarray
+
 from source.entities.entity import Entity
 from source.entities.sprite_bank import sprite_bank
 
@@ -32,8 +31,10 @@ class BeeHive(Entity):
 
         self.highlighted = False  # Used in inspection mode
 
-        self.current_nectar = 10  # How much nectar the hive has stored
+        self.current_nectar = 90  # How much nectar the hive has stored
         self.max_nectar = 100  # Maximum honey the hive can store
+
+        self.bee_buy_cost = 25
 
         self.last_tick = 0  # Time since last tick check
 
@@ -50,9 +51,6 @@ class BeeHive(Entity):
         self.phenotype = (randint(0, 11), randint(0, 5), randint(0, 5), randint(0, 5))
         self.init_team_data()
 
-        self.worker_counter = Counter(self, "worker_counter")
-        self.scout_counter = Counter(self, "scout_counter")
-        self.honey_bar = HoneyBar(self)
         self.center = Vector2(self.rect.left + 34, self.rect.top + 54)  # Location of hive entrance
 
     @property
@@ -103,6 +101,8 @@ class BeeHive(Entity):
         arr[:, :, 2] = color[2]
         entity.crosshair.image = new_crosshair
 
+        entity.highlighted = self.highlighted
+
     def add_worker_bee(self, bee):
         """
         :param bee:
@@ -118,6 +118,9 @@ class BeeHive(Entity):
         """
         self.recolor_crosshair(bee)
         self.scouts.append(bee)
+
+    def buy_bee(self):
+        self.current_nectar -= self.bee_buy_cost
 
     def gain_nectar(self, nectar_amount):
         """

@@ -1,7 +1,7 @@
-from pygame import display, time, DOUBLEBUF
+from pygame import display, time, DOUBLEBUF, font
 
-from settings_data import load_settings_file
 from main_menu_loop import main_menu_loop
+from settings_data import load_settings_file
 from settings_loop import settings_loop
 from sim_loop import simulation_loop
 from source.entities import sprite_bank
@@ -19,6 +19,7 @@ game_states = {  # we don't actually use this, but it's convenient to have the d
 def init():
     state = 0
     display.init()
+    font.init()
     settings = load_settings_file()
     screen = display.set_mode(settings.frame_resolution, DOUBLEBUF)
     display.set_caption("beeSim")

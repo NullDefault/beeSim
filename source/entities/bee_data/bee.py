@@ -6,15 +6,15 @@ Notes: Castes.py is a dictionary of finite state machines for each individual be
 
 # IMPORTS
 import math
-
 from abc import abstractmethod
 from random import randint
-from pygame import transform, Vector2, Rect
+
+from pygame import transform, Vector2
+
 from source.entities import sprite_bank
 from source.entities.bee_data.bee_components.bee_factory import make_bee_sprites
 from source.entities.crosshair import Crosshair
 from source.entities.entity import Entity
-from source.entities.hive_data.bee_hive import team_color_dict
 
 # CLASS BODY
 
@@ -34,7 +34,6 @@ class Bee(Entity):
         sprites = make_bee_sprites(self.queen_hive.phenotype)
         self.wings_up_sprite = sprites[0]
         self.wings_down_sprite = sprites[1]
-        self.paint_team_marks()
 
         Entity.__init__(self, location, self.wings_up_sprite)  # Calls the Entity constructor
 
@@ -94,21 +93,6 @@ class Bee(Entity):
         self.rect.left += dest.x
         self.rect.top += dest.y
 
-    def paint_team_marks(self):
-        """
-        Adds small marks on the bee bodies to represent their team affiliation
-        :return:
-        """
-
-        temp = self.wings_up_sprite.copy()
-        temp2 = self.wings_down_sprite.copy()
-
-        temp.fill(team_color_dict[self.queen_hive.team], Rect(8, 14, 2, 2))
-        temp2.fill(team_color_dict[self.queen_hive.team], Rect(8, 14, 2, 2))
-
-        self.wings_up_sprite = temp
-        self.wings_down_sprite = temp2
-
     def update_sprite(self):
         """
         Updates the sprite to face towards where the bee is going and flaps the wings if necessary
@@ -146,4 +130,3 @@ class Bee(Entity):
 
         self.location = Vector2(self.rect.left + self.rect.width / 2,
                                 self.rect.top + self.rect.height / 2)
-

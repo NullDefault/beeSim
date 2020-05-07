@@ -3,8 +3,8 @@ import ast
 from pygame import event, QUIT, Rect, display, USEREVENT, DOUBLEBUF
 from pygame_gui import UIManager, elements
 
-from source.UI.gui_master import main_theme
 from settings_data import Settings
+from source.UI.gui_master import main_theme
 
 
 def settings_loop(screen, game_clock, settings):

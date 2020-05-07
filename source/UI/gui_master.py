@@ -20,6 +20,7 @@ class GuiMaster:
         self.entity_master = entity_master
         self.game_clock = game_clock
         self.main_menu_active = False
+
         self.main_menu_button = pygame_gui.elements.UIButton(relative_rect=
                                                              Rect((screen_resolution[0] - 112,
                                                                    screen_resolution[1] - 112), (110, 110)),
@@ -27,6 +28,7 @@ class GuiMaster:
                                                              object_id="button_main_menu",
                                                              manager=self.gui_manager,
                                                              tool_tip_text="Menu")
+
         self.pause_button = pygame_gui.elements.UIButton(relative_rect=
                                                          Rect((screen_resolution[0] - 200,
                                                                screen_resolution[1] - 80), (70, 70)),

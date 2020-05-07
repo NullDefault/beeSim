@@ -7,6 +7,7 @@ Notes:
 # IMPORTS
 from math import cos, sin
 from random import randint
+
 from pygame import sprite, Vector2
 
 from source.entities.bee_data.bee import Bee
@@ -145,8 +146,8 @@ class WorkerBee(Bee):
         :return: void
         """
         if not self.harvesting_pollen:
-            self.rect.left = flower.rect.left + self.target_flower.rect.width/3 + randint(-2, 2)
-            self.rect.top = flower.rect.top + self.target_flower.rect.height/3 + randint(-2, 2)
+            self.rect.left = flower.rect.left + self.target_flower.rect.width / 3 + randint(-2, 2)
+            self.rect.top = flower.rect.top + self.target_flower.rect.height / 3 + randint(-2, 2)
             self.harvesting_pollen = True
             self.begin_harvest_time = self.queen_hive.last_tick
         else:
@@ -163,19 +164,18 @@ class WorkerBee(Bee):
         if self.queen_hive.has_orders:
             self.target_flower = self.queen_hive.get_order()
             self.state_machine.trigger('go to flower')
-            return Vector2(self.target_flower.rect.left + self.target_flower.rect.width/2,
-                           self.target_flower.rect.top + self.target_flower.rect.height/2)
+            return Vector2(self.target_flower.rect.left + self.target_flower.rect.width / 2,
+                           self.target_flower.rect.top + self.target_flower.rect.height / 2)
         else:
             return self.orbit_hive()
 
     def handle_collisions(self, flowers):
         if self.state_machine.current == 'go to flower':
             if sprite.collide_rect(self, self.target_flower):
-                    self.state_machine.trigger('arrived at flower')
+                self.state_machine.trigger('arrived at flower')
 
     def collide_with_flower(self, flower):
         pass
 
     def validate_collision(self):
         pass
-

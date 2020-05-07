@@ -4,10 +4,11 @@ Class Purpose: Bee subclass which searches for flowers and other points of inter
 Notes:
 """
 
-# IMPORTS
-from random import randint
-from pygame import Vector2, sprite
 from math import floor, atan2, pi
+
+from random import randint
+
+from pygame import Vector2
 
 from source.entities.bee_data.bee import Bee
 from source.entities.bee_data.bee_components.castes import scout_fysom
@@ -29,7 +30,7 @@ def vector_to_degrees(vector):
     :param vector:
     :return: angle from the X+ axis
     """
-    return atan2(-vector[1], vector[0]) * (180/pi)
+    return atan2(-vector[1], vector[0]) * (180 / pi)
 
 
 class ScoutBee(Bee):

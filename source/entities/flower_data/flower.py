@@ -4,9 +4,10 @@ Class Purpose: Holds data common to all flowers
 Notes:
 """
 
+from statistics import NormalDist
+
 #  IMPORTS
 from pygame import Vector2
-from statistics import NormalDist
 
 from source.entities.crosshair import Crosshair
 from source.entities.entity import Entity
@@ -37,7 +38,7 @@ class Flower(Entity):
 
     def __init__(self, location):
         random_color = choose_color()
-        Entity.__init__(self, location, 'flower'+"_"+str(random_color))
+        Entity.__init__(self, location, 'flower' + "_" + str(random_color))
 
         self.busy = False  # Used by hives to designate orders
         self.max_pollen = 100

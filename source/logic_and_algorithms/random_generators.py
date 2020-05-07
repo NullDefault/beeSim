@@ -3,14 +3,14 @@ File Name: Random Generators
 Class Purpose: Holds functions for procedurally generating a variety of game structures
 Notes:
 """
-#  IMPORTS
-from pygame import Rect, Vector2
+from random import randint
 from statistics import NormalDist
-from random import randint, choice
 
-from source.entities.hive_data.bee_hive import BeeHive
-from source.entities.flower_data.flower import Flower
+from pygame import Rect, Vector2
+
 from source.entities.decorative_entity import Decoration
+from source.entities.flower_data.flower import Flower
+from source.entities.hive_data.bee_hive import BeeHive
 
 
 # FUNCTIONS
