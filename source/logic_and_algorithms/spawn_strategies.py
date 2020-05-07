@@ -12,7 +12,7 @@ from source.logic_and_algorithms.random_generators import find_valid_hive_spawns
 
 
 def get_flower_spawn_strategy(ss, play_area):
-    if ss == 'normal_distribution':
+    if ss == 'normal distribution':
         return normal_distribution_flower_spawning_strategy(
             play_area
         )

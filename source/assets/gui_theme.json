@@ -47,7 +47,7 @@
   },
 
   "sim_button": {
-        "colours": {
+    "colours": {
       "normal_bg": "#333300",
       "hovered_bg": "#ff9900",
       "active_bg": "#ffff00"
@@ -55,6 +55,18 @@
     "misc": {
       "shape": "ellipse",
       "tool_tip_delay": "1.5"
+    }
+  },
+
+  "back_button": {
+    "misc": {
+      "shape": "ellipse",
+      "tool_tip_delay": "1.5"
+    },
+    "images": {
+      "normal_image": {
+        "path": "source/assets/ui_elements/back_button.png"
+      }
     }
   }
 }

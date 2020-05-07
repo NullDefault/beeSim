@@ -5,7 +5,11 @@ from source.UI.gui_master import main_theme
 from source.entities.sprite_bank import retrieve
 
 
-def main_menu_loop(screen, frame_resolution, game_clock, game_frame_rate):
+def main_menu_loop(screen, game_clock, settings):
+
+    frame_resolution = settings.frame_resolution
+    game_frame_rate = settings.frame_rate
+
     gui_manager = UIManager(frame_resolution, main_theme)
     menu_graphics = retrieve('main_menu_graphics')
 
@@ -44,6 +48,6 @@ def main_menu_loop(screen, frame_resolution, game_clock, game_frame_rate):
                     if e.ui_element == start_button:
                         return 1
                     if e.ui_element == settings_button:
-                        pass
+                        return 2
 
             gui_manager.process_events(e)

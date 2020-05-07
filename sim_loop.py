@@ -12,21 +12,21 @@ from source.UI.gui_master import GuiMaster
 from source.logic_and_algorithms.masters.entity_master import EntityMaster
 
 # DATA FIELDS
-map_size = 1000
 menu_location = (1200, 0)
-play_music = False
 
 
-def simulation_loop(main_surface, frame_resolution, game_clock, game_frame_rate):
-    camera = Camera(frame_resolution, map_size)
-    entity_master = EntityMaster(initial_hives=5,
-                                 default_bees_per_hive=6,
-                                 play_area_dimensions=map_size,
-                                 flower_spawn_strategy='normal_distribution',
-                                 hive_spawn_strategy='default')
+def simulation_loop(main_surface, game_clock, settings):
+    frame_resolution = settings.frame_resolution
+    game_frame_rate = settings.frame_rate
+    camera = Camera(frame_resolution, settings.map_size)
+    entity_master = EntityMaster(initial_hives=settings.initial_hives,
+                                 default_bees_per_hive=settings.initial_bees_per_hive,
+                                 play_area_dimensions=settings.map_size,
+                                 flower_spawn_strategy=settings.flower_spawn_strat,
+                                 hive_spawn_strategy=settings.hive_spawn_strat)
     gui_master = GuiMaster(frame_resolution, entity_master, game_clock)
     # Init Music
-    if play_music:
+    if settings.play_music:
         mixer.init()
         mixer.music.load(join('source', 'assets', 'sounds', 'bee_music.mp3'))
         mixer.music.play(loops=-1, start=0.0)
@@ -46,4 +46,5 @@ def simulation_loop(main_surface, frame_resolution, game_clock, game_frame_rate)
             output = gui_master.process_events(e, camera)
 
             if output == 0:
+                mixer.quit()
                 return output

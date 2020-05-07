@@ -66,7 +66,7 @@ sprite_bank = {
     'worker_counter': load(join('source', 'assets', 'ui_elements', 'worker_count.png')),
     'scout_counter': load(join('source', 'assets', 'ui_elements', 'scout_count.png')),
 
-    'main_menu_graphics': load(join('source', 'assets', 'menu_graphics.png'))
+    'main_menu_graphics': load(join('source', 'assets', 'menu_graphics.png')),
 }
 
 
