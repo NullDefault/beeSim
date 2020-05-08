@@ -162,3 +162,15 @@ class GuiMaster:
             manager=self.gui_manager
         )
         self.menu_display.add_element(self.fps)
+
+        number_of_bees = "Number of Bees: " + str(self.entity_master.bee_population)
+        self.menu_display.remove_element(self.bee_num)
+        self.bee_num.kill()
+        self.bee_num = pygame_gui.elements.UITextBox(
+            html_text=number_of_bees,
+            relative_rect=Rect(self.menu_size[0] - 275, 25, 250, 50),
+            manager=self.gui_manager
+        )
+        self.menu_display.add_element(self.bee_num)
+
+
