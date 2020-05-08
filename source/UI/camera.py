@@ -25,7 +25,7 @@ class Camera:
         :param height:
         :return:
         """
-        return 0 <= location[0] + height <= self.native_resolution[0] and 0 <= location[1] <= self.native_resolution[1]
+        return 0 <= location[0] <= self.native_resolution[0] and 0 <= location[1] + height <= self.native_resolution[1]
 
     def render_entities(self, entities, surface):
         """
