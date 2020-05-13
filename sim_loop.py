@@ -25,7 +25,8 @@ def simulation_loop(main_surface, game_clock, settings):
                                  default_bees_per_hive=settings.initial_bees_per_hive,
                                  play_area_dimensions=settings.map_size,
                                  flower_spawn_strategy=settings.flower_spawn_strat,
-                                 hive_spawn_strategy=settings.hive_spawn_strat)
+                                 hive_spawn_strategy=settings.hive_spawn_strat,
+                                 flower_num=settings.flower_num)
     gui_master = GuiMaster(frame_resolution, entity_master, game_clock)
     # Init Music
     if settings.play_music:

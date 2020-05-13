@@ -70,10 +70,8 @@ class WorkerBee(Bee):
             self.current_nectar = 0
 
             if self.target_flower.pollen > 0:
-                self.queen_hive.flowers_getting_harvested.remove(self.target_flower)
                 self.queen_hive.remember_flower(self.target_flower)
             else:
-                self.queen_hive.flowers_getting_harvested.remove(self.target_flower)
                 self.target_flower.stop_inspection(self.queen_hive)
 
             self.state_machine.trigger('begin offload')

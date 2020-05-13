@@ -69,5 +69,4 @@ class Flower(Entity):
         else:
             pollen_taken = self.pollen
             self.pollen = 0
-
         return pollen_taken

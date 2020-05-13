@@ -42,7 +42,7 @@ class EntityMaster:
     # FUNCTIONS
 
     def __init__(self, initial_hives: int, default_bees_per_hive: int, play_area_dimensions: int(),
-                 flower_spawn_strategy: str, hive_spawn_strategy: str):
+                 flower_spawn_strategy: str, hive_spawn_strategy: str, flower_num: int):
 
         self.bees = RenderUpdates()
         self.hives = RenderUpdates()
@@ -57,7 +57,7 @@ class EntityMaster:
         self.sim_paused = False
 
         self.grow_flora(play_area_dimensions)
-        self.load_flower_data(get_flower_spawn_strategy(flower_spawn_strategy, play_area_dimensions))
+        self.load_flower_data(get_flower_spawn_strategy(flower_spawn_strategy, play_area_dimensions, flower_num))
         self.populate_hives(
             get_hive_spawn_strategy(hive_spawn_strategy, initial_hives, play_area_dimensions, self.flowers),
             default_bees_per_hive)
@@ -97,6 +97,21 @@ class EntityMaster:
         """
         :return: void
         """
+
+        for flower in self.flowers:
+            if flower.pollen == 0:
+                flower.crosshair.kill()
+                flower.kill()
+                for hive in self.hives:
+                    if flower in hive.flowers:
+                        hive.flowers.remove(flower)
+            else:
+                if flower.inspecting_hives.__len__() == 0:
+                    self.crosshairs.remove(flower.crosshair)
+                else:
+                    self.crosshairs.add(flower.crosshair)
+                    flower.inspecting_hives[flower.inspecting_hives.__len__() - 1].recolor_crosshair(flower)
+
         for hive in self.hives:
             hive.last_tick = get_ticks()
             self.handle_hive_highlighting(hive)
@@ -111,13 +126,6 @@ class EntityMaster:
         else:
             for bee in self.bees:  # If the sim is paused we only update the crosshairs
                 self.update_bee_crosshair(bee)
-
-        for flower in self.flowers:
-            if flower.inspecting_hives.__len__() == 0:
-                self.crosshairs.remove(flower.crosshair)
-            else:
-                self.crosshairs.add(flower.crosshair)
-                flower.inspecting_hives[flower.inspecting_hives.__len__() - 1].recolor_crosshair(flower)
 
     def update_bee_crosshair(self, bee):
         """
@@ -199,7 +207,7 @@ class EntityMaster:
         """
         for hive in self.hives:
             flowers = self.flowers
-            spritecollide(hive, flowers, True, collide_circle_ratio(1.3))
+            spritecollide(hive, flowers, True, collide_circle_ratio(1))
 
     def load_flower_data(self, data):
         """

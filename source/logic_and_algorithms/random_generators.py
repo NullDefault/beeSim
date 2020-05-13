@@ -90,13 +90,12 @@ def map_values(value, left_min, left_max, right_min, right_max):
     return right_min + (value_scaled * right_span)
 
 
-def normal_distribution_flower_spawning_strategy(play_area):
+def normal_distribution_flower_spawning_strategy(play_area, flower_num):
     """
     Returns a normal-distribution generated list of flowers
     :param play_area:
     :return: list of spawned flowers
     """
-    flower_num = 300  # This could be a parameter
     normal_distribution = NormalDist(0.5, 0.15)
     flower_database = {}
 

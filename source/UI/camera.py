@@ -150,11 +150,14 @@ class Camera:
         :return:
         """
         for flower in hive.flowers:
-            hive_loc = self.scale_location(hive.center)
-            flower_loc = self.scale_location(flower.center_loc)
+            if not flower.alive():
+                hive.flowers.remove(flower)
+            else:
+                hive_loc = self.scale_location(hive.center)
+                flower_loc = self.scale_location(flower.center_loc)
 
-            draw.line(surface,
-                      team_color_dict[hive.team],
-                      hive_loc,
-                      flower_loc,
-                      2)
+                draw.line(surface,
+                          team_color_dict[hive.team],
+                          hive_loc,
+                          flower_loc,
+                          2)
