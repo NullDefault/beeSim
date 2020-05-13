@@ -41,8 +41,8 @@ class Flower(Entity):
         Entity.__init__(self, location, 'flower' + "_" + str(random_color))
 
         self.busy = False  # Used by hives to designate orders
-        self.max_pollen = 100
-        self.pollen = 100  # How much pollen the flower starts with
+        self.max_pollen = 50
+        self.pollen = 50  # How much pollen the flower starts with
         self.inspecting_hives = []
         self.crosshair = Crosshair(self, 'flower')
         self.center_loc = Vector2(self.rect.left + self.rect.width / 2, self.rect.top + self.rect.height / 2)

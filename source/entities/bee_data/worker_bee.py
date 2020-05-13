@@ -70,8 +70,18 @@ class WorkerBee(Bee):
             self.current_nectar = 0
 
             if self.target_flower.pollen > 0:
+                try:
+                    self.queen_hive.flowers_getting_harvested.remove(self.target_flower)
+                except ValueError:
+                    # If the flower has already been deleted
+                    pass
                 self.queen_hive.remember_flower(self.target_flower)
             else:
+                try:
+                    self.queen_hive.flowers_getting_harvested.remove(self.target_flower)
+                except ValueError:
+                    # If the flower has already been deleted
+                    pass
                 self.target_flower.stop_inspection(self.queen_hive)
 
             self.state_machine.trigger('begin offload')

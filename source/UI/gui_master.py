@@ -173,4 +173,14 @@ class GuiMaster:
         )
         self.menu_display.add_element(self.bee_num)
 
+        number_of_flowers = "Number of Flowers: " + str(self.entity_master.flower_population)
+        self.menu_display.remove_element(self.flower_num)
+        self.flower_num.kill()
+        self.flower_num = pygame_gui.elements.UITextBox(
+            html_text=number_of_flowers,
+            relative_rect=Rect(self.menu_size[0] - 275, 75, 250, 50),
+            manager=self.gui_manager
+        )
+        self.menu_display.add_element(self.flower_num)
+
 
