@@ -103,26 +103,25 @@ class EntityMaster:
             if hive.current_nectar == hive.max_nectar:
                 self.add_a_bee(hive)
 
-        if not self.sim_paused:
+        for flower in self.flowers:
+            if flower.pollen == 0:
+                flower.crosshair.kill()
+                flower.kill()
+                for hive in self.hives:
+                    if flower in hive.flowers:
+                        hive.flowers.remove(flower)
+            else:
+                if flower.inspecting_hives.__len__() == 0:
+                    self.crosshairs.remove(flower.crosshair)
+                else:
+                    self.crosshairs.add(flower.crosshair)
+                    flower.inspecting_hives[flower.inspecting_hives.__len__() - 1].recolor_crosshair(flower)
 
+        if not self.sim_paused:
             for bee in self.bees:  # If the sim is not paused, we update the states of the bees
                 bee.update()
                 self.update_bee_crosshair(bee)
                 bee.handle_collisions(self.flowers)
-
-            for flower in self.flowers:
-                if flower.pollen == 0:
-                    flower.crosshair.kill()
-                    flower.kill()
-                    for hive in self.hives:
-                        if flower in hive.flowers:
-                            hive.flowers.remove(flower)
-                else:
-                    if flower.inspecting_hives.__len__() == 0:
-                        self.crosshairs.remove(flower.crosshair)
-                    else:
-                        self.crosshairs.add(flower.crosshair)
-                        flower.inspecting_hives[flower.inspecting_hives.__len__() - 1].recolor_crosshair(flower)
 
         else:
             for bee in self.bees:  # If the sim is paused we only update the crosshairs

@@ -31,10 +31,10 @@ class BeeHive(Entity):
 
         self.highlighted = False  # Used in inspection mode
 
-        self.current_nectar = 90  # How much nectar the hive has stored
+        self.current_nectar = 50  # How much nectar the hive has stored
         self.max_nectar = 100  # Maximum honey the hive can store
 
-        self.bee_buy_cost = 25
+        self.bee_buy_cost = 50
 
         self.last_tick = 0  # Time since last tick check
 
