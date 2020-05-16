@@ -17,7 +17,8 @@ def settings_loop(screen, game_clock, settings):
             'initial_bees': int(bees_dropdown.selected_option),
             'flower_strat': flower_spawn_strat_dropdown.selected_option,
             'hive_strat': hive_spawn_strat_dropdown.selected_option,
-            'music': music_dropdown.selected_option == 'True'
+            'music': music_dropdown.selected_option == 'True',
+            'flower_num': int(flower_num_dropdown.selected_option)
         }
         new_settings = Settings(data)
         new_screen = display.set_mode(new_settings.frame_resolution, DOUBLEBUF)
@@ -150,6 +151,26 @@ def settings_loop(screen, game_clock, settings):
     hive_spawn_strat_tooltip = elements.UILabel(
         relative_rect=Rect((550, 225), tooltip_size_l),
         text="Hive Spawn Strategy",
+        manager=gui_manager
+    )
+
+    flower_num_dropdown = elements.UIDropDownMenu(
+        options_list=[
+            '200',
+            '300',
+            '400',
+            '500',
+            '600',
+            '700'
+        ],
+        starting_option=str(settings.flower_num),
+        relative_rect=Rect((550, 400), element_size_l),
+        manager=gui_manager
+    )
+
+    music_tooltip = elements.UILabel(
+        relative_rect=Rect((550, 375), tooltip_size_l),
+        text="Number of Flowers",
         manager=gui_manager
     )
 

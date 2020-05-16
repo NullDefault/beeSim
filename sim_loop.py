@@ -38,7 +38,7 @@ def simulation_loop(main_surface, game_clock, settings):
     while True:
         time_delta = game_clock.tick(game_frame_rate) / 1000.0
         gui_master.update(time_delta)
-        camera.render(entity_master.get_valid_entities(), main_surface)
+        camera.render(entity_master.get_entities(), main_surface)
         gui_master.draw_ui(main_surface)
         display.flip()
 

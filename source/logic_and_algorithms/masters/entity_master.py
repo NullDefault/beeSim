@@ -49,7 +49,6 @@ class EntityMaster:
         self.plants = RenderUpdates()
         self.flowers = RenderUpdates()
         self.ui_elements = RenderUpdates()
-        self.crosshairs = RenderUpdates()
 
         self.flower_database = {}
         self.play_area = play_area_dimensions
@@ -77,21 +76,14 @@ class EntityMaster:
         """
         return len(self.flowers)
 
-    def get_valid_entities(self):
+    def get_entities(self):
         """
         :return: Entities that need to be rendered next frame
         """
         self.update_game_state()
 
-        valid_entities = RenderUpdates()
-        valid_entities.add(self.plants)
-        valid_entities.add(self.flowers)
-        valid_entities.add(self.hives)
-        valid_entities.add(self.bees)
-        valid_entities.add(self.crosshairs)
-        valid_entities.add(self.ui_elements)
-
-        return valid_entities
+        return self.plants.sprites() + self.flowers.sprites() + \
+               self.hives.sprites() + self.bees.sprites() + self.ui_elements.sprites()
 
     def update_game_state(self):
         """
@@ -112,9 +104,9 @@ class EntityMaster:
                         hive.flowers.remove(flower)
             else:
                 if flower.inspecting_hives.__len__() == 0:
-                    self.crosshairs.remove(flower.crosshair)
+                    self.ui_elements.remove(flower.crosshair)
                 else:
-                    self.crosshairs.add(flower.crosshair)
+                    self.ui_elements.add(flower.crosshair)
                     flower.inspecting_hives[flower.inspecting_hives.__len__() - 1].recolor_crosshair(flower)
 
         if not self.sim_paused:
@@ -136,15 +128,27 @@ class EntityMaster:
         if not bee.highlighted:
             bee.crosshair.kill()
         else:
-            self.crosshairs.add(bee.crosshair)
+            self.ui_elements.add(bee.crosshair)
             bee.crosshair.follow()
+
+    def handle_hive_highlighting(self, hive):
+        """
+        Takes care of everything that has to do with hive highlighting, adding the needed ui elements if necessary
+        :param hive:
+        :return:
+        """
+        if not hive.highlighted:
+            hive.honey_bar.kill()
+        else:
+            self.ui_elements.add(hive.honey_bar)
+            hive.honey_bar.update()
 
     def add_worker(self, hive):
         new_bee = \
             WorkerBee((hive.center.x + randint(-10, 10),
                        hive.center.y + randint(-10, 10)),
                       hive)
-        self.crosshairs.add(new_bee.crosshair)
+        self.ui_elements.add(new_bee.crosshair)
         hive.add_worker_bee(new_bee)
         self.bees.add(new_bee)
 
@@ -153,7 +157,7 @@ class EntityMaster:
             ScoutBee((hive.center.x + randint(-50, 50),
                       hive.center.y + randint(-50, 50)),
                      hive)
-        self.crosshairs.add(new_bee.crosshair)
+        self.ui_elements.add(new_bee.crosshair)
         hive.add_scout_bee(new_bee)
         self.bees.add(new_bee)
 
@@ -164,14 +168,6 @@ class EntityMaster:
             self.add_scout(hive)
         else:
             self.add_worker(hive)
-
-    def handle_hive_highlighting(self, hive):
-        """
-        Takes care of everything that has to do with hive highlighting, adding the needed ui elements if necessary
-        :param hive:
-        :return:
-        """
-        # TODO: REPLACE OLD WITH PYGAME_GUI ELEMENTS
 
     def populate_hives(self, hives, bees_per_hive):
         """

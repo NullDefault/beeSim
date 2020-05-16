@@ -10,6 +10,7 @@ from random import randint
 from pygame import Vector2, Surface, SRCALPHA, surfarray
 
 from source.entities.entity import Entity
+from source.entities.honey_bar import HoneyBar
 from source.entities.sprite_bank import sprite_bank
 
 # CLASS BODY
@@ -46,6 +47,8 @@ class BeeHive(Entity):
 
         Entity.__init__(self, location, 'hive')
         self.scaled_rect = self.rect
+
+        self.honey_bar = HoneyBar(self)
 
         self.team = team
         self.phenotype = (randint(0, 11), randint(0, 5), randint(0, 5), randint(0, 5))

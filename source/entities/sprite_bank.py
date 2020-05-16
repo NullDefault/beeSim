@@ -56,16 +56,10 @@ sprite_bank = {
     'yellow_hat': load(join('source', 'assets', 'sprites', 'hive_sprites', 'yellow_hat.png')),
 
     # UI
-    'inspection_button': load(join('source', 'assets', 'ui_elements', 'inspection_button.png')),
     'game_icon': load(join('source', 'assets', 'ui_elements', 'game_icon.png')),
-
     'crosshair_bee': load(join('source', 'assets', 'ui_elements', 'crosshair_bee.png')),
     'crosshair_flower': load(join('source', 'assets', 'ui_elements', 'crosshair_flower.png')),
-
     'honey_bar': load(join('source', 'assets', 'ui_elements', 'honey_bar.png')),
-    'worker_counter': load(join('source', 'assets', 'ui_elements', 'worker_count.png')),
-    'scout_counter': load(join('source', 'assets', 'ui_elements', 'scout_count.png')),
-
     'main_menu_graphics': load(join('source', 'assets', 'menu_graphics.png')),
 }
 
