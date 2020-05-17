@@ -44,16 +44,12 @@ class GuiMaster:
                                                         object_id="sim_button",
                                                         manager=self.gui_manager,
                                                         tool_tip_text="Exit Sim")
-        self.menu_size = screen_resolution
         self.drag_begin = None
-        self.menu_display = None
-        self.bee_num = None
-        self.flower_num = None
-        self.fps = None
+        self.info_screen = self.build_info_display(screen_resolution)
+        self.info_screen.kill()
 
     def update(self, time_delta):
-        if self.main_menu_active:
-            self.update_main_menu()
+        self.update_info_screen()
         self.gui_manager.update(time_delta)
 
     def draw_ui(self, screen):
@@ -107,13 +103,13 @@ class GuiMaster:
 
     def activate_main_menu(self):
         self.main_menu_active = True
-        self.menu_display = self.build_menu_display()
+        self.gui_manager.get_sprite_group().add(self.info_screen)
 
     def deactivate_main_menu(self):
         self.main_menu_active = False
-        self.menu_display.kill()
+        self.info_screen.kill()
 
-    def build_menu_display(self):
+    def build_info_display(self, res):
         """
         Builds the ui element displaying the current state of the simulation
         :return: Menu render
@@ -122,65 +118,19 @@ class GuiMaster:
         number_of_flowers = "Number of Flowers: " + str(self.entity_master.flower_population)
         fps_string = "Frames per Second: " + str(self.game_clock.get_fps())[0:4]
 
-        menu = pygame_gui.core.UIContainer(
-            manager=self.gui_manager,
-            relative_rect=Rect(0, 0, self.menu_size[0], self.menu_size[1])
-        )
-        self.bee_num = pygame_gui.elements.UITextBox(
-            html_text=number_of_bees,
-            relative_rect=Rect(self.menu_size[0] - 275, 25, 250, 50),
-            manager=self.gui_manager
-        )
-        self.flower_num = pygame_gui.elements.UITextBox(
-            html_text=number_of_flowers,
-            relative_rect=Rect(self.menu_size[0] - 275, 75, 250, 50),
-            manager=self.gui_manager
-        )
-        self.fps = pygame_gui.elements.UITextBox(
-            html_text=fps_string,
-            relative_rect=Rect(self.menu_size[0] - 275, 125, 250, 50),
+        return pygame_gui.elements.UITextBox(
+            html_text=number_of_bees + '<br><br>' + number_of_flowers + '<br><br>' + fps_string,
+            relative_rect=Rect(res[0] - 201, 0, 200, 120),
             manager=self.gui_manager
         )
 
-        menu.add_element(self.bee_num)
-        menu.add_element(self.flower_num)
-        menu.add_element(self.fps)
-
-        return menu
-
-    def update_main_menu(self):
+    def update_info_screen(self):
         """
-        Updates all the parameters that have changed since last time
+        Updates all the parameters that have changed since last time and rebuilds
         :return: void
         """
-        fps_string = "Frames per Second: " + str(self.game_clock.get_fps())[0:4]
-        self.menu_display.remove_element(self.fps)
-        self.fps.kill()
-        self.fps = pygame_gui.elements.UITextBox(
-            html_text=fps_string,
-            relative_rect=Rect(self.menu_size[0] - 275, 125, 250, 50),
-            manager=self.gui_manager
-        )
-        self.menu_display.add_element(self.fps)
-
         number_of_bees = "Number of Bees: " + str(self.entity_master.bee_population)
-        self.menu_display.remove_element(self.bee_num)
-        self.bee_num.kill()
-        self.bee_num = pygame_gui.elements.UITextBox(
-            html_text=number_of_bees,
-            relative_rect=Rect(self.menu_size[0] - 275, 25, 250, 50),
-            manager=self.gui_manager
-        )
-        self.menu_display.add_element(self.bee_num)
-
         number_of_flowers = "Number of Flowers: " + str(self.entity_master.flower_population)
-        self.menu_display.remove_element(self.flower_num)
-        self.flower_num.kill()
-        self.flower_num = pygame_gui.elements.UITextBox(
-            html_text=number_of_flowers,
-            relative_rect=Rect(self.menu_size[0] - 275, 75, 250, 50),
-            manager=self.gui_manager
-        )
-        self.menu_display.add_element(self.flower_num)
-
-
+        fps_string = "Frames per Second: " + str(self.game_clock.get_fps())[0:4]
+        self.info_screen.html_text = number_of_bees + '<br><br>' + number_of_flowers + '<br><br>' + fps_string
+        self.info_screen.rebuild()
