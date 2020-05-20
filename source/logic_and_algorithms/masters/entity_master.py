@@ -221,12 +221,7 @@ class EntityMaster:
         :return: void
         """
 
-        plant_db = grow_plants(play_area, num=randint(35, 50), plant_type="grass1", bias="center")
-
-        plant_db = merge_plant_sets(plant_db,
-                                    grow_plants(play_area, num=randint(35, 50), plant_type="grass2", bias="center"))
-        plant_db = merge_plant_sets(plant_db,
-                                    grow_plants(play_area, num=randint(35, 50), plant_type="grass3", bias="center"))
+        plant_db = grow_plants(play_area, num=randint(90, 150), plant_type="grass", bias="center")
 
         plant_db = merge_plant_sets(plant_db,
                                     grow_plants(
