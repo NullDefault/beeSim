@@ -93,7 +93,7 @@ class EntityMaster:
             hive.last_tick = get_ticks()
             self.handle_hive_highlighting(hive)
             if hive.current_nectar == hive.max_nectar:
-                self.add_a_bee(hive)
+                self.hive_purchase_bee(hive)
 
         for flower in self.flowers:
             if flower.pollen == 0:
@@ -144,6 +144,11 @@ class EntityMaster:
             hive.honey_bar.update()
 
     def add_worker(self, hive):
+        """
+        Adds a worker bee to the given hive
+        :param hive:
+        :return:
+        """
         new_bee = \
             WorkerBee((hive.center.x + randint(-10, 10),
                        hive.center.y + randint(-10, 10)),
@@ -153,6 +158,11 @@ class EntityMaster:
         self.bees.add(new_bee)
 
     def add_scout(self, hive):
+        """
+        Adds a scout bee to the given hive
+        :param hive:
+        :return:
+        """
         new_bee = \
             ScoutBee((hive.center.x + randint(-50, 50),
                       hive.center.y + randint(-50, 50)),
@@ -161,7 +171,12 @@ class EntityMaster:
         hive.add_scout_bee(new_bee)
         self.bees.add(new_bee)
 
-    def add_a_bee(self, hive):
+    def hive_purchase_bee(self, hive):
+        """
+        Provided hive purchases a bee using some of its honey
+        :param hive:
+        :return:
+        """
         hive.buy_bee()
         bee_roll = random()
         if bee_roll >= 1 / self.bee_ratio:
