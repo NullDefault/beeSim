@@ -17,5 +17,4 @@ class Crosshair(Entity):
         Follows the owner
         :return: void
         """
-        self.rect.left = self.owner.location.x - 10
-        self.rect.top = self.owner.location.y - 10
+        self.rect.left, self.rect.top = self.owner.location.x - 10, self.owner.location.y - 10

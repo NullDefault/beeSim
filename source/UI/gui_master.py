@@ -81,15 +81,9 @@ class GuiMaster:
         elif event.type == USEREVENT:
             if event.user_type == 'ui_button_pressed':
                 if event.ui_element == self.main_menu_button:
-                    if self.main_menu_active:
-                        self.deactivate_main_menu()
-                    else:
-                        self.activate_main_menu()
+                    self.deactivate_main_menu() if self.main_menu_active else self.activate_main_menu()
                 elif event.ui_element == self.pause_button:
-                    if self.entity_master.sim_paused:
-                        self.unpause_sim()
-                    else:
-                        self.pause_sim()
+                    self.unpause_sim() if self.entity_master.sim_paused else self.pause_sim()
                 elif event.ui_element == self.exit_button:
                     return 0  # Takes us back to the main menu
 

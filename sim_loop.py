@@ -6,14 +6,12 @@ Notes:
 
 from os.path import join
 
-#  IMPORTS
 from pygame import display, mixer, event, QUIT
 
 from source.UI.camera import Camera
 from source.UI.gui_master import GuiMaster
 from source.logic_and_algorithms.masters.entity_master import EntityMaster
 
-# DATA FIELDS
 menu_location = (1200, 0)
 
 

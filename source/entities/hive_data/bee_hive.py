@@ -64,8 +64,7 @@ class BeeHive(Entity):
         for flower in self.known_flowers:
             if not flower.busy:
                 return True
-        else:
-            return False
+        return False
 
     @property
     def flowers(self):
@@ -106,21 +105,9 @@ class BeeHive(Entity):
 
         entity.highlighted = self.highlighted
 
-    def add_worker_bee(self, bee):
-        """
-        :param bee:
-        :return: Adds the worker bee to the hive
-        """
+    def add_bee(self, bee, caste):
         self.recolor_crosshair(bee)
-        self.workers.append(bee)
-
-    def add_scout_bee(self, bee):
-        """
-        :param bee:
-        :return: Adds the scout bee to the hive
-        """
-        self.recolor_crosshair(bee)
-        self.scouts.append(bee)
+        self.workers.append(bee) if caste == 'worker' else self.scouts.append(bee)
 
     def buy_bee(self):
         self.current_nectar -= self.bee_buy_cost

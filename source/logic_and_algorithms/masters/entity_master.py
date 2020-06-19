@@ -37,7 +37,7 @@ def merge_plant_sets(origin_dict, merging_dict):
 class EntityMaster:
     # DATA FIELDS
 
-    bee_ratio = 5
+    bee_ratio = 1/5
 
     # FUNCTIONS
 
@@ -143,32 +143,20 @@ class EntityMaster:
             self.ui_elements.add(hive.honey_bar)
             hive.honey_bar.update()
 
-    def add_worker(self, hive):
-        """
-        Adds a worker bee to the given hive
-        :param hive:
-        :return:
-        """
-        new_bee = \
-            WorkerBee((hive.center.x + randint(-10, 10),
-                       hive.center.y + randint(-10, 10)),
-                      hive)
-        self.ui_elements.add(new_bee.crosshair)
-        hive.add_worker_bee(new_bee)
-        self.bees.add(new_bee)
+    def add_bee(self, hive, caste):
+        if caste == 'worker':
+            new_bee = \
+                WorkerBee((hive.center.x + randint(-10, 10),
+                           hive.center.y + randint(-10, 10)),
+                          hive)
+        elif caste == 'scout':
+            new_bee = \
+                ScoutBee((hive.center.x + randint(-50, 50),
+                          hive.center.y + randint(-50, 50)),
+                         hive)
 
-    def add_scout(self, hive):
-        """
-        Adds a scout bee to the given hive
-        :param hive:
-        :return:
-        """
-        new_bee = \
-            ScoutBee((hive.center.x + randint(-50, 50),
-                      hive.center.y + randint(-50, 50)),
-                     hive)
         self.ui_elements.add(new_bee.crosshair)
-        hive.add_scout_bee(new_bee)
+        hive.add_bee(new_bee, caste)
         self.bees.add(new_bee)
 
     def hive_purchase_bee(self, hive):
@@ -179,10 +167,7 @@ class EntityMaster:
         """
         hive.buy_bee()
         bee_roll = random()
-        if bee_roll >= 1 / self.bee_ratio:
-            self.add_scout(hive)
-        else:
-            self.add_worker(hive)
+        self.add_bee(hive, 'scout') if bee_roll >= self.bee_ratio else self.add_bee(hive, 'worker')
 
     def populate_hives(self, hives, bees_per_hive):
         """
@@ -202,14 +187,14 @@ class EntityMaster:
         :param bees_per_hive:
         :return:
         """
-        scouts = int(bees_per_hive / self.bee_ratio)
+        scouts = int(bees_per_hive * self.bee_ratio)
         workers = bees_per_hive - scouts
 
         for j in range(workers):
-            self.add_worker(hive)
+            self.add_bee(hive, 'worker')
 
         for j in range(scouts):
-            self.add_scout(hive)
+            self.add_bee(hive, 'scout')
 
     def clean_up_spawn(self):
         """
@@ -227,7 +212,7 @@ class EntityMaster:
         :return:
         """
         self.flower_database = data
-        self.flowers = RenderUpdates(list((data.values())))
+        self.flowers = RenderUpdates(data.values())
 
     def grow_flora(self, play_area):
         """
@@ -264,5 +249,4 @@ class EntityMaster:
         for hive in self.hives:
             if hive.scaled_rect.collidepoint(position):
                 return hive
-        else:
-            return None
+        return None
