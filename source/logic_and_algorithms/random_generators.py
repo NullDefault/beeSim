@@ -5,15 +5,12 @@ Notes:
 """
 from random import randint
 from statistics import NormalDist
-
 from pygame import Rect, Vector2
 
 from source.entities.decorative_entity import Decoration
 from source.entities.flower_data.flower import Flower
 from source.entities.hive_data.bee_hive import BeeHive
 
-
-# FUNCTIONS
 
 def find_valid_hive_spawns(hive_num, play_area, flowers):
     """

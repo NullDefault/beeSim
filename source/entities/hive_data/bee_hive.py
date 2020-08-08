@@ -3,17 +3,13 @@ Class Name: Bee Hive
 Class Purpose: Holds data and functions relevant for bee hives
 Notes:
 """
-
 from random import randint
 
-#  IMPORTS
 from pygame import Vector2, Surface, SRCALPHA, surfarray
 
 from source.entities.entity import Entity
 from source.entities.honey_bar import HoneyBar
 from source.entities.sprite_bank import sprite_bank
-
-# CLASS BODY
 
 team_color_dict = {
     'red': [204, 0, 0],
@@ -25,8 +21,6 @@ team_color_dict = {
 
 
 class BeeHive(Entity):
-
-    #  FUNCTIONS
 
     def __init__(self, location, team):
 
@@ -112,15 +106,12 @@ class BeeHive(Entity):
     def buy_bee(self):
         self.current_nectar -= self.bee_buy_cost
 
-    def gain_nectar(self, nectar_amount):
+    def gain_nectar(self, amount):
         """
-        :param nectar_amount:
+        :param amount:
         :return: Adds n nectar to the hive, unless its overfilled already.
         """
-        if self.current_nectar < self.max_nectar:
-            self.current_nectar = self.current_nectar + nectar_amount
-        else:
-            self.current_nectar = self.max_nectar
+        self.current_nectar = self.current_nectar + amount if self.current_nectar < self.max_nectar else self.max_nectar
 
     def give_food(self, hunger):
         """

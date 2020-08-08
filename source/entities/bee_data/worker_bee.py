@@ -4,7 +4,6 @@ Class Purpose: Bee subclass which harvests flowers and does other work
 Notes:
 """
 
-# IMPORTS
 from math import cos, sin
 from random import randint
 
@@ -14,12 +13,7 @@ from source.entities.bee_data.bee import Bee
 from source.entities.bee_data.bee_components.castes import worker_fysom
 
 
-# CLASS BODY
-
-
 class WorkerBee(Bee):
-
-    #  FUNCTIONS
 
     def __init__(self, location, queen):
 
@@ -162,8 +156,8 @@ class WorkerBee(Bee):
             current_time = self.queen_hive.last_tick
             if current_time >= self.begin_harvest_time + randint(2000, 4000):
                 self.harvesting_pollen = False
-                self.current_nectar = self.current_nectar + \
-                                      flower.transfer_pollen(self.max_nectar_capacity, self.current_nectar)
+                self.current_nectar = self.current_nectar + flower.transfer_pollen(self.max_nectar_capacity,
+                                                                                   self.current_nectar)
 
     def check_available_orders(self):
         """

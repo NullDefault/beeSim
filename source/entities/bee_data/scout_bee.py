@@ -5,7 +5,6 @@ Notes:
 """
 
 from math import floor, atan2, pi
-
 from random import randint
 
 from pygame import Vector2
@@ -34,8 +33,6 @@ def vector_to_degrees(vector):
 
 
 class ScoutBee(Bee):
-
-    # FUNCTIONS
 
     def __init__(self, location, queen):
         Bee.__init__(self, location, queen)

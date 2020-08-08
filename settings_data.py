@@ -40,8 +40,8 @@ class Settings:
         self.frame_rate = 90
         self.initial_hives = data['initial_hives']
         self.initial_bees_per_hive = data['initial_bees']
-        self.flower_spawn_strat = data['flower_strat']
-        self.hive_spawn_strat = data['hive_strat']
+        self.flower_spawn_strategy = data['flower_strat']
+        self.hive_spawn_strategy = data['hive_strat']
         self.flower_num = data['flower_num']
         self.play_music = data['music']
         # Saves the file

@@ -35,11 +35,8 @@ def merge_plant_sets(origin_dict, merging_dict):
 
 
 class EntityMaster:
-    # DATA FIELDS
 
-    bee_ratio = 1/5
-
-    # FUNCTIONS
+    bee_ratio = 1 / 5
 
     def __init__(self, initial_hives: int, default_bees_per_hive: int, play_area_dimensions: int(),
                  flower_spawn_strategy: str, hive_spawn_strategy: str, flower_num: int):

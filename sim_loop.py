@@ -5,7 +5,6 @@ Notes:
 """
 
 from os.path import join
-
 from pygame import display, mixer, event, QUIT
 
 from source.UI.camera import Camera
@@ -22,8 +21,8 @@ def simulation_loop(main_surface, game_clock, settings):
     entity_master = EntityMaster(initial_hives=settings.initial_hives,
                                  default_bees_per_hive=settings.initial_bees_per_hive,
                                  play_area_dimensions=settings.map_size,
-                                 flower_spawn_strategy=settings.flower_spawn_strat,
-                                 hive_spawn_strategy=settings.hive_spawn_strat,
+                                 flower_spawn_strategy=settings.flower_spawn_strategy,
+                                 hive_spawn_strategy=settings.hive_spawn_strategy,
                                  flower_num=settings.flower_num)
     gui_master = GuiMaster(frame_resolution, entity_master, game_clock)
     # Init Music

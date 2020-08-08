@@ -6,7 +6,6 @@ Notes:
 """
 
 from random import randint
-
 from pygame import Surface, display, time, SRCALPHA, transform, event, QUIT
 
 from source.entities.bee_data.bee_components import bee_factory

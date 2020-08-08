@@ -4,9 +4,6 @@ Class Purpose: Dictionary for controlling which algorithm to use when spawning n
 Notes:
 """
 
-#  IMPORTS
-
-
 from source.logic_and_algorithms.random_generators import find_valid_hive_spawns, \
     normal_distribution_flower_spawning_strategy
 

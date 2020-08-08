@@ -8,7 +8,6 @@ from source.UI.gui_master import main_theme
 
 
 def settings_loop(screen, game_clock, settings):
-
     def update_settings():
         data = {
             'map_size': int(map_size_dropdown.selected_option),
@@ -58,7 +57,7 @@ def settings_loop(screen, game_clock, settings):
             '1280, 1024',
             '640, 360',
         ],
-        starting_option=str(settings.frame_resolution)[1:len(str(settings.frame_resolution))-1],
+        starting_option=str(settings.frame_resolution)[1:len(str(settings.frame_resolution)) - 1],
         relative_rect=Rect((200, 100), element_size),
         manager=gui_manager
     )
@@ -130,7 +129,7 @@ def settings_loop(screen, game_clock, settings):
         options_list=[
             'normal distribution'
         ],
-        starting_option=settings.flower_spawn_strat,
+        starting_option=settings.flower_spawn_strategy,
         relative_rect=Rect((550, 100), element_size_l),
         manager=gui_manager
     )
@@ -144,7 +143,7 @@ def settings_loop(screen, game_clock, settings):
         options_list=[
             'default'
         ],
-        starting_option=settings.hive_spawn_strat,
+        starting_option=settings.hive_spawn_strategy,
         relative_rect=Rect((550, 250), element_size_l),
         manager=gui_manager
     )

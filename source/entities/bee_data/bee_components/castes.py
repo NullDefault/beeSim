@@ -34,7 +34,6 @@ def scout_fysom():
             {'name': 'begin search', 'src': 'dance', 'dst': 'scout'},
             {'name': 'found flower', 'src': 'scout', 'dst': 'head back'},
             {'name': 'dance complete', 'src': 'head back', 'dst': 'scout'},
-
             {'name': 'stomach empty', 'src': 'scout', 'dst': 'head back'}
         ]
     })

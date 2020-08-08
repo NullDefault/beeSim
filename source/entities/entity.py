@@ -4,15 +4,12 @@ Class Purpose: Super class for all Entities, holds data common to all game entit
 Notes:
 """
 
-#  IMPORTS
 from pygame.sprite import DirtySprite
 
 from source.entities import sprite_bank
 
 
 class Entity(DirtySprite):
-
-    #  FUNCTIONS
 
     def __init__(self, location, base_sprite):
         DirtySprite.__init__(self)

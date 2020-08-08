@@ -4,7 +4,6 @@ Class Purpose: Super class for all Bee Entities, holds data and functions all be
 Notes: Castes.py is a dictionary of finite state machines for each individual bee subclass (i.e workers and scouts)
 """
 
-# IMPORTS
 import math
 from abc import abstractmethod
 from random import randint
@@ -16,14 +15,10 @@ from source.entities.bee_data.bee_components.bee_factory import make_bee_sprites
 from source.entities.crosshair import Crosshair
 from source.entities.entity import Entity
 
-# CLASS BODY
-
 animation_fps = 20  # How many frames will pass before the bee flaps its wings
 
 
 class Bee(Entity):
-
-    # FUNCTIONS
 
     def __init__(self, location, queen):
 

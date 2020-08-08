@@ -6,8 +6,8 @@ Notes:
 # IMPORTS
 from os.path import join
 
-import pygame_gui
 from pygame import Rect, USEREVENT, MOUSEBUTTONUP, mouse, Vector2, MOUSEBUTTONDOWN
+from pygame_gui import UIManager, elements
 
 # CLASS BODY
 main_theme = join('source', 'assets', 'gui_theme.json')
@@ -15,35 +15,35 @@ main_theme = join('source', 'assets', 'gui_theme.json')
 
 class GuiMaster:
     def __init__(self, screen_resolution, entity_master, game_clock):
-        self.gui_manager = pygame_gui.UIManager(screen_resolution, main_theme)
+        self.gui_manager = UIManager(screen_resolution, main_theme)
 
         self.entity_master = entity_master
         self.game_clock = game_clock
         self.main_menu_active = False
 
-        self.main_menu_button = pygame_gui.elements.UIButton(relative_rect=
-                                                             Rect((screen_resolution[0] - 112,
-                                                                   screen_resolution[1] - 112), (110, 110)),
-                                                             text='',
-                                                             object_id="button_main_menu",
-                                                             manager=self.gui_manager,
-                                                             tool_tip_text="Menu")
+        self.main_menu_button = elements.UIButton(relative_rect=
+                                                  Rect((screen_resolution[0] - 112,
+                                                        screen_resolution[1] - 112), (110, 110)),
+                                                  text='',
+                                                  object_id="button_main_menu",
+                                                  manager=self.gui_manager,
+                                                  tool_tip_text="Menu")
 
-        self.pause_button = pygame_gui.elements.UIButton(relative_rect=
-                                                         Rect((screen_resolution[0] - 200,
-                                                               screen_resolution[1] - 80), (70, 70)),
-                                                         text="pause",
-                                                         object_id="sim_button",
-                                                         manager=self.gui_manager,
-                                                         tool_tip_text="Pause Sim")
+        self.pause_button = elements.UIButton(relative_rect=
+                                              Rect((screen_resolution[0] - 200,
+                                                    screen_resolution[1] - 80), (70, 70)),
+                                              text="pause",
+                                              object_id="sim_button",
+                                              manager=self.gui_manager,
+                                              tool_tip_text="Pause Sim")
 
-        self.exit_button = pygame_gui.elements.UIButton(relative_rect=
-                                                        Rect((10,
-                                                              screen_resolution[1] - 80), (70, 70)),
-                                                        text="exit",
-                                                        object_id="sim_button",
-                                                        manager=self.gui_manager,
-                                                        tool_tip_text="Exit Sim")
+        self.exit_button = elements.UIButton(relative_rect=
+                                             Rect((10,
+                                                   screen_resolution[1] - 80), (70, 70)),
+                                             text="exit",
+                                             object_id="sim_button",
+                                             manager=self.gui_manager,
+                                             tool_tip_text="Exit Sim")
         self.drag_begin = None
         self.info_screen = self.build_info_display(screen_resolution)
         self.info_screen.kill()
@@ -112,7 +112,7 @@ class GuiMaster:
         number_of_flowers = "Number of Flowers: " + str(self.entity_master.flower_population)
         fps_string = "Frames per Second: " + str(self.game_clock.get_fps())[0:4]
 
-        return pygame_gui.elements.UITextBox(
+        return elements.UITextBox(
             html_text=number_of_bees + '<br><br>' + number_of_flowers + '<br><br>' + fps_string,
             relative_rect=Rect(res[0] - 201, 0, 200, 120),
             manager=self.gui_manager

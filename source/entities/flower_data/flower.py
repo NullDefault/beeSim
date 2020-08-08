@@ -6,7 +6,6 @@ Notes:
 
 from statistics import NormalDist
 
-#  IMPORTS
 from pygame import Vector2
 
 from source.entities.crosshair import Crosshair
@@ -33,8 +32,6 @@ def choose_color():
 
 
 class Flower(Entity):
-
-    # FUNCTIONS
 
     def __init__(self, location):
         random_color = choose_color()

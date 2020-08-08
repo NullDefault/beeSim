@@ -3,6 +3,7 @@ Class Name: Honey Bar
 Class Purpose: UI elements used to display how much honey is in a particular hive
 Notes:
 """
+
 from pygame import draw, Surface, SRCALPHA
 
 from source.entities.entity import Entity

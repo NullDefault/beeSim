@@ -5,6 +5,7 @@ Notes:
 """
 
 from os.path import join
+
 from pygame import image, Surface, SRCALPHA
 
 
@@ -16,7 +17,7 @@ def make_head_dict():
     h = {}
     for i in range(0, 12):
         h['head' + str(i)] = image.load(join('source', 'assets', 'sprites', 'bee_sprites', 'heads',
-                                               'beeHead_'+str(i)+'.png'))
+                                             'beeHead_' + str(i) + '.png'))
     return h
 
 
@@ -27,8 +28,8 @@ def make_torso_dict():
     """
     t = {}
     for i in range(0, 6):
-        t['torso'+str(i)] = image.load(join('source', 'assets', 'sprites', 'bee_sprites', 'torsos',
-                                                 'torso_'+str(i)+'.png'))
+        t['torso' + str(i)] = image.load(join('source', 'assets', 'sprites', 'bee_sprites', 'torsos',
+                                              'torso_' + str(i) + '.png'))
     return t
 
 
@@ -39,10 +40,10 @@ def make_wings_dict():
     """
     w = {}
     for i in range(0, 6):
-        w['wings_up'+str(i)] = image.load(join('source', 'assets', 'sprites', 'bee_sprites', 'wings', 'wings_u',
-                                                   'wings_up'+str(i)+'.png'))
+        w['wings_up' + str(i)] = image.load(join('source', 'assets', 'sprites', 'bee_sprites', 'wings', 'wings_u',
+                                                 'wings_up' + str(i) + '.png'))
         w['wings_d' + str(i)] = image.load(join('source', 'assets', 'sprites', 'bee_sprites', 'wings', 'wings_d',
-                                                     'wings_down'+str(i)+'.png'))
+                                                'wings_down' + str(i) + '.png'))
     return w
 
 
@@ -58,15 +59,15 @@ def make_bee_sprites(genome):
     :return: wings up sprite, wings down sprite
     """
     head_gene = genome[0]
-    head = heads['head'+str(head_gene)]
+    head = heads['head' + str(head_gene)]
 
     wing_u_gene = genome[1]
-    wings_u = wings['wings_up'+str(wing_u_gene)]
+    wings_u = wings['wings_up' + str(wing_u_gene)]
     wing_d_gene = genome[2]
-    wings_d = wings['wings_d'+str(wing_d_gene)]
+    wings_d = wings['wings_d' + str(wing_d_gene)]
 
     torso_gene = genome[3]
-    torso = torsos['torso'+str(torso_gene)]
+    torso = torsos['torso' + str(torso_gene)]
 
     sprite_surf = Surface((18, 18), SRCALPHA)
 

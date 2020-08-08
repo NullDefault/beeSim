@@ -1,6 +1,6 @@
 """
 Class Name: Crosshair
-Class Purpose: SUsed to highlight bees in inspection mode.
+Class Purpose: Used to highlight bees in inspection mode.
 Notes:
 """
 

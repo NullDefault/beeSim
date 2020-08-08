@@ -9,7 +9,5 @@ from source.entities.entity import Entity
 
 class Decoration(Entity):
 
-    # FUNCTIONS
-
     def __init__(self, location, kind):
         Entity.__init__(self, location, kind)
