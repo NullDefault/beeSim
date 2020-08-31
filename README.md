@@ -1,4 +1,6 @@
 # BeeSim
+<img src="https://img.shields.io/badge/python%20-%2314354C.svg?&style=for-the-badge&logo=python&logoColor=white"/></br>
+
 An experiment in attempting to simulate the behavior of a bee hive and individual bees.
 ## Table of Contents
 * [General info](#general-info)
